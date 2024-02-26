@@ -1,0 +1,296 @@
+scr_Eventos As screen:
+
+    img_fondo_3 As image:
+        Height: =768
+        Image: ='subtle-prism (1)'
+        ImagePosition: =ImagePosition.Fill
+        Transparency: =0.3
+        Visible: =false
+        Width: =1366
+        ZIndex: =1
+
+    lbl_fondo_4 As label:
+        Fill: |-
+            =//ColorValue(First(var_Evento).Color&"33")
+            /*If(Len(TextInput5_1.Text) = 0;
+            If(Gallery2.Selected.Tipo_Color = "HEX"; 
+                ColorValue(Gallery2.Selected.Color&"33")
+            ; 
+                RGBA(First(FirstN(Split(Gallery2.Selected.Color; ";"); 2)).Value;Last(FirstN(Split(Gallery2.Selected.Color; ";"); 2)).Value;Last(FirstN(Split(Gallery2.Selected.Color; ";"); 3)).Value; 0,3)))*/
+            //RGBA(200;200;200;0,3)
+            RGBA(100,250,255, 0.3)
+        Height: =768
+        Text: =""
+        Width: =1366
+        ZIndex: =2
+
+    comp_Encabezado_2 As comp_Encabezado:
+        ZIndex: =3
+
+    lbl_titulo_eventos As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Height: =61
+        Size: =20
+        Text: ="Eventos"
+        Width: =492
+        X: =442
+        ZIndex: =4
+
+    th_fondo_gal_eventos As htmlViewer:
+        Fill: =
+        Height: =560
+        HtmlText: |-
+            ="<div style=""margin: 0px; width: "&(Self.Width-13)&"px; height: "&(Self.Height-13)&"px; background-color: rgba(255,255,255,0.5); box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.2); border-radius:5px""></div>"
+        Width: =1304
+        X: =36
+        Y: =187
+        ZIndex: =5
+
+    "gal_eventos As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+        DelayItemLoading: =true
+        Height: =471
+        Items: |-
+            =/*Search(Filter(Eventos; (cbox_fecha_evento.Selected.Value = Anio_evento || cbox_fecha_evento.Selected.Value = Blank())) ; 
+            
+            txt_nombre_evento.Text; "Nombre_Evento")*/
+            Eventos
+        Layout: =Layout.Vertical
+        LoadingSpinner: =LoadingSpinner.Data
+        OnSelect: |-
+            =Set(var_editEvento, 0);
+            Set(var_EventoCreado, Blank());
+            Navigate(scr_Evento)
+        TemplatePadding: =0
+        TemplateSize: =70
+        Width: =1245
+        X: =66
+        Y: =235
+        ZIndex: =6
+
+        img_promocional_3 As image:
+            Height: =57
+            Image: =ThisItem.Promocional1
+            OnSelect: =Select(Parent)
+            RadiusBottomLeft: =8
+            RadiusBottomRight: =8
+            RadiusTopLeft: =8
+            RadiusTopRight: =8
+            Width: =72
+            X: =16
+            Y: =5
+            ZIndex: =1
+
+        lbl_nombre_evento As label:
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+            Height: =47
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: =ThisItem.Nombre_Evento
+            VerticalAlign: =VerticalAlign.Top
+            Width: =156
+            X: =95
+            Y: =13
+            ZIndex: =2
+
+        lbl_lugar_evento As label:
+            Align: =Align.Center
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+            Height: =47
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: =ThisItem.Lugar_evento
+            VerticalAlign: =VerticalAlign.Top
+            Width: =196
+            X: =259
+            Y: =13
+            ZIndex: =3
+
+        Separator4 As rectangle:
+            Fill: =RGBA(100, 200, 255, 1)
+            Height: =3
+            OnSelect: =Select(Parent)
+            Width: =Parent.TemplateWidth
+            Y: =66
+            ZIndex: =5
+
+        Rectangle5 As rectangle:
+            Height: =66
+            OnSelect: =Select(Parent)
+            Visible: =ThisItem.IsSelected
+            Width: =4
+            ZIndex: =6
+
+        lbl_fecha_evento As label:
+            Align: =Align.Center
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+            Height: =24
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: |-
+                =Text(ThisItem.Fecha_evento, "dd/mm/yyyy hh:mm")
+            VerticalAlign: =VerticalAlign.Top
+            Width: =165
+            X: =452
+            Y: =27
+            ZIndex: =7
+
+        lbl_cantidad_mesas As label:
+            Align: =Align.Center
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+            Height: =24
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: =ThisItem.Cantidad_Mesas
+            VerticalAlign: =VerticalAlign.Top
+            Width: =121
+            X: =627
+            Y: =27
+            ZIndex: =8
+
+        lbl_estado_evento As label:
+            Align: =Align.Center
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+            Height: =23
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: =ThisItem.Estado.Value
+            VerticalAlign: =VerticalAlign.Top
+            Width: =138
+            X: =748
+            Y: =27
+            ZIndex: =9
+
+        lbl_anio_evento As label:
+            OnSelect: =Select(Parent)
+            Text: =Text(ThisItem.Fecha_evento, "yyyy")
+            X: =972
+            Y: =13
+            ZIndex: =10
+
+    th_filtros As htmlViewer:
+        Height: =104
+        HtmlText: |-
+            ="<div style=""margin: 0px; width: "&(Self.Width-13)&"px; height: "&(Self.Height-13)&"px; background-color: rgba(255,255,255,0.5); box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.2); border-radius:5px""></div>"
+        Width: =1304
+        X: =36
+        Y: =76
+        ZIndex: =7
+
+    lbl_titulo_nombre_evento_1 As label:
+        FontWeight: =FontWeight.Bold
+        Height: =35
+        Text: ="Nombre del Evento"
+        Width: =225
+        X: =95
+        Y: =200
+        ZIndex: =8
+
+    lbl_titulo_lugar_evento As label:
+        FontWeight: =FontWeight.Bold
+        Height: =35
+        Text: ="Lugar del Evento"
+        Width: =192
+        X: =329
+        Y: =200
+        ZIndex: =9
+
+    lbl_titulo_fecha_evento_1 As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Height: =35
+        Text: |-
+            ="Fecha del Evento
+            "
+        Width: =172
+        X: =521
+        Y: =200
+        ZIndex: =10
+
+    lbl_titulo_cantidad_mesas As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Height: =35
+        Text: ="Cant. Mesas"
+        Width: =121
+        X: =693
+        Y: =200
+        ZIndex: =11
+
+    lbl_titulo_estado As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Height: =35
+        Text: ="Estado"
+        Width: =134
+        X: =814
+        Y: =200
+        ZIndex: =12
+
+    lbl_titulo_nombre_evento As label:
+        FontWeight: =FontWeight.Bold
+        Height: =28
+        Text: ="Nombre del Evento"
+        Width: =206
+        X: =66
+        Y: =85
+        ZIndex: =13
+
+    txt_nombre_evento As text:
+        Default: =""
+        X: =66
+        Y: =119
+        ZIndex: =14
+
+    lbl_titulo_fecha_evento As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Height: =48
+        Text: ="Fecha del Evento"
+        Width: =166
+        X: =442
+        Y: =76
+        ZIndex: =15
+
+    icn_agregar_evento As icon.AddLibrary:
+        Icon: =Icon.AddDocument
+        OnSelect: |-
+            =Set(var_Pantalla, 2);
+            Set(var_editEvento,1);
+            Set(var_EventoCreado, Blank());
+            ResetForm(frm_crear_evento);
+            Navigate(scr_CrearEvento);
+        X: =1247
+        Y: =92
+        ZIndex: =17
+
+    cbox_fecha_evento As combobox:
+        DisplayFields: =["Value"]
+        InputTextPlaceholder: ="Año"
+        IsSearchable: =false
+        Items: |-
+            =//Distinct(col_Eventos;Value)
+            Distinct(Filter(Eventos, !IsBlank(Anio_evento)), Anio_evento)
+        SearchFields: =["Value"]
+        SearchItems: =[]
+        SelectMultiple: =false
+        Width: =135
+        X: =458
+        Y: =119
+        ZIndex: =21
+

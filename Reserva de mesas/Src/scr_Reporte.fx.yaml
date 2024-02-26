@@ -1,0 +1,512 @@
+scr_Reporte As screen:
+    OnVisible: |-
+        =Refresh(Mesas_1); Refresh(Reservas);
+        Concurrent(
+            ClearCollect(col_SinMesa, [{Title: "Sin Mesa", ID: 0}]), 
+            ClearCollect(col_Mesas, Filter(Mesas_1, Id_Evento = ddl_filtro_nombre_evento.Selected.ID))
+        );
+        ClearCollect(col_NMesas, col_SinMesa, col_Mesas);
+
+    img_fondo_11 As image:
+        Height: =768
+        Image: ='subtle-prism (1)'
+        ImagePosition: =ImagePosition.Fill
+        Transparency: =0.3
+        Visible: =false
+        Width: =1366
+        ZIndex: =1
+
+    lbl_fondo_19 As label:
+        Fill: =RGBA(100,250,255, 0.3)
+        Height: =768
+        Text: =""
+        Width: =1366
+        ZIndex: =2
+
+    comp_Encabezado_5 As comp_Encabezado:
+        ZIndex: =3
+
+    lbl_titulo_reporte As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Height: =61
+        Size: =20
+        Text: ="Reporte"
+        Width: =437
+        X: =467
+        ZIndex: =4
+
+    th_reporte As htmlViewer:
+        Height: =548
+        HtmlText: |-
+            ="<div style=""margin: 0px; width: "&(Self.Width-13)&"px; height: "&(Self.Height-13)&"px; background-color: rgba(255,255,255,0.5); box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.2); border-radius:5px""></div>"
+        Width: =1296
+        X: =36
+        Y: =186
+        ZIndex: =5
+
+    th_filtros_1 As htmlViewer:
+        Height: =109
+        HtmlText: |-
+            ="<div style=""margin: 0px; width: "&(Self.Width-13)&"px; height: "&(Self.Height-13)&"px; background-color: rgba(255,255,255,0.5); box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.2); border-radius:5px""></div>"
+        Width: =1296
+        X: =36
+        Y: =77
+        ZIndex: =6
+
+    "gal_reporte As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+        DelayItemLoading: =true
+        Height: =488
+        Items: |-
+            =Search(
+                Filter(Reservas,
+                Id_Evento = ddl_filtro_nombre_evento.Selected.ID
+                && (cbox_filtro_numero_mesa.Selected.ID = Id_Mesa || cbox_filtro_numero_mesa.Selected.ID = Blank())
+                && (cbox_filtro_estacionamiento.Selected.Estado = Estacionamiento || cbox_filtro_estacionamiento.Selected.Valor = Blank())
+                && (cbox_filtro_Titutar.Selected.Estado = Titular || cbox_filtro_Titutar.Selected.Valor = Blank()))
+            ,txt_filtro_nombre_invitado.Text, "field_1", "field_13")
+        Layout: =Layout.Vertical
+        LoadingSpinner: =LoadingSpinner.Data
+        TemplatePadding: =0
+        TemplateSize: =64
+        Width: =1264
+        X: =54
+        Y: =225
+        ZIndex: =7
+
+        lbl_nombre_invitado_2 As label:
+            Align: =Align.Center
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+            Height: =50
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =12
+            Text: =ThisItem.NombreCompleto
+            Width: =240
+            X: =58
+            Y: =6
+            ZIndex: =1
+
+        lbl_nombre_acompañante As label:
+            Align: =Align.Center
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+            Height: =50
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: =ThisItem.NombreInvitado
+            Visible: =ThisItem.Invitado
+            Width: =130
+            X: =298
+            Y: =5
+            ZIndex: =2
+
+        Separator1_3 As rectangle:
+            Fill: =RGBA(100, 200, 255, 1)
+            Height: =4
+            OnSelect: =Select(Parent)
+            Width: =Parent.TemplateWidth
+            Y: =60
+            ZIndex: =3
+
+        Rectangle4_3 As rectangle:
+            Height: =Parent.TemplateHeight - Separator1_3.Height
+            OnSelect: =Select(Parent)
+            Visible: =ThisItem.IsSelected
+            Width: =4
+            ZIndex: =4
+
+        lbl_mail_invitado_2 As label:
+            Align: =Align.Center
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+            Height: =50
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =12
+            Text: =ThisItem.Mail
+            Width: =397
+            X: =481
+            Y: =5
+            ZIndex: =6
+
+        lbl_unidad_organizativa As label:
+            Align: =Align.Center
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+            Height: =50
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =12
+            Text: |-
+                =//First(UsuariosdeOffice365.SearchUser({searchTerm: Trim(ThisItem.Título)})).Department
+                ThisItem.UnidadOrganizativa
+            Width: =207
+            X: =878
+            Y: =5
+            ZIndex: =7
+
+        lbl_numero_mesa_6 As label:
+            Align: =Align.Center
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+            Height: =50
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =12
+            Text: =If(First(Filter(Mesas_1, ID = ThisItem.Id_Mesa)).Numero_Mesa = Blank(), "Sin Mesa", First(Filter(Mesas_1, ID = ThisItem.Id_Mesa)).Numero_Mesa)
+            Width: =49
+            X: =432
+            Y: =5
+            ZIndex: =8
+
+        icn_perfil_8 As icon.Person:
+            Height: =50
+            Icon: =Icon.Person
+            OnSelect: =Select(Parent)
+            Width: =50
+            X: =8
+            Y: =6
+            ZIndex: =9
+
+        img_foto_perfil_7 As image:
+            Height: =50
+            Image: |-
+                =/*If(CountRows(UsuariosdeOffice365.SearchUser({searchTerm: ThisItem.Título; top: 15})) > 0;
+                    If(!IsBlank(ThisItem.Título); UsuariosdeOffice365.UserPhotoV2(ThisItem.Título))
+                )*/
+            OnSelect: =Select(Parent)
+            RadiusBottomLeft: =8
+            RadiusBottomRight: =8
+            RadiusTopLeft: =8
+            RadiusTopRight: =8
+            Visible: =var_gal_reporte_img
+            Width: =50
+            X: =8
+            Y: =6
+            ZIndex: =10
+
+        icn_estacionamiento As icon.ChevronDown:
+            DisplayMode: =DisplayMode.View
+            Height: =40
+            Icon: =Icon.Cars
+            OnSelect: =//Select(Parent)
+            Visible: =ThisItem.Estacionamiento
+            Width: =40
+            X: =1124
+            Y: =11
+            ZIndex: =11
+
+        icn_titular_3 As icon.ChevronDown:
+            DisplayMode: =DisplayMode.View
+            Height: =40
+            Icon: =Icon.Diamond
+            OnSelect: =//Select(Parent)
+            Visible: =ThisItem.Titular
+            Width: =40
+            X: =1186
+            Y: =9
+            ZIndex: =12
+
+    icn_descarga As icon.AddLibrary:
+        DisplayMode: |-
+            =If(CountRows(gal_reporte.AllItems) > 0,
+            DisplayMode.Edit,
+            DisplayMode.Disabled)
+        Height: =50
+        Icon: =Icon.Download
+        OnSelect: |
+            =Set(var_Export, true);
+            ForAll(gal_reporte.AllItems,
+                Collect(colExportReservas,
+                    {
+                        Mail: ThisRecord.Mail,
+                        Nombre: ThisRecord.'Nombre (field_4)',
+                        Apellido: ThisRecord.Apellido,
+                        Estacionamiento: ThisRecord.Estacionamiento,
+                        NumerdoDeMesa: ThisRecord.Id_Mesa,
+                        Invitado: ThisRecord.Invitado,
+                        Titular: ThisRecord.Titular,
+                        NombreInvitado: ThisRecord.NombreInvitado,
+                        Evento: ddl_filtro_nombre_evento.Selected.Nombre_Evento,
+                        Company: ThisRecord.Company,
+                        UserID: ThisRecord.UserID,
+                        UnidadOrganizativa: ThisRecord.UnidadOrganizativa,
+                        TipoEmpleado: ThisRecord.TipoEmpleado,
+                        Ciudad: ThisRecord.Ciudad
+                    }
+                )
+            );
+            
+            Set(varLinkExport, 'SantaBarbara-Export'.Run(JSON(colExportReservas, JSONFormat.IndentFour)).link);
+            Notify("Se creó correctamente el archivo.", NotificationType.Success);
+            Launch(varLinkExport);
+            Set(var_Export, false);
+            Clear(colExportReservas)
+        Width: =50
+        X: =1260
+        Y: =114
+        ZIndex: =8
+
+    lbl_titulo_empleado As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Height: =30
+        Text: ="Empleado TotalEnergies"
+        Width: =305
+        X: =54
+        Y: =196
+        ZIndex: =9
+
+    lbl_titulo_acompañante_2 As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Height: =30
+        Text: ="Acompañante"
+        Width: =133
+        X: =350
+        Y: =196
+        ZIndex: =10
+
+    lbl_titulo_mail As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Height: =30
+        Text: |-
+            ="Mail
+            "
+        Width: =397
+        X: =539
+        Y: =196
+        ZIndex: =11
+
+    lbl_titulo_unidad_organizativa_1 As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Height: =30
+        Text: ="Unidad Organizativa"
+        Width: =198
+        X: =936
+        Y: =196
+        ZIndex: =12
+
+    lbl_titulo_nombre_invitado As label:
+        FontWeight: =FontWeight.Bold
+        Height: =35
+        Text: ="Nombre del Invitado"
+        Width: =189
+        X: =350
+        Y: =89
+        ZIndex: =13
+
+    txt_filtro_nombre_invitado As text:
+        Default: =""
+        Height: =35
+        X: =350
+        Y: =125
+        ZIndex: =14
+
+    lbl_titulo_numero_mesa_1 As label:
+        FontWeight: =FontWeight.Bold
+        Height: =35
+        Text: ="Mesa"
+        Width: =83
+        X: =686
+        Y: =89
+        ZIndex: =15
+
+    lbl_titulo_nombre_evento_2 As label:
+        FontWeight: =FontWeight.Bold
+        Height: =35
+        Text: ="Evento"
+        Width: =81
+        X: =55
+        Y: =89
+        ZIndex: =16
+
+    ddl_filtro_nombre_evento As dropdown:
+        Height: =35
+        Items: =Eventos
+        OnChange: |-
+            =Set(var_gal_reporte_img, false);
+            Set(var_gal_reporte, true);
+            
+            Refresh(Mesas_1);
+            Concurrent(
+                ClearCollect(col_SinMesa, [{Title: "Sin Mesa", ID: 0}]), 
+                ClearCollect(col_Mesas, Filter(Mesas_1, Id_Evento = ddl_filtro_nombre_evento.Selected.ID))
+            );
+            ClearCollect(col_NMesas, col_SinMesa, col_Mesas);
+        OnSelect: =
+        Width: =277
+        X: =55
+        Y: =125
+        ZIndex: =17
+
+    lbl_numero_mesa_5 As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Height: =30
+        Text: ="Mesa"
+        Width: =56
+        X: =483
+        Y: =196
+        ZIndex: =18
+
+    lbl_titulo_estacionamiento_4 As label:
+        FontWeight: =FontWeight.Bold
+        Height: =35
+        Text: ="Estacionamiento"
+        Width: =192
+        X: =816
+        Y: =89
+        ZIndex: =19
+
+    cbox_filtro_estacionamiento As combobox:
+        DisplayFields: =["Valor"]
+        Height: =35
+        InputTextPlaceholder: ="Estacionamiento"
+        IsSearchable: =false
+        Items: |-
+            =[{Estado: true, Valor: "Con estacionamiento"}, {Estado: false, Valor: "Sin estacionamiento"}]
+        SearchFields: =["Valor"]
+        SearchItems: =[]
+        SelectMultiple: =false
+        Size: =11
+        Width: =192
+        X: =816
+        Y: =125
+        ZIndex: =20
+
+    icn_cancelar_2 As icon.Cancel:
+        Height: =35
+        Icon: =Icon.Cancel
+        OnSelect: =Reset(txt_filtro_nombre_invitado)
+        Width: =32
+        X: =635
+        Y: =125
+        ZIndex: =21
+
+    lbl_titulo_estacionamiento_3 As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Height: =30
+        Text: ="Estacionamiento"
+        Visible: =false
+        Width: =163
+        X: =1134
+        Y: =196
+        ZIndex: =22
+
+    cbox_filtro_numero_mesa As combobox:
+        DisplayFields: =["Title"]
+        Height: =35
+        InputTextPlaceholder: ="Estacionamiento"
+        IsSearchable: =false
+        Items: |-
+            =//Filter(Mesas_1; Id_Evento = ddl_filtro_nombre_evento.Selected.ID)
+            col_NMesas
+        SearchFields: =["Title"]
+        SearchItems: =[]
+        SelectMultiple: =false
+        Size: =11
+        Width: =112
+        X: =686
+        Y: =125
+        ZIndex: =23
+
+    icn_borrar_filtros_1 As icon.AddLibrary:
+        Height: =50
+        Icon: =Icon.Erase
+        OnSelect: |+
+            =Reset(txt_filtro_nombre_invitado);
+            Reset(cbox_filtro_numero_mesa);
+            Reset(cbox_filtro_Titutar);
+            Reset(cbox_filtro_estacionamiento)
+            
+            
+        Width: =50
+        X: =1171
+        Y: =114
+        ZIndex: =24
+
+    tm_gal_reporte As timer:
+        AutoStart: =true
+        Duration: =2000
+        OnTimerEnd: |-
+            =Set(var_gal_reporte, false);
+            Set(var_gal_reporte_img, true)
+        OnTimerStart: =Set(var_gal_reporte_img, false)
+        Start: =var_gal_reporte
+        Visible: =false
+        Y: =728
+        ZIndex: =25
+
+    lbl_titulo_estacionamiento_5 As label:
+        FontWeight: =FontWeight.Bold
+        Height: =35
+        Text: ="Invitados"
+        Width: =192
+        X: =1020
+        Y: =89
+        ZIndex: =26
+
+    Toggle1 As toggleSwitch:
+        X: =1036
+        Y: =125
+        ZIndex: =27
+
+    cbox_filtro_Titutar As combobox:
+        DisplayFields: =["Valor"]
+        Height: =35
+        InputTextPlaceholder: ="Estacionamiento"
+        IsSearchable: =false
+        Items: |-
+            =[{Estado: true, Valor: "Titulares"}, {Estado: false, Valor: "No titulares"}] 
+        SearchFields: =["Valor"]
+        SearchItems: =[]
+        SelectMultiple: =false
+        Size: =11
+        Width: =128
+        X: =1024
+        Y: =125
+        ZIndex: =28
+
+    lbl_fondo_18 As label:
+        Fill: =RGBA(23, 137, 230, 0.7)
+        Height: =767
+        Text: =""
+        Visible: =var_Export
+        Width: =1366
+        Y: =1
+        ZIndex: =29
+
+    "img_spinner_5 As 'Indicador giratorio'":
+        BasePaletteColor: =
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontColor: =
+        FontItalic: =false
+        FontSize: =0
+        FontStrikethrough: =false
+        FontUnderline: =false
+        FontWeight: =""
+        Height: =768
+        SpinnerSize: ='Spinner.SpinnerSize'.Huge
+        Visible: =var_Export
+        Width: =1366
+        X: =0
+        Y: =0
+        ZIndex: =30
+
