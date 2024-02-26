@@ -1,0 +1,1559 @@
+scr_DetalleReserva As screen:
+    OnVisible: =Refresh(Mesas_1); Refresh(Reservas)
+
+    img_fondo_7 As image:
+        Height: =768
+        Image: ='subtle-prism (1)'
+        ImagePosition: =ImagePosition.Fill
+        Transparency: =0.3
+        Visible: =false
+        Width: =1366
+        ZIndex: =1
+
+    lbl_fondo_12 As label:
+        Fill: |-
+            =If(gal_eventos.Selected.Tipo_Color = "HEX", 
+                ColorValue(gal_eventos.Selected.Color)
+            , 
+                RGBA(First(FirstN(Split(gal_eventos.Selected.Color, ";"), 2)).Value,Last(FirstN(Split(gal_eventos.Selected.Color, ";"), 2)).Value,Last(FirstN(Split(gal_eventos.Selected.Color, ";"), 3)).Value, 1))
+        Height: =768
+        Text: =""
+        Width: =1366
+        ZIndex: =2
+
+    comp_Encabezado_4 As comp_Encabezado:
+        ZIndex: =3
+
+    lbl_titulo_detalle_reserva As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Height: =61
+        Size: =20
+        Text: ="Detalle de Reserva"
+        Width: =433
+        X: =469
+        ZIndex: =4
+
+    th_detalle_mesas As htmlViewer:
+        Height: =83
+        HtmlText: |-
+            ="<div style=""margin: 0px; width: "&(Self.Width-13)&"px; height: "&(Self.Height-13)&"px; background-color: rgba(255,255,255,0.5); box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.2); border-radius:5px""></div>"
+        Width: =780
+        X: =293
+        Y: =74
+        ZIndex: =5
+
+    lbl_titulo_numero_mesa As label:
+        FontWeight: =FontWeight.Bold
+        Text: |-
+            ="Número de Mesa: " & var_MesaSelec.Numero_Mesa
+        Visible: =var_gal_invitados_2
+        Width: =203
+        X: =308
+        Y: =97
+        ZIndex: =6
+
+    lbl_titulo_numero_orden_1 As label:
+        FontWeight: =FontWeight.Bold
+        Text: |-
+            ="Número de Orden: " & var_MesaSelec.Orden_Mesa
+        Visible: =false//var_gal_invitados_2
+        Width: =217
+        X: =523
+        Y: =96
+        ZIndex: =7
+
+    lbl_titulo_estado_2 As label:
+        FontWeight: =FontWeight.Bold
+        Text: |-
+            ="Estado: " & var_MesaSelec.Estado
+        Visible: =var_gal_invitados_2
+        Width: =183
+        X: =604
+        Y: =96
+        ZIndex: =8
+
+    th_lista_invitados_1 As htmlViewer:
+        Height: =568
+        HtmlText: |-
+            ="<div style=""margin: 0px; width: "&(Self.Width-13)&"px; height: "&(Self.Height-13)&"px; background-color: rgba(255,255,255,0.5); box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.2); border-radius:5px""></div>"
+        Width: =641
+        X: =50
+        Y: =164
+        ZIndex: =9
+
+    th_fondo_buscador As htmlViewer:
+        Height: =568
+        HtmlText: |-
+            ="<div style=""margin: 0px; width: "&(Self.Width-13)&"px; height: "&(Self.Height-13)&"px; background-color: rgba(255,255,255,0.5); box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.2); border-radius:5px""></div>"
+        Width: =601
+        X: =732
+        Y: =164
+        ZIndex: =10
+
+    icn_atras_3 As icon.BackArrow:
+        Height: =45
+        Icon: =Icon.BackArrow
+        OnSelect: |-
+            =If((CountRows(gal_invitados_2.AllItems) = 0) || (CountRows(Filter(gal_invitados_2.AllItems, Titular = true)) = 1 && CountRows(gal_invitados_2.AllItems) > 0),
+                Navigate(scr_Evento);
+                Set(var_usuarioSeleccionado2,Blank());
+                Reset(txt_buscador_1);
+                Set(var_gal_invitados_2, false)
+            ,
+                Notify("Debe seleccionar un titular para la mesa.", NotificationType.Error)
+            )
+        Width: =50
+        X: =15
+        Y: =75
+        ZIndex: =11
+
+    lbl_sinreserva_1 As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Height: =550
+        Size: =20
+        Text: ="Sin reserva"
+        Visible: =CountRows(gal_invitados_2.AllItems) = 0 && var_gal_invitados_2
+        Width: =626
+        X: =54
+        Y: =170
+        ZIndex: =12
+
+    "gal_invitados_2 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+        DelayItemLoading: =true
+        Height: =515
+        Items: =Sort(Filter(Reservas, Id_Evento = If(var_editEvento = 1 , frm_crear_evento.LastSubmit.ID ,  gal_eventos.Selected.ID), Id_Mesa = var_MesaSelec.ID), Titular = true, SortOrder.Descending)
+        Layout: =Layout.Vertical
+        LoadingSpinner: =LoadingSpinner.Data
+        TemplatePadding: =0
+        TemplateSize: =87
+        Width: =561
+        X: =84
+        Y: =190
+        ZIndex: =13
+
+        lbl_titulo_nombre_1 As label:
+            FontWeight: =FontWeight.Bold
+            Height: =25
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: |-
+                ="Nombre: "&If(IsBlank(ThisItem.'Nombre (field_4)'), ThisItem.NombreCompleto, ThisItem.'Nombre (field_4)' & " " & ThisItem.Apellido)
+            VerticalAlign: =VerticalAlign.Top
+            Width: =462
+            X: =99
+            Y: =5
+            ZIndex: =1
+
+        lbl_acompañante_1 As label:
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: |-
+                =If(ThisItem.Invitado,"Acompañante: " & ThisItem.NombreInvitado, "Sin acompañante")
+            VerticalAlign: =VerticalAlign.Top
+            Visible: =true//ThisItem.Invitado
+            Width: =376
+            X: =99
+            Y: =34
+            ZIndex: =2
+
+        Separator1_2 As rectangle:
+            Fill: =RGBA(100, 200, 255, 1)
+            Height: =2
+            OnSelect: =Select(Parent)
+            Width: =Parent.TemplateWidth
+            Y: =85
+            ZIndex: =3
+
+        Rectangle4_2 As rectangle:
+            Height: =Parent.TemplateHeight - Separator1_2.Height
+            OnSelect: =Select(Parent)
+            Visible: =ThisItem.IsSelected
+            Width: =4
+            ZIndex: =4
+
+        chk_estacionamiento_1 As checkbox:
+            CheckboxSize: =20
+            Default: =ThisItem.Estacionamiento
+            DisplayMode: =DisplayMode.View
+            Height: =26
+            OnSelect: =Select(Parent)
+            Size: =12
+            Text: =""
+            Visible: =false
+            Width: =22
+            X: =189
+            Y: =63
+            ZIndex: =5
+
+        icn_eliminar_2 As icon.Trash:
+            Color: =RGBA(255, 0, 0, 1)
+            Height: =30
+            Icon: =Icon.Trash
+            OnSelect: |-
+                =Select(Parent);
+                /*
+                Refresh(Reservas);;
+                If(CountRows(Gallery1_2.AllItems) = 1; Patch(Mesas_1; var_MesaSelec; {Estado: Dropdown2_4.Selected}));;
+                Patch(Reservas; ThisItem; {NMesa: 0; Titular: false; Estacionamiento: false; Invitado: false; NombreInvitado: ""});;
+                Set(var_formInvitados; 1);;
+                ResetForm(Form1_1);;
+                EditForm(Form1_1);;
+                Set(var_usuarioSeleccionado;Blank());;
+                Set(var_EditInvitado; false);;
+                Reset(TextInput3_1)
+                */
+                Set(var_removeInvitado3, true)
+            Width: =30
+            X: =505
+            Y: =50
+            ZIndex: =6
+
+        icn_editar_2 As icon.Trash:
+            Color: =RGBA(39, 113, 194, 1)
+            Height: =30
+            Icon: =Icon.Edit
+            OnSelect: |-
+                =Select(Parent);
+                ResetForm(frm_invitados_1);
+                EditForm(frm_invitados_1);
+                Set(var_usuarioSeleccionado,ThisItem);
+                Set(var_EditInvitado, true);
+                Set(var_editMesa2, 0)
+            Width: =30
+            X: =465
+            Y: =50
+            ZIndex: =7
+
+        icn_perfil_4 As icon.Person:
+            Icon: =Icon.Person
+            OnSelect: =Select(Parent)
+            X: =20
+            Y: =10
+            ZIndex: =8
+
+        img_foto_perfil_3 As image:
+            Height: =72
+            Image: |-
+                =If(CountRows(UsuariosdeOffice365.SearchUser({searchTerm: ThisItem.Mail, top: 15})) > 0,
+                    If(!IsBlank(ThisItem.Mail), UsuariosdeOffice365.UserPhotoV2(ThisItem.Mail))
+                )
+            OnSelect: =Select(Parent)
+            RadiusBottomLeft: =8
+            RadiusBottomRight: =8
+            RadiusTopLeft: =8
+            RadiusTopRight: =8
+            Visible: =var_gal_invitados_2
+            Width: =72
+            X: =16
+            Y: =8
+            ZIndex: =9
+
+        icn_titular_1 As icon.People:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisplayMode: =DisplayMode.View
+            Height: =25
+            HoverBorderColor: =
+            HoverColor: =
+            HoverFill: =
+            Icon: =Icon.Diamond
+            OnSelect: =Select(Parent)
+            Visible: |-
+                =
+                ThisItem.Titular
+            Width: =25
+            X: =128
+            Y: =53
+            ZIndex: =10
+
+        lbl_titulo_estacionamiento_2 As label:
+            Height: =22
+            OnSelect: =Select(Parent)
+            Text: ="Estacionamiento"
+            Visible: =false
+            Width: =149
+            X: =206
+            Y: =65
+            ZIndex: =11
+
+        icn_reasignacion As icon.Trash:
+            Color: =RGBA(39, 113, 194, 1)
+            Height: =30
+            Icon: =Icon.Reload
+            OnSelect: |-
+                =Select(Parent);
+                Set(var_cambioMesa, true)
+            Width: =30
+            X: =421
+            Y: =50
+            ZIndex: =14
+
+        icn_titular_2 As icon.People:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisplayMode: =DisplayMode.View
+            Height: =25
+            HoverBorderColor: =
+            HoverColor: =
+            HoverFill: =
+            Icon: =Icon.Cars
+            OnSelect: =Select(Parent)
+            Visible: =ThisItem.Estacionamiento
+            Width: =25
+            X: =99
+            Y: =53
+            ZIndex: =15
+
+    "gal_invitados_nv_1 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+        DelayItemLoading: =true
+        Height: =37
+        Items: =Filter(Reservas, Id_Evento = If(var_editEvento = 1 , frm_crear_evento.LastSubmit.ID ,  gal_eventos.Selected.ID), Id_Mesa = var_MesaSelec.ID, Invitado = true)
+        Layout: =Layout.Vertical
+        LoadingSpinner: =LoadingSpinner.Data
+        ShowScrollbar: =false
+        TemplatePadding: =0
+        TemplateSize: =37
+        Visible: =false
+        Width: =87
+        Y: =731
+        ZIndex: =14
+
+        Title1_12 As label:
+            FontWeight: =FontWeight.Bold
+            Height: =25
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: |-
+                ="Empleado TotalEnergies:"
+            VerticalAlign: =VerticalAlign.Top
+            Width: =316
+            X: =99
+            Y: =4
+            ZIndex: =1
+
+        Subtitle1_6 As label:
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: |-
+                ="Acompañante: " & ThisItem.NombreInvitado
+            VerticalAlign: =VerticalAlign.Top
+            Visible: =ThisItem.Invitado
+            Width: =316
+            X: =99
+            Y: =50
+            ZIndex: =2
+
+        Separator1_6 As rectangle:
+            Height: =8
+            OnSelect: =Select(Parent)
+            Width: =Parent.TemplateWidth
+            Y: =Parent.TemplateHeight - Self.Height
+            ZIndex: =3
+
+        Rectangle4_6 As rectangle:
+            Height: =Parent.TemplateHeight - Separator1_6.Height
+            OnSelect: =Select(Parent)
+            Visible: =ThisItem.IsSelected
+            Width: =4
+            ZIndex: =4
+
+        Label27_1 As label:
+            Height: =25
+            OnSelect: =Select(Parent)
+            Text: =ThisItem.'Nombre (field_4)' & " " & ThisItem.Apellido
+            Width: =273
+            X: =106
+            Y: =25
+            ZIndex: =12
+
+    lbl_titulo_invitados As label:
+        FontWeight: =FontWeight.Bold
+        Text: |-
+            ="Invitados: " & CountRows(gal_invitados_2.AllItems) + CountRows(gal_invitados_nv_1.AllItems)
+        Visible: =var_gal_invitados_2
+        Width: =122
+        X: =909
+        Y: =97
+        ZIndex: =15
+
+    ddl_reservado_1 As dropdown:
+        Height: =28
+        Items: =["Reservado"]
+        Visible: =false
+        Width: =135
+        X: =1231
+        Y: =740
+        ZIndex: =16
+
+    ddl_disponible_2 As dropdown:
+        Height: =28
+        Items: =["Disponible"]
+        Visible: =false
+        Width: =135
+        X: =1231
+        Y: =740
+        ZIndex: =17
+
+    frm_invitados_1 As form:
+        DataSource: =Reservas
+        Height: =451
+        Item: |-
+            =//If(var_formInvitados = 0; Gallery1.Selected)
+            //var_invitadoSeleccionado
+            If(var_EditInvitado, gal_invitados_2.Selected, gal_buscador_1.Selected)
+        NumberOfColumns: =1
+        Visible: |-
+            =//((CountRows(gal_invitados_2.AllItems) + CountRows(gal_invitados_nv_1.AllItems))+1+If(img_switch_acompañante;1) <> gal_grilla.Selected.Cantidad_asientos && !IsBlank(var_usuarioSeleccionado)) || var_EditInvitado
+            !IsBlank(var_usuarioSeleccionado) || var_EditInvitado
+        Width: =557
+        X: =755
+        Y: =254
+        ZIndex: =18
+
+        dc_numero_evento_1 As typedDataCard.numberEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Id_Evento"
+            Default: =ThisItem.Id_Evento
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@Reservas],DataSourceInfo.DisplayName,"field_2")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            Required: =false
+            Update: =Value(txt_numeroevento_1.Text)
+            Visible: =false
+            Width: =557
+            X: =0
+            Y: =4
+            ZIndex: =1
+
+            lbl_numeroevento_1 As label:
+                AutoHeight: =true
+                Height: =34
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            txt_numeroevento_1 As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: =If(var_editEvento = 1 , frm_crear_evento.LastSubmit.ID ,  gal_eventos.Selected.ID)
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                Format: =TextFormat.Number
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =lbl_numeroevento_1.Y + lbl_numeroevento_1.Height + 5
+                ZIndex: =2
+
+            lbl_error_31 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =txt_numeroevento_1.Y + txt_numeroevento_1.Height
+                ZIndex: =3
+
+            lbl_obligatorio_32 As label:
+                Align: =Align.Center
+                Height: =lbl_numeroevento_1.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =lbl_numeroevento_1.Y
+                ZIndex: =4
+
+        dc_estacionamiento As typedDataCard.toggleEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Estacionamiento"
+            Default: =ThisItem.Estacionamiento
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@Reservas],DataSourceInfo.DisplayName,"field_6")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            Required: =false
+            Update: =icn_switchestacionamiento.Value
+            Width: =557
+            X: =0
+            Y: =6
+            ZIndex: =1
+
+            lbl_tituloestacionamiento_1 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Bold
+                Height: =34
+                Text: ="¿Necesita ticket de estacionamiento?"
+                Width: =345
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            icn_switchestacionamiento As toggleSwitch:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: =Parent.Default
+                DisplayMode: =Parent.DisplayMode
+                FalseText: =""
+                Tooltip: =Parent.DisplayName
+                TrueText: =""
+                X: =30
+                Y: =lbl_tituloestacionamiento_1.Y + lbl_tituloestacionamiento_1.Height + 5
+                ZIndex: =2
+
+            lbl_error_32 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =icn_switchestacionamiento.Y + icn_switchestacionamiento.Height
+                ZIndex: =3
+
+            lbl_obligatorio_33 As label:
+                Align: =Align.Center
+                Height: =lbl_tituloestacionamiento_1.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =lbl_tituloestacionamiento_1.Y
+                ZIndex: =4
+
+        dc_titular As typedDataCard.toggleEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Titular"
+            Default: =ThisItem.Titular
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@Reservas],DataSourceInfo.DisplayName,"field_8")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            Required: =false
+            Update: =icn_switchtitular.Value
+            Visible: =CountRows(Filter(gal_invitados_2.AllItems, Titular = true)) = 0 || var_EditInvitado
+            Width: =557
+            X: =0
+            Y: =7
+            ZIndex: =1
+
+            lbl_titular As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Bold
+                Height: =34
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            icn_switchtitular As toggleSwitch:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: =Parent.Default
+                DisplayMode: =Parent.DisplayMode
+                FalseText: =""
+                Tooltip: =Parent.DisplayName
+                TrueText: =""
+                X: =30
+                Y: =lbl_titular.Y + lbl_titular.Height + 5
+                ZIndex: =2
+
+            lbl_error_33 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =icn_switchtitular.Y + icn_switchtitular.Height
+                ZIndex: =3
+
+            lbl_obligatorio_34 As label:
+                Align: =Align.Center
+                Height: =lbl_titular.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =lbl_titular.Y
+                ZIndex: =4
+
+        Id_Mesa_DataCard1 As typedDataCard.numberEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Id_Mesa"
+            Default: =ThisItem.Id_Mesa
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@Reservas],DataSourceInfo.DisplayName,"field_7")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            Required: =false
+            Update: =Value(DataCardValue6.Text)
+            Visible: =false
+            Width: =557
+            X: =0
+            Y: =8
+            ZIndex: =1
+
+            DataCardKey6 As label:
+                AutoHeight: =true
+                Height: =34
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue6 As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: =var_MesaSelec.ID
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                Format: =TextFormat.Number
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey6.Y + DataCardKey6.Height + 5
+                ZIndex: =2
+
+            ErrorMessage4 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue6.Y + DataCardValue6.Height
+                ZIndex: =3
+
+            StarVisible4 As label:
+                Align: =Align.Center
+                Height: =DataCardKey6.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey6.Y
+                ZIndex: =4
+
+        dc_mail_1 As typedDataCard.textualEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Title"
+            Default: =ThisItem.Mail
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@Reservas],DataSourceInfo.DisplayName,"Title")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            MaxLength: =DataSourceInfo([@Reservas], DataSourceInfo.MaxLength, "Title")
+            Required: =true
+            Update: =txt_mail_1.Text
+            Visible: =false
+            Width: =557
+            X: =0
+            Y: =0
+            ZIndex: =11
+
+            lbl_mail_1 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Bold
+                Height: =34
+                Text: ="Mail"
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                ZIndex: =1
+
+            txt_mail_1 As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: =If(var_EditInvitado, gal_invitados_2.Selected.Mail, If(!IsBlank(var_usuarioSeleccionado), var_usuarioSeleccionado.Mail))
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                MaxLength: =Parent.MaxLength
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =lbl_mail_1.Y + lbl_mail_1.Height + 5
+                ZIndex: =2
+
+            lbl_error_26 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =txt_mail_1.Y + txt_mail_1.Height
+                ZIndex: =3
+
+            lbl_obligatorio_27 As label:
+                Align: =Align.Center
+                Height: =lbl_mail_1.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =lbl_mail_1.Y
+                ZIndex: =4
+
+        dc_nombre_empleado_1 As typedDataCard.textualEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Nombre"
+            Default: =ThisItem.'Nombre (field_4)'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@Reservas],DataSourceInfo.DisplayName,"field_4")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =90
+            MaxLength: =DataSourceInfo([@Reservas], DataSourceInfo.MaxLength, "field_4")
+            Required: =false
+            Update: =txt_nombreempleado_1.Text
+            Width: =557
+            X: =0
+            Y: =1
+            ZIndex: =11
+
+            lbl_nombreempleado_1 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Bold
+                Height: =34
+                Text: ="Nombre Empleado TotalEnergies"
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                ZIndex: =1
+
+            txt_nombreempleado_1 As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: |-
+                    =If(var_EditInvitado, 
+                        gal_invitados_2.Selected.'Nombre (field_4)'
+                    , 
+                        If(!IsBlank(var_usuarioSeleccionado), 
+                            //UsuariosdeOffice365.UserProfileV2(var_usuarioSeleccionado.Título).givenName
+                            First(UsuariosdeOffice365.SearchUser({searchTerm: var_usuarioSeleccionado.Mail, top: 15})).GivenName)
+                    )
+                    
+                    
+                    
+                    
+                    //If(!IsBlank(ThisItem.Título); UsuariosdeOffice365.UserPhotoV2(ThisItem.Título))
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                MaxLength: =Parent.MaxLength
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =33
+                ZIndex: =2
+
+            lbl_error_27 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =txt_nombreempleado_1.Y + txt_nombreempleado_1.Height
+                ZIndex: =3
+
+            lbl_obligatorio_28 As label:
+                Align: =Align.Center
+                Height: =lbl_nombreempleado_1.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =lbl_nombreempleado_1.Y
+                ZIndex: =4
+
+        dc_apellido_empleado_1 As typedDataCard.textualEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Apellido"
+            Default: =ThisItem.Apellido
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@Reservas],DataSourceInfo.DisplayName,"field_5")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =92
+            MaxLength: =DataSourceInfo([@Reservas], DataSourceInfo.MaxLength, "field_5")
+            Required: =false
+            Update: =txt_apellidoempleado_1.Text
+            Width: =557
+            X: =0
+            Y: =2
+            ZIndex: =11
+
+            lbl_apellidoempleado_1 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Bold
+                Height: =34
+                Text: ="Apellido Empleado TotalEnergies"
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                ZIndex: =1
+
+            txt_apellidoempleado_1 As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: |-
+                    =If(var_EditInvitado, 
+                        gal_invitados_2.Selected.Apellido
+                    , 
+                        If(!IsBlank(var_usuarioSeleccionado), 
+                        //UsuariosdeOffice365.UserProfileV2(var_usuarioSeleccionado.Título).surname)
+                        First(UsuariosdeOffice365.SearchUser({searchTerm: var_usuarioSeleccionado.Mail, top: 15})).Surname)
+                    )
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                MaxLength: =Parent.MaxLength
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =lbl_apellidoempleado_1.Y + lbl_apellidoempleado_1.Height + 5
+                ZIndex: =2
+
+            lbl_error_28 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =txt_apellidoempleado_1.Y + txt_apellidoempleado_1.Height
+                ZIndex: =3
+
+            lbl_obligatorio_29 As label:
+                Align: =Align.Center
+                Height: =lbl_apellidoempleado_1.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =lbl_apellidoempleado_1.Y
+                ZIndex: =4
+
+        dc_switch_acompañante_1 As typedDataCard.toggleEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Invitado"
+            Default: =ThisItem.Invitado
+            DisplayMode: |-
+                =/*If(
+                (var_formInvitados = 1 && ((CountRows(Gallery1.AllItems) + CountRows(Gallery1_4.AllItems))+1+If(Toggle1;1) + 1) < Gallery5.Selected.Cantidad_asientos) ||
+                (var_formInvitados = 0 && ((CountRows(Gallery1.AllItems) + CountRows(Gallery1_4.AllItems))+1+If(Toggle1;1)) < Gallery5.Selected.Cantidad_asientos) ||
+                (var_formInvitados = 0 && ((CountRows(Gallery1.AllItems) + CountRows(Gallery1_4.AllItems))+1+If(Toggle1;1)) = Gallery5.Selected.Cantidad_asientos && ThisItem.Invitado)
+                ;
+                    DisplayMode.Edit
+                ;
+                    DisplayMode.Disabled
+                )
+                */
+                Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@Reservas],DataSourceInfo.DisplayName,"field_10")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =81
+            Required: =false
+            Update: =icn_switchacompañante_1.Value
+            Visible: |-
+                =true
+                //If(var_formInvitados = 0; true; (CountRows(Gallery1.AllItems) + CountRows(Gallery1_4.AllItems) ) = Value(First(var_Evento).Cantidad_asientos - 2) )
+            Width: =557
+            X: =0
+            Y: =3
+            ZIndex: =11
+
+            lbl_tituloacompañante_1 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Bold
+                Height: =34
+                Text: ="¿Asiste con Acompañante?"
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                ZIndex: =1
+
+            icn_switchacompañante_1 As toggleSwitch:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                BorderStyle: =BorderStyle.None
+                Default: =Parent.Default
+                DisplayMode: =Parent.DisplayMode
+                FalseText: ="No"
+                OnUncheck: =Reset(txt_nombreacompañante_1)
+                Tooltip: =Parent.DisplayName
+                TrueText: ="Si"
+                X: =30
+                Y: =lbl_tituloacompañante_1.Y + lbl_tituloacompañante_1.Height + 5
+                ZIndex: =2
+
+            lbl_error_29 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =icn_switchacompañante_1.Y + icn_switchacompañante_1.Height
+                ZIndex: =3
+
+            lbl_obligatorio_30 As label:
+                Align: =Align.Center
+                Height: =lbl_tituloacompañante_1.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =lbl_tituloacompañante_1.Y
+                ZIndex: =4
+
+        dc_nombre_acompañante_1 As typedDataCard.textualEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="NombreInvitado"
+            Default: =ThisItem.NombreInvitado
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@Reservas],DataSourceInfo.DisplayName,"field_9")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            MaxLength: =DataSourceInfo([@Reservas], DataSourceInfo.MaxLength, "field_9")
+            Required: =false
+            Update: =txt_nombreacompañante_1.Text
+            Visible: =icn_switchacompañante_1.Value
+            Width: =557
+            X: =0
+            Y: =5
+            ZIndex: =11
+
+            lbl_titulonombreacompañante_1 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Bold
+                Height: =34
+                Text: ="Nombre y Apellido Acompañante"
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                ZIndex: =1
+
+            txt_nombreacompañante_1 As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: =If(icn_switchacompañante_1.Value, Parent.Default, "")
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                HintText: ="Nombre y apellido del acompañante"
+                MaxLength: =Parent.MaxLength
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =lbl_titulonombreacompañante_1.Y + lbl_titulonombreacompañante_1.Height + 5
+                ZIndex: =2
+
+            lbl_error_30 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =txt_nombreacompañante_1.Y + txt_nombreacompañante_1.Height
+                ZIndex: =3
+
+            lbl_obligatorio_31 As label:
+                Align: =Align.Center
+                Color: =RGBA(168, 0, 0, 1)
+                FontWeight: =FontWeight.Bold
+                Height: =lbl_titulonombreacompañante_1.Height
+                Text: ="*"
+                Width: =30
+                Wrap: =false
+                Y: =lbl_titulonombreacompañante_1.Y
+                ZIndex: =4
+
+    icn_agregar_invitado As icon.Add:
+        DisplayMode: |-
+            =If(Len(txt_nombreacompañante_1.Text) =0 && icn_switchacompañante_1.Value,
+            DisplayMode.Disabled,
+            DisplayMode.Edit)
+        Height: =45
+        Icon: =If(var_EditInvitado, Icon.Save , Icon.AddUser)
+        OnSelect: |-
+            =If(CountRows(gal_invitados_2.AllItems) = 0, Patch(Mesas_1, var_MesaSelec, {Estado: ddl_reservado_1.Selected.Value}));
+            SubmitForm(frm_invitados_1);
+            Refresh(Reservas);
+            Refresh(Mesas_1);
+            Set(var_MesaSelec, gal_detalle_mesas.Selected);
+            ResetForm(frm_invitados_1);
+            EditForm(frm_invitados_1);
+            Reset(txt_buscador_1);
+            Set(var_EditInvitado, false);
+            Set(var_usuarioSeleccionado,Blank());
+            Set(var_MesaSelec, First(Filter(Mesas_1, ID = var_MesaSelec.ID)));
+            //Set(var_formInvitados;FormMode.New);;
+        Visible: |-
+            =//var_EditInvitado || ((CountRows(gal_invitados_2.AllItems) + CountRows(gal_invitados_nv_1.AllItems)) < Value(var_MesaSelec.Cantidad_asientos - 1 - If(img_switch_acompañante; 1; 0)) && !IsBlank(var_usuarioSeleccionado))
+            
+            !IsBlank(var_usuarioSeleccionado) || var_EditInvitado
+            //(CountRows(Gallery1.AllItems) + CountRows(Gallery1_4.AllItems)) + 1 + If(Toggle1; 1; 0) = Gallery5.Selected.Cantidad_asientos
+        Width: =50
+        X: =1236
+        Y: =192
+        ZIndex: =19
+
+    txt_buscador_1 As text:
+        Default: =If(IsBlank(var_usuarioSeleccionado),"", var_usuarioSeleccionado.NombreCompleto)
+        DisplayMode: |-
+            =/*If(var_formInvitados = 0 || (CountRows(Gallery1.AllItems) + CountRows(Gallery1_4.AllItems)) + 1 + If(Toggle1; 1; 0) = Gallery5.Selected.Cantidad_asientos;
+            DisplayMode.Disabled
+            ;
+            DisplayMode.Edit)*/
+            If(!IsBlank(var_usuarioSeleccionado),
+            DisplayMode.Disabled
+            ,
+            DisplayMode.Edit)
+        Height: =45
+        HintText: ="Buscar invitados"
+        Visible: =var_gal_invitados_2
+        Width: =435
+        X: =784
+        Y: =192
+        ZIndex: =20
+
+    "gal_buscador_1 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+        DelayItemLoading: =true
+        Fill: =RGBA(204, 231, 246, 1)
+        Height: =343
+        Items: |-
+            =//If(!IsBlank(Trim(TextInput3.Text)); UsuariosdeOffice365.SearchUser({searchTerm: Trim(TextInput3.Text); top: 15}))
+            If(!IsBlank(Trim(txt_buscador_1.Text)), Search(Filter(Reservas, Id_Mesa = 0 , Id_Evento = If(var_editEvento = 1 , frm_crear_evento.LastSubmit.ID ,  gal_eventos.Selected.ID)), txt_buscador_1.Text,"field_13", "field_1", "field_4", "field_5", "field_3"))
+        Layout: =Layout.Vertical
+        LoadingSpinner: =LoadingSpinner.Data
+        OnSelect: |-
+            =/*If(CountRows(Filter(Reservas; ThisItem.Mail = Título; Id_Evento = var_idEvento)) = 0;
+                If(User().Email <> ThisItem.Título && CountRows(Filter(Gallery1.AllItems; ThisItem.Título = Título)) = 0 ;
+                    Set(var_usuarioSeleccionado;ThisItem);;
+                    ResetForm(Form1)
+                ;
+                    Notify("El usuario ya esta en el listado de invitados"; NotificationType.Error)
+                )
+            ;
+                Notify("El usuario ya tiene una reserva"; NotificationType.Error)
+            )*/
+            
+            Set(var_usuarioSeleccionado,ThisItem);
+            Set(var_EditInvitado, false);
+            ResetForm(frm_invitados_1);
+            EditForm(frm_invitados_1)
+        TemplatePadding: =0
+        TemplateSize: =104
+        Visible: =!IsBlank(txt_buscador_1.Text) && IsBlank(var_usuarioSeleccionado)
+        Width: =435
+        X: =784
+        Y: =240
+        ZIndex: =21
+
+        lbl_nombre_invitado_1 As label:
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+            Height: =Self.Size * 1.8
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: =ThisItem.NombreCompleto
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Parent.TemplateWidth - 173
+            X: =103
+            Y: =(Parent.TemplateHeight - (Self.Size * 1.8 + lbl_mail_buscador.Size * 1.8)) / 2
+            ZIndex: =1
+
+        lbl_mail_invitado_1 As label:
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+            Height: =Self.Size * 1.8
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: =ThisItem.'Nombre (field_4)'
+            VerticalAlign: =VerticalAlign.Top
+            Width: =lbl_nombre_invitado_1.Width
+            X: =lbl_nombre_invitado_1.X
+            Y: =lbl_nombre_invitado_1.Y + lbl_nombre_invitado_1.Height
+            ZIndex: =2
+
+        Separator7_1 As rectangle:
+            Height: =8
+            OnSelect: =Select(Parent)
+            Width: =Parent.TemplateWidth
+            Y: =Parent.TemplateHeight - Self.Height
+            ZIndex: =4
+
+        Rectangle8_1 As rectangle:
+            Height: =Parent.TemplateHeight - Separator7_1.Height
+            OnSelect: =Select(Parent)
+            Visible: =ThisItem.IsSelected
+            Width: =4
+            ZIndex: =5
+
+        icn_perfil_3 As icon.Person:
+            Icon: =Icon.Person
+            OnSelect: =Select(Parent)
+            X: =21
+            Y: =20
+            ZIndex: =6
+
+        img_foto_perfil_2 As image:
+            Height: =72
+            Image: |-
+                =//UsuariosdeOffice365.UserPhoto(ThisItem.Mail)
+                //If(!IsBlank(ThisItem.Título); UsuariosdeOffice365.UserPhotoV2(ThisItem.Título))
+                
+                
+                If(CountRows(UsuariosdeOffice365.SearchUser({searchTerm: ThisItem.Mail, top: 15})) > 0,
+                    If(!IsBlank(ThisItem.Mail), UsuariosdeOffice365.UserPhotoV2(ThisItem.Mail))
+                )
+            OnSelect: =Select(Parent)
+            RadiusBottomLeft: =8
+            RadiusBottomRight: =8
+            RadiusTopLeft: =8
+            RadiusTopRight: =8
+            Width: =72
+            X: =16
+            Y: =(Parent.TemplateHeight / 2) - (Self.Height / 2)
+            ZIndex: =7
+
+    icn_cancelar_buscador_1 As icon.Cancel:
+        Height: =41
+        Icon: =Icon.Cancel
+        OnSelect: |-
+            =Set(var_usuarioSeleccionado,Blank());
+            Set(var_EditInvitado, false);
+            Reset(txt_buscador_1)
+        Visible: |-
+            =Len(txt_buscador_1.Text) < 0 || (CountRows(gal_invitados.AllItems) + CountRows(gal_invitados_nv.AllItems)) + 1 + If(img_switch_acompañante.Value, 1, 0) <> gal_grilla.Selected.Cantidad_asientos 
+            //|| (var_EditInvitado && IsBlank(var_usuarioSeleccionado))
+            && var_gal_invitados_2 || true
+        Width: =53
+        X: =1166
+        Y: =194
+        ZIndex: =22
+
+    lbl_fondo_11 As label:
+        Fill: =RGBA(23, 137, 230, 0.7)
+        Height: =767
+        Text: =""
+        Visible: =var_cambioMesa
+        Width: =1366
+        ZIndex: =23
+
+    th_fondo_cambio_mesa As htmlViewer:
+        Height: =249
+        HtmlText: |-
+            ="<div style=""margin: 0px; width: "&(Self.Width-13)&"px; height: "&(Self.Height-13)&"px; background-color: rgba(255,255,255,0.9); box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.2); border-radius:5px""></div>"
+        Visible: =var_cambioMesa
+        Width: =727
+        X: =322
+        Y: =259
+        ZIndex: =24
+
+    btn_enviar As button:
+        DisplayMode: |-
+            =If(var_MesaSelec.Numero_Mesa <> ddl_selecciona_nueva_mesa.Selected.Numero_Mesa,
+            DisplayMode.Edit, DisplayMode.Disabled)
+        OnSelect: |-
+            =If(CountRows(gal_invitados_2.AllItems) = 1, 
+                Patch(Mesas_1, var_MesaSelec, {Estado: ddl_disponible_2.Selected.Value});
+                Set(var_MesaSelec, First(Filter(Mesas_1, ID = var_MesaSelec.ID)))
+            );
+            Set(var_cambioMesaSelect, ddl_selecciona_nueva_mesa.Selected.ID);
+            Refresh(Mesas_1);
+            Patch(Reservas, gal_invitados_2.Selected,
+            {
+                Id_Mesa: var_cambioMesaSelect
+            });
+            Notify("Se realizo el cambio de mesa correctamente", NotificationType.Success);
+            Refresh(Reservas);
+            
+            //Patch(Mesas_1; First(Filter(Mesas_1; ID = Dropdown4.Selected.ID)); {Estado: Dropdown2_3.Selected});;
+            //Refresh(Mesas_1);;
+            Set(var_cambioMesa2, true);
+        Text: ="Enviar"
+        Visible: =var_cambioMesa
+        X: =608
+        Y: =436
+        ZIndex: =25
+
+    icn_cancelar As icon.Cancel:
+        Height: =35
+        Icon: =Icon.Cancel
+        OnSelect: =Set(var_cambioMesa,false);
+        Visible: =var_cambioMesa
+        Width: =35
+        X: =996
+        Y: =269
+        ZIndex: =26
+
+    lbl_modificar_mesa As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Size: =18
+        Text: ="Modificar Mesa"
+        Visible: =var_cambioMesa
+        Width: =489
+        X: =440
+        Y: =282
+        ZIndex: =27
+
+    ddl_selecciona_nueva_mesa As dropdown:
+        Default: =var_MesaSelec.Numero_Mesa
+        Items: =Filter(Mesas_1, Id_Evento = var_MesaSelec.Id_Evento)
+        PaddingBottom: =5
+        PaddingTop: =5
+        Size: =14
+        Visible: =var_cambioMesa
+        Width: =81
+        X: =767
+        Y: =368
+        ZIndex: =28
+
+    lbl_invitado_seleccionado As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Text: |-
+            ="Invitado seleccionado: " & gal_invitados_2.Selected.NombreCompleto
+        Visible: =var_cambioMesa
+        Width: =553
+        X: =412
+        Y: =325
+        ZIndex: =29
+
+    lbl_titulo_seleccionar_nueva_mesa As label:
+        FontWeight: =FontWeight.Bold
+        Text: |-
+            ="Seleccionar nueva mesa: "
+        Visible: =var_cambioMesa
+        Width: =238
+        X: =529
+        Y: =367
+        ZIndex: =30
+
+    tm_temporizador_6 As timer:
+        Duration: =2000
+        OnTimerEnd: |-
+            =Patch(Mesas_1, First(Filter(Mesas_1, ID = var_cambioMesaSelect)), {Estado: ddl_reservado_1.Selected.Value});
+            Refresh(Mesas_1);
+            Set(var_cambioMesaSelect, 0);
+            Set(var_cambioMesa,false);
+            Set(var_cambioMesa2, false);
+        Reset: =true
+        Start: =var_cambioMesa2
+        Visible: =false
+        Y: =728
+        ZIndex: =31
+
+    btn_enviar_notificacion As button:
+        DisplayMode: =If((CountRows(Filter(gal_invitados_2.AllItems, Titular = true)) = 1), DisplayMode.Edit,DisplayMode.Disabled)
+        OnSelect: =Set(var_EnviarMail, true)
+        Text: ="Enviar notificación"
+        Visible: =!var_MesaSelec.Mail
+        Width: =200
+        X: =1112
+        Y: =95
+        ZIndex: =37
+
+    gp_pop_eliminar_invitado_1 As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =42
+
+        lbl_fondo_10 As label:
+            Fill: =RGBA(23, 137, 230, 0.7)
+            Height: =768
+            Text: =""
+            Visible: =var_removeInvitado3
+            Width: =1366
+            ZIndex: =32
+
+        th_pup_fondo As htmlViewer:
+            Height: =289
+            HtmlText: |-
+                ="<div style=""margin: 0px; width: "&(Self.Width-13)&"px; height: "&(Self.Height-13)&"px; background-color: rgba(255,255,255,0.9); box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.2); border-radius:5px""></div>"
+            Visible: =var_removeInvitado3
+            Width: =727
+            X: =365
+            Y: =301
+            ZIndex: =33
+
+        btn_pup_eliminar As button:
+            Fill: =RGBA(54, 176, 75, 1)
+            HoverFill: =ColorFade(Self.Fill, -20%)
+            OnSelect: |-
+                =Refresh(Reservas);
+                If(CountRows(gal_invitados_2.AllItems) = 1, Patch(Mesas_1, var_MesaSelec, {Estado: If(var_MesaSelec.SubEstado, ddl_disponible_2.Selected.Value, ddl_pendiente_3.Selected.Value)}));
+                Patch(Reservas, gal_invitados_2.Selected, {Id_Mesa: 0, Titular: false, Estacionamiento: false, Invitado: false, NombreInvitado: ""});
+                Set(var_formInvitados, 1);
+                ResetForm(frm_invitados_1);
+                EditForm(frm_invitados_1);
+                Set(var_usuarioSeleccionado,Blank());
+                Set(var_EditInvitado, false);
+                Reset(txt_buscador_1);
+                Refresh(Mesas_1);
+                Set(var_MesaSelec, First(Filter(Mesas_1, ID = var_MesaSelec.ID)));
+                Set(var_removeInvitado3, false)
+            Text: ="Eliminar"
+            Visible: =var_removeInvitado3
+            X: =765
+            Y: =499
+            ZIndex: =34
+
+        btn_pup_cancelar_1 As button:
+            Fill: =RGBA(255, 0, 0, 1)
+            HoverFill: =ColorFade(Self.Fill, -20%)
+            OnSelect: =Set(var_removeInvitado3, false)
+            Text: ="Cancelar"
+            Visible: =var_removeInvitado3
+            X: =543
+            Y: =499
+            ZIndex: =35
+
+        lbl_pup_cuerpo As label:
+            Align: =Align.Center
+            FontWeight: =FontWeight.Bold
+            Height: =174
+            Size: =25
+            Text: ="¿Estás seguro de querer eliminar a "&gal_invitados_2.Selected.NombreCompleto&" de la mesa N°"&var_MesaSelec.Numero_Mesa&"?"
+            VerticalAlign: =If(!IsBlank(var_reserva) || var_reserva.Estacionamiento, VerticalAlign.Middle, VerticalAlign.Top)
+            Visible: =var_removeInvitado3
+            Width: =682
+            X: =387
+            Y: =325
+            ZIndex: =36
+
+    tm_gal_invitados_2 As timer:
+        AutoStart: =true
+        Duration: =1500
+        OnTimerEnd: =Set(var_gal_invitados_2, true)
+        Visible: =false
+        X: =99
+        Y: =95
+        ZIndex: =43
+
+    lbl_pup_fondo_1 As label:
+        Fill: =RGBA(39, 113, 194, 0.75)
+        Height: =768
+        Text: =""
+        Visible: =var_cambioMesa2
+        Width: =1366
+        ZIndex: =44
+
+    "img_spinner_4 As 'Indicador giratorio'":
+        BasePaletteColor: =
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontColor: =
+        FontItalic: =false
+        FontSize: =0
+        FontStrikethrough: =false
+        FontUnderline: =false
+        FontWeight: =""
+        Height: =768
+        SpinnerSize: ='Spinner.SpinnerSize'.Huge
+        Visible: =var_cambioMesa2
+        Width: =1366
+        X: =0
+        Y: =0
+        ZIndex: =45
+
+    lbl_pup_fondo_2 As label:
+        Fill: =RGBA(39, 113, 194, 0.75)
+        Height: =768
+        Text: =""
+        Visible: =!var_gal_invitados_2
+        Width: =1366
+        ZIndex: =46
+
+    "img_spinner_7 As 'Indicador giratorio'":
+        BasePaletteColor: =
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontColor: =
+        FontItalic: =false
+        FontSize: =0
+        FontStrikethrough: =false
+        FontUnderline: =false
+        FontWeight: =""
+        Height: =768
+        SpinnerSize: ='Spinner.SpinnerSize'.Huge
+        Visible: =!var_gal_invitados_2
+        Width: =1366
+        X: =0
+        Y: =0
+        ZIndex: =47
+
+    gp_pup_enviar_notificacion As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =47
+
+        lbl_fondo_22 As label:
+            Fill: =RGBA(23, 137, 230, 0.7)
+            Height: =768
+            Text: =""
+            Visible: =var_EnviarMail
+            Width: =1366
+            ZIndex: =38
+
+        th_pup_fondo_1 As htmlViewer:
+            Height: =289
+            HtmlText: |-
+                ="<div style=""margin: 0px; width: "&(Self.Width-13)&"px; height: "&(Self.Height-13)&"px; background-color: rgba(255,255,255,0.9); box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.2); border-radius:5px""></div>"
+            Visible: =var_EnviarMail
+            Width: =727
+            X: =319
+            Y: =239
+            ZIndex: =39
+
+        btn_pup_enviar_1 As button:
+            Fill: =RGBA(54, 176, 75, 1)
+            HoverFill: =ColorFade(Self.Fill, -20%)
+            OnSelect: |-
+                ='SantaBarbara-Enviodenotificaciones'.Run(var_MesaSelec.Id_Evento, var_MesaSelec.ID);
+                Patch(Mesas_1, var_MesaSelec, {Mail: true});
+                Refresh(Mesas_1);
+                Set(var_MesaSelec, First(Filter(Mesas_1, ID = var_MesaSelec.ID)));
+                Set(var_EnviarMail, false);
+                Notify("Notificación enviada.", NotificationType.Success)
+            Text: ="Enviar"
+            Visible: =var_EnviarMail
+            X: =719
+            Y: =437
+            ZIndex: =40
+
+        btn_pup_cancelar_2 As button:
+            Fill: =RGBA(255, 0, 0, 1)
+            HoverFill: =ColorFade(Self.Fill, -20%)
+            OnSelect: =Set(var_EnviarMail, false)
+            Text: ="Cancelar"
+            Visible: =var_EnviarMail
+            X: =497
+            Y: =437
+            ZIndex: =41
+
+        lbl_pup_cuerpo_1 As label:
+            Align: =Align.Center
+            FontWeight: =FontWeight.Bold
+            Height: =174
+            Size: =25
+            Text: ="¿Estás seguro de querer enviar la notificación de la mesa N°"&var_MesaSelec.Numero_Mesa&"?"
+            VerticalAlign: =If(!IsBlank(var_reserva) || var_reserva.Estacionamiento, VerticalAlign.Middle, VerticalAlign.Top)
+            Visible: =var_EnviarMail
+            Width: =682
+            X: =341
+            Y: =263
+            ZIndex: =42
+
+    ddl_pendiente_3 As dropdown:
+        Height: =28
+        Items: =["Pendiente"]
+        Visible: =false
+        Width: =135
+        X: =1231
+        Y: =740
+        ZIndex: =48
+

@@ -1,0 +1,476 @@
+scr_SeleccionMesa As screen:
+    Fill: =RGBA(0, 0, 0, 0)
+    OnVisible: =Refresh(Mesas_1); Refresh(Reservas)
+
+    img_fondo_12 As image:
+        Height: =768
+        Image: ='subtle-prism (1)'
+        ImagePosition: =ImagePosition.Fill
+        Transparency: =0.3
+        Visible: =false
+        Width: =1366
+        ZIndex: =1
+
+    lbl_fondo_seleccion As label:
+        Fill: |-
+            =If(First(var_Evento).Tipo_Color = "HEX", 
+                //ColorValue(First(var_Evento).Color&"33")
+                ColorValue(First(var_Evento).Color)
+            , 
+                RGBA(First(FirstN(Split(First(var_Evento).Color, ";"), 2)).Value,Last(FirstN(Split(First(var_Evento).Color, ";"), 2)).Value,Last(FirstN(Split(First(var_Evento).Color, ";"), 3)).Value, 1)
+            )
+        Height: =768
+        Text: =""
+        Width: =1366
+        ZIndex: =2
+
+    lbl_titulo As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Height: =45
+        Size: =20
+        Text: ="Mesas"
+        Width: =1366
+        Y: =75
+        ZIndex: =3
+
+    img_banner As image:
+        Height: =75
+        Image: =First(var_Evento).Banner1.Full
+        ImagePosition: =ImagePosition.Fill
+        Width: =1366
+        ZIndex: =4
+
+    ddl_pendiente As dropdown:
+        Height: =32
+        Items: =["Pendiente"]
+        Visible: =false
+        Width: =135
+        X: =1231
+        Y: =736
+        ZIndex: =5
+
+    Timer3 As timer:
+        AutoPause: =false
+        AutoStart: =false//App.ActiveScreen.Name = "scr_SeleccionMesa"
+        Duration: =6000
+        OnSelect: =
+        OnTimerEnd: |-
+            =Refresh(Mesas_1);
+            Refresh(Reservas);
+        OnTimerStart: =
+        Repeat: =false//App.ActiveScreen.Name = "scr_SeleccionMesa"
+        Reset: =true
+        Start: =true
+        Visible: =false
+        X: =1206
+        Y: =608
+        ZIndex: =6
+
+    th_fondo_grilla_2 As htmlViewer:
+        Height: =558
+        HtmlText: |-
+            ="<div style=""margin: 0px; width: "&(Self.Width-13)&"px; height: "&(Self.Height-13)&"px; background-color: rgba(255,255,255,0.5); box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.2); border-radius:5px""></div>"
+            
+            //rgba(100,250,255,0.5)
+        Width: =858
+        X: =257
+        Y: =121
+        ZIndex: =7
+
+    "gal_grilla As gallery.'BrowseLayout_Vertical_TwoTextVariant_ver5.0'":
+        BorderStyle: =BorderStyle.None
+        DelayItemLoading: =true
+        Height: =515
+        Items: |-
+            =//Sort(Filter(Mesas_1 ; Id_Evento = var_idEvento); Orden_Mesa;SortOrder.Ascending)
+            Sort(Filter(Mesas_1 , Id_Evento = var_idEvento), Numero_Mesa, SortOrder.Ascending)
+        Layout: =Layout.Vertical
+        LoadingSpinner: =LoadingSpinner.Data
+        TemplatePadding: =0
+        TemplateSize: =90
+        Transition: =Transition.Pop
+        Width: =830
+        WrapCount: =10
+        X: =271
+        Y: =133
+        ZIndex: =8
+
+        lbl_orden_mesa As label:
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+            Height: =21
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: =Value(ThisItem.Numero_Mesa)
+            VerticalAlign: =VerticalAlign.Top
+            Visible: =false
+            Width: =103
+            Y: =68
+            ZIndex: =3
+
+        btn_seleccion_mesa As button:
+            BorderColor: =
+            BorderStyle: =BorderStyle.None
+            DisabledBorderColor: =RGBA(0, 255, 26, 0.38)
+            DisabledColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(30, 255, 0, 0.44)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =72
+            HoverBorderColor: =
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =
+            OnSelect: |-
+                =Refresh(Mesas_1);
+                Refresh(Reservas);
+                Select(Parent);
+                Set(var_reserva, First(Filter(Reservas, User().Email = Mail, Id_Evento = var_idEvento)));
+                
+                If(var_reserva.Id_Mesa = 0,
+                    Refresh(Mesas_1);
+                    If(ThisItem.Estado="Disponible" && ThisItem.SubEstado = true,
+                        UpdateIf(Mesas_1, ID = ThisItem.ID, {Estado: "Pendiente"});
+                        If(!IsEmpty(Errors(Mesas_1)),
+                            Refresh(Mesas_1);
+                            Notify("La mesa "&ThisItem.Numero_Mesa&" no está disponible.", NotificationType.Error)
+                        ,
+                            Patch(Reservas, var_reserva,
+                                {
+                                    'Nombre (field_4)': UsuariosdeOffice365.MyProfile().GivenName,
+                                    Apellido: UsuariosdeOffice365.MyProfile().Surname,
+                                    Id_Mesa: gal_grilla.Selected.ID,
+                                    Titular: true
+                                }
+                            );
+                            Refresh(Reservas);
+                            If(First(Sort(Filter(Reservas, Id_Evento = ThisItem.Id_Evento, Id_Mesa = ThisItem.ID), Modificado,SortOrder.Ascending)).Mail = User().Email,
+                                EditForm(frm_invitados);
+                                Navigate(scr_CrearReserva);
+                                Set(var_formInvitados,FormMode.New);
+                            ,
+                                
+                                Notify("La mesa "&ThisItem.Numero_Mesa&" no está disponible.", NotificationType.Error);
+                                UpdateIf(Reservas, ID = var_reserva.ID, {Id_Mesa: 0, Titular: false})
+                
+                            )
+                        );
+                    ,
+                        Notify("La mesa "&ThisItem.Numero_Mesa&" no está disponible.", NotificationType.Error)
+                    )
+                ,
+                    Notify("Ya tenes una mesa reservada.", NotificationType.Error);
+                    Navigate(scr_MiReserva)
+                )
+            PressedBorderColor: =
+            PressedColor: =
+            PressedFill: =RGBA(0, 0, 0, 0)
+            RadiusBottomLeft: =5
+            RadiusBottomRight: =5
+            RadiusTopLeft: =5
+            RadiusTopRight: =5
+            Text: =""
+            Width: =56
+            Y: =8
+            ZIndex: =4
+
+        gp_mesa As group:
+            Height: =5
+            Width: =5
+            X: =40
+            Y: =40
+            ZIndex: =5
+
+            lbl_estado_mesa As label:
+                BorderColor: =If(ThisItem.Estado ="Disponible", RGBA(99, 139, 44, 1), RGBA(139, 99, 44, 1))
+                BorderThickness: =2
+                Fill: =If(ThisItem.Estado ="Disponible", If(ThisItem.SubEstado = true, RGBA(0, 250, 0, 0.5), RGBA(250, 0, 0, 0.5)), RGBA(250, 0, 0, 0.5))
+                Height: =72
+                OnSelect: |-
+                    =Select(Parent); 
+                    Navigate(scr_CrearReserva)
+                Text: =""
+                Width: =56
+                X: =1
+                Y: =8
+                ZIndex: =1
+
+            lbl_numero_mesa As label:
+                Align: =Align.Center
+                FontWeight: =FontWeight.Bold
+                Height: =56
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: ="Mesa"&ThisItem.Numero_Mesa
+                Width: =56
+                X: =1
+                Y: =16
+                ZIndex: =2
+
+    lbl_version_app_1 As label:
+        Fill: =RGBA(255, 255, 255, 0)
+        Height: =32
+        Italic: =true
+        PaddingLeft: =8
+        PaddingRight: =0
+        Size: =9
+        Text: ="Santa Bárbara - "& varVersionApp
+        Width: =140
+        Y: =648
+        ZIndex: =9
+
+    btn_ver_mapa_3 As button:
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =28
+        HoverBorderColor: =
+        HoverFill: =
+        OnSelect: =Set(var_mapa,!var_mapa)
+        PressedBorderColor: =
+        PressedFill: =
+        Text: =""
+        Visible: =!var_mapa
+        Width: =60
+        X: =1280
+        Y: =137
+        ZIndex: =10
+
+    lbl_fondo_mapa As label:
+        Fill: =RGBA(255, 255, 255, 0.78)
+        Height: =693
+        Text: =""
+        Visible: =var_mapa
+        Width: =1366
+        Y: =75
+        ZIndex: =11
+
+    cvs_mapa As fluidGrid.fluidGridWithBlankCard:
+        BorderThickness: =0
+        Height: =693
+        Visible: =var_mapa
+        Width: =Parent.Width
+        Y: =75
+        ZIndex: =14
+
+        dc_mapa As dataCard:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            BorderStyle: =BorderStyle.Solid
+            BorderThickness: =0
+            DisplayMode: =DisplayMode.Edit
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =Parent.Height - 100
+            Width: =Parent.Width
+            X: =0
+            Y: =0
+            ZIndex: =1
+
+            icn_cancelarmapa As icon.Cancel:
+                Color: =RGBA(0, 0, 0, 1)
+                Height: =60
+                Icon: =Icon.Cancel
+                OnSelect: =Set(var_mapa,!var_mapa)
+                Width: =60
+                X: =1280
+                Y: =15
+                ZIndex: =1
+
+            "img_spinner_1 As 'Indicador giratorio'":
+                BasePaletteColor: =
+                DisplayMode: =DisplayMode.Edit
+                Font: =""
+                FontColor: =
+                FontItalic: =false
+                FontSize: =0
+                FontStrikethrough: =false
+                FontUnderline: =false
+                FontWeight: =""
+                Height: =692
+                SpinnerSize: ='Spinner.SpinnerSize'.Huge
+                Visible: =var_mapa
+                Width: =1126
+                X: =112
+                Y: =0
+                ZIndex: =2
+
+            img_mapa As image:
+                Height: =1347
+                Image: =First(var_Evento).Mapa1.Full
+                ImagePosition: =ImagePosition.Stretch
+                Visible: =var_mapa
+                Width: =909
+                X: =220
+                Y: =15
+                ZIndex: =3
+
+    lbl_disclaimer As label:
+        Align: =Align.Center
+        BorderThickness: =2
+        Fill: =RGBA(255, 255, 255, 0.67)
+        FontWeight: =FontWeight.Bold
+        Height: =129
+        Text: ="Para ver la ubicación de cada mesa en el salón del evento, consultá el botón PLANO DE MESAS."
+        VerticalAlign: =VerticalAlign.Bottom
+        Width: =234
+        X: =1121
+        Y: =198
+        ZIndex: =21
+
+    gp_plano_mesas As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =21
+
+        btn_plano_mesas_1 As button:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Fill: =RGBA(0, 97, 201, 1)
+            Height: =90
+            HoverBorderColor: =
+            HoverFill: =
+            OnSelect: =Set(var_mapa,!var_mapa)
+            PressedFill: =Self.Fill
+            RadiusBottomLeft: =100
+            RadiusBottomRight: =100
+            RadiusTopLeft: =100
+            RadiusTopRight: =100
+            Text: =""
+            Visible: =!var_mapa
+            Width: =90
+            X: =1193
+            Y: =90
+            ZIndex: =13
+
+        icn_ubicacion As icon.Cancel:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =40
+            Icon: =Icon.Location
+            OnSelect: =Set(var_mapa,!var_mapa)
+            Visible: =!var_mapa
+            Width: =40
+            X: =1218
+            Y: =91
+            ZIndex: =15
+
+        lbl_plano_mesas As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =49
+            Size: =11
+            Text: ="Plano mesas"
+            Visible: =!var_mapa
+            Width: =70
+            X: =1203
+            Y: =125
+            ZIndex: =16
+
+        btn_plano_mesas As button:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            BorderStyle: =BorderStyle.None
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =90
+            HoverBorderColor: =
+            HoverFill: =
+            OnSelect: |-
+                =//Set(var_mapa;!var_mapa)
+                //Launch("https://totalworkplace.sharepoint.com/_api/v2.1/drives"&Substitute(Substitute(Substitute(Last(Split(First(var_Evento).Mapa.Full; "drives")).Value; "%2F"; "/"); "%21"; "!"); "%3F"; "?"))
+                Set(var_LinkMapa, 'SantaBarbaara-ObtenerMapa_1'.Run(var_idEvento).link);
+                Launch(var_LinkMapa)
+            PressedFill: =Self.Fill
+            RadiusBottomLeft: =100
+            RadiusBottomRight: =100
+            RadiusTopLeft: =100
+            RadiusTopRight: =100
+            Text: =""
+            Visible: =!var_mapa
+            Width: =90
+            X: =1193
+            Y: =90
+            ZIndex: =17
+
+    icn_informacion_3 As icon.OpenInNewWindow:
+        Color: =RGBA(240, 98, 15, 1)
+        DisplayMode: =DisplayMode.View
+        Height: =30
+        Icon: =Icon.Information
+        Width: =30
+        X: =1223
+        Y: =206
+        ZIndex: =22
+
+    cvs_disclaimer_datos As fluidGrid.fluidGridWithBlankCard:
+        BorderThickness: =0
+        Height: =86
+        Width: =Parent.Width
+        Y: =679
+        ZIndex: =25
+
+        dc_disclaimer_datos As dataCard:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            BorderStyle: =BorderStyle.Solid
+            BorderThickness: =0
+            DisplayMode: =DisplayMode.Edit
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =211
+            Width: =Parent.Width
+            X: =0
+            Y: =0
+            ZIndex: =1
+
+            TextInput1 As text:
+                Default: |-
+                    ="Tratamiento de datos personales
+                    
+                    La recopilación de datos personales se realiza exclusivamente dentro del marco de tratamiento y según lo especificado por la Ley N° 25.326 de Protección de datos personales de la República Argentina, a los fines de realizar reservas de mesas y de tickets de estacionamiento para la fiesta de fin de año de Total Austral S.A (Santa Bárbara).
+                    De conformidad con el cumplimiento de la normativa de protección de datos, Total Austral S.A, como responsable del tratamiento basándose en el legítimo interés, trata datos de identificación de colaboradores y sus invitados.  
+                    De los colaboradores: apellido, nombre, IGG, empresa, unidad organizacional y lugar de trabajo.
+                    De los invitados: apellido y nombre.
+                    Estos datos se conservarán durante 5 años, período de tiempo estrictamente necesario para la finalidad del tratamiento.
+                    Con el fin de cumplir con el proceso de organización del evento, los datos son enviados a la empresa Berasain y Negri.
+                    Como titular del dato usted tiene derechos inherentes reconocidos por la Ley N° 25.326, art. 13. Para ejercer sus derechos puede utilizar los siguientes canales de comunicación: dirección postal: Moreno 877, piso 16, (1091) Ciudad Autónoma de Buenos Aires, atención Responsable de Gestión de Información y Documentación - Data Privacy Liaison (DPL) ó por correo electrónico ep.arg-data-protection@totalenergies.com
+                    Si considera, después de ponerse en contacto con nosotros, que no se han respetado sus derechos, puede presentar el reclamo ante la autoridad de control competente AAIP –Protección de Datos Personales. Av. Pte. Gral. Julio A. Roca 710, piso 5 - Ciudad Autónoma de Buenos Aires
+                    C1067ABP, Teléfono: (54-11) 3988-3968 ó escribiendo a datospersonales@aaip.gob.ar
+                    Última actualización de este aviso: 19 de octubre 2023
+                    "
+                DisplayMode: =DisplayMode.View
+                Fill: =RGBA(255, 255, 255, 0.66)
+                Font: =Font.Georgia
+                Height: =211
+                Mode: =TextMode.MultiLine
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =8
+                Visible: =false
+                Width: =1366
+                ZIndex: =1
+
+            lbl_disclaimer_1 As label:
+                BorderThickness: =2
+                Fill: =RGBA(255, 255, 255, 0.67)
+                FontWeight: =FontWeight.Bold
+                Height: =211
+                Size: =8
+                Text: |-
+                    ="Tratamiento de datos personales
+                    
+                    La recopilación de datos personales se realiza exclusivamente dentro del marco de tratamiento y según lo especificado por la Ley N° 25.326 de Protección de datos personales de la República Argentina, a los fines de realizar reservas de mesas y de tickets de estacionamiento para la fiesta de fin de año de Total Austral S.A (Santa Bárbara).
+                    De conformidad con el cumplimiento de la normativa de protección de datos, Total Austral S.A, como responsable del tratamiento basándose en el legítimo interés, trata datos de identificación de colaboradores y sus invitados.  
+                    De los colaboradores: apellido, nombre, IGG, empresa, unidad organizacional y lugar de trabajo.
+                    De los invitados: apellido y nombre.
+                    Estos datos se conservarán durante 5 años, período de tiempo estrictamente necesario para la finalidad del tratamiento.
+                    Con el fin de cumplir con el proceso de organización del evento, los datos son enviados a la empresa Berasain y Negri.
+                    Como titular del dato usted tiene derechos inherentes reconocidos por la Ley N° 25.326, art. 13. Para ejercer sus derechos puede utilizar los siguientes canales de comunicación: dirección postal: Moreno 877, piso 16, (1091) Ciudad Autónoma de Buenos Aires, atención Responsable de Gestión de Información y Documentación - Data Privacy Liaison (DPL) ó por correo electrónico ep.arg-data-protection@totalenergies.com
+                    Si considera, después de ponerse en contacto con nosotros, que no se han respetado sus derechos, puede presentar el reclamo ante la autoridad de control competente AAIP –Protección de Datos Personales. Av. Pte. Gral. Julio A. Roca 710, piso 5 - Ciudad Autónoma de Buenos Aires
+                    C1067ABP, Teléfono: (54-11) 3988-3968 ó escribiendo a datospersonales@aaip.gob.ar
+                    Última actualización de este aviso: 19 de octubre 2023
+                    "
+                VerticalAlign: =VerticalAlign.Top
+                Width: =1366
+                ZIndex: =2
+

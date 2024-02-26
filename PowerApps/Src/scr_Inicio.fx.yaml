@@ -1,0 +1,100 @@
+scr_Inicio As screen:
+    BackgroundImage: =
+    Fill: =RGBA(0, 200, 170, 1)
+
+    img_fondo_13 As image:
+        Height: =768
+        Image: ='subtle-prism (1)'
+        ImagePosition: =ImagePosition.Fill
+        Transparency: =0.3
+        Visible: =false
+        Width: =1366
+        ZIndex: =1
+
+    lbl_fondo_21 As label:
+        Fill: |
+            =If(First(var_Evento).Tipo_Color = "HEX", 
+                //ColorValue(First(var_Evento).Color&"33")
+                ColorValue(First(var_Evento).Color)
+            , 
+                RGBA(First(FirstN(Split(First(var_Evento).Color, ";"), 2)).Value,Last(FirstN(Split(First(var_Evento).Color, ";"), 2)).Value,Last(FirstN(Split(First(var_Evento).Color, ";"), 3)).Value, 1))
+        Height: =768
+        Text: =""
+        Width: =1366
+        ZIndex: =2
+
+    tm_temporizador As timer:
+        AutoStart: =true
+        Duration: =4500
+        OnTimerEnd: |-
+            =If(var_Admin,
+                Set(var_Pantalla,1);
+                Navigate(scr_Eventos)
+            ,
+                If(
+                    var_Estacionamiento,
+                    Navigate(scr_Estacionamiento),
+                    If(
+                        var_reserva.Id_Mesa = 0 && (Now() <= DateAdd(First(var_Evento).Fecha_Finalizacion, 1,TimeUnit.Days)) && 
+                        First(var_Evento).Estado.Value = "Activo",
+                        Navigate(scr_SeleccionMesa),
+                        Navigate(scr_MiReserva)
+                        
+                    )
+                )
+            )
+            
+            //(First(var_Evento).Fecha_Finalizacion+1)
+        Visible: =false
+        X: =60
+        Y: =60
+        ZIndex: =3
+
+    lbl_fondo_20 As label:
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =768
+        Text: =""
+        Width: =1366
+        ZIndex: =4
+
+    "img_spinner As 'Indicador giratorio'":
+        BasePaletteColor: =
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontColor: =
+        FontItalic: =false
+        FontSize: =0
+        FontStrikethrough: =false
+        FontUnderline: =false
+        FontWeight: =""
+        Height: =708
+        SpinnerSize: ='Spinner.SpinnerSize'.Huge
+        Width: =1306
+        X: =30
+        Y: =30
+        ZIndex: =5
+
+    img_promocional_2 As image:
+        BorderColor: =RGBA(0, 0, 0, 1)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =5
+        Height: =708
+        Image: =First(var_Evento).Promocional1.Full
+        ImagePosition: =ImagePosition.Stretch
+        Width: =1306
+        X: =42
+        Y: =30
+        ZIndex: =6
+
+    lbl_version_app As label:
+        Fill: =RGBA(255, 255, 255, 0)
+        Height: =32
+        Italic: =true
+        PaddingLeft: =8
+        PaddingRight: =0
+        Size: =9
+        Text: ="Santa Bárbara - "& varVersionApp
+        Width: =140
+        Y: =736
+        ZIndex: =7
+
