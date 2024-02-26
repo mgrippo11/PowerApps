@@ -1,0 +1,206 @@
+comp_Encabezado As CanvasComponent:
+    Fill: =RGBA(0, 0, 0, 0)
+    Height: =120
+    Menu_Nav: |-
+        =Table(
+            {
+                Menu: "Nueva Solicitud",
+                MenuIcon: Icon.Add,
+                MenuScreen: scr_MisSolicitudes,
+                MenuID: 1
+            },
+            {
+                Menu: "Mis Aprobaciones",
+                MenuIcon: Icon.LikeDislike,
+                MenuScreen: scr_MisSolicitudes,
+                MenuID: 3
+            },
+            {
+                Menu: "Admin",
+                MenuIcon: Icon.Globe,
+                MenuScreen: scr_MisSolicitudes,
+                MenuID: 4
+            }
+        )
+        
+        /*
+            {
+                Menu: "Mis Solicitudes";
+                MenuIcon: Icon.Person;
+                MenuScreen: scr_MisSolicitudes;
+                MenuID: 2
+            };
+        */
+    Width: =1920
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    th_Fondo As htmlViewer:
+        Height: =120
+        HtmlText: |-
+            =/*"<div style=""margin: 0px; width: 1366px; height: 60px; background-color: rgba(0,150,255,0.3); box-shadow: 0 2px 7px 0 rgba(0,0,0,0.5); border-radius:0px 0px 5px 5px
+            backdrop-filter: blur(5px)""></div>"
+            */
+            "<div style=""margin: 0px; width: 1920px; height: 100px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius:0px 0px 5px 5px;
+            box-shadow: 0 2px 7px 0 rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3)
+            
+            ""></div>"
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        Size: =12.23
+        Width: =1920
+        ZIndex: =1
+
+    lbl_Titulo As label:
+        Color: =RGBA(40, 90, 255, 1)
+        Font: =Font.'Lato Black'
+        FontWeight: =FontWeight.Bold
+        Height: =97
+        Italic: =true
+        PaddingLeft: =15
+        PaddingRight: =5.56
+        PaddingTop: =5.56
+        Size: =17
+        Text: ="Gestión de viajes - " & varVersionApp
+        Width: =286
+        X: =120
+        ZIndex: =2
+
+    img_Logo As image:
+        BorderColor: =RGBA(255, 255, 255, 1)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Fill: =RGBA(255, 255, 255, 1)
+        Image: ='logo total'
+        PaddingBottom: =10
+        PaddingLeft: =10
+        PaddingRight: =11.11
+        PaddingTop: =11.11
+        Width: =121
+        ZIndex: =3
+
+    fm_line As rectangle:
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =50
+        Width: =2.22
+        X: =403
+        Y: =23
+        ZIndex: =4
+
+    "gal_MenuNav_6 As gallery.'BrowseLayout_Horizontal_TwoTextOneImageVariant_ver5.0'":
+        Default: =First(Filter(Menu_Nav, MenuID = var_Pantalla))
+        DelayItemLoading: =true
+        Height: =92
+        Items: |-
+            =If((var_userRol.Region = "TDF" || var_userRol.Region = "NQN" || var_ActingSolicitante > 0) && var_userRol.Rol <> "Administrador",
+                Filter(Menu_Nav, Menu = "Mis Solicitudes" || Menu = "Mis Aprobaciones")
+            ,
+                Search(Menu_Nav, var_userRol.Rol, "Visible")
+            )
+        LoadingSpinner: =LoadingSpinner.Data
+        TemplatePadding: =0
+        TemplateSize: =170
+        Width: |-
+            =Switch(Text(var_userRol.Rol),
+            "Solicitante", If((Text(var_userRol.Region) = "TDF" || Text(var_userRol.Region) = "NQN" || var_ActingSolicitante > 0) && var_userRol.Rol <> "Administrador", 350, 175),
+            "Aprobador", 175,
+            "Agencia", 175,
+            "Administrador", 510
+            )
+        X: |-
+            =Switch(Text(var_userRol.Rol),
+            "Solicitante", If((Text(var_userRol.Region) = "TDF" || Text(var_userRol.Region) = "NQN" || var_ActingSolicitante > 0) && var_userRol.Rol <> "Administrador", 1409, 1584),
+            "Aprobador", 1584,
+            "Agencia", 1584,
+            "Administrador", 1234
+            )
+        Y: =5
+        ZIndex: =5
+
+        Title5_8 As label:
+            Align: =Align.Center
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Bold, FontWeight.Normal)
+            Height: =64
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =16
+            Text: =ThisItem.Menu
+            Width: =147
+            Y: =12
+            ZIndex: =2
+
+        Separator5_9 As rectangle:
+            Fill: =RGBA(40, 90, 255, 1)
+            Height: =3
+            OnSelect: =Select(Parent)
+            Visible: =var_Pantalla = ThisItem.MenuID
+            Width: =156
+            Y: =76
+            ZIndex: =3
+
+        Button5_8 As button:
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =0
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =67
+            HoverBorderColor: =
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =
+            OnSelect: |-
+                =Select(Parent);
+                Set(var_Pantalla, ThisItem.MenuID);
+                
+                Switch(var_Pantalla,
+                1,"",
+                2,
+                    Reset(dt_FechaSol);Reset(ddl_TipoViajeSol);Reset(ddl_TipoServicioSol);Reset(ddl_EmpresaSol);Reset(ddl_DireccionSol);Reset(ddl_AreaSol);Reset(cbox_CeCos);
+                    Reset(ddl_FueraPoliticaHotel); Reset(txt_JustificacionHotel);Reset(chk_Hotel);Reset(chk_Aereo);Reset(chk_Taxi);Reset(chk_AlquilerAuto);Reset(chk_Terrestre);Reset(txt_ConsumosExtra);
+                    Reset(ddl_MonedaAereo);Reset(txt_TarifaAereo);Reset(chk_FPAereo);Reset(ddl_FPAereo);Reset(txt_JustificacionAereo);
+                    Set(var_IATAOrigen, Blank());Set(var_CeCoSelect, Blank());Set(var_IATADestino, Blank());
+                    Set(var_EditSol, 0);
+                    Set(var_EditPasajero, false);
+                    Set(var_SolSelec, Patch(SolicitudesDeViajes, Defaults(SolicitudesDeViajes), {Estado:ddl_Borrador.Selected.Value})),
+                3,"",
+                4, ""
+                );
+                
+                Navigate(ThisItem.MenuScreen)
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            PressedBorderColor: =
+            PressedColor: =
+            PressedFill: =
+            Size: =16.67
+            Text: =""
+            Width: =156
+            Y: =12
+            ZIndex: =4
+
+    img_User As image:
+        Height: =75
+        Image: |-
+            =//User().Image
+            If(CountRows(UsuariosdeOffice365.SearchUser({searchTerm: User().Email, top: 1})) > 0, UsuariosdeOffice365.UserPhotoV2(User().Email))
+        RadiusBottomLeft: =50
+        RadiusBottomRight: =50
+        RadiusTopLeft: =50
+        RadiusTopRight: =50
+        Width: =75
+        X: =1828
+        Y: =11
+        ZIndex: =6
+

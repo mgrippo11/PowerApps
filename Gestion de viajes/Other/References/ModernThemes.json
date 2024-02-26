@@ -1,0 +1,28 @@
+{
+  "Themes": [
+    {
+      "EntityName": "PowerAppsTheme",
+      "ThemeName": "PowerAppsTheme"
+    },
+    {
+      "EntityName": "OrangeTheme",
+      "ThemeName": "OrangeTheme"
+    },
+    {
+      "EntityName": "PlatinumTheme",
+      "ThemeName": "PlatinumTheme"
+    },
+    {
+      "EntityName": "GreenTheme",
+      "ThemeName": "GreenTheme"
+    },
+    {
+      "EntityName": "RedTheme",
+      "ThemeName": "RedTheme"
+    },
+    {
+      "EntityName": "SteelTheme",
+      "ThemeName": "SteelTheme"
+    }
+  ]
+}

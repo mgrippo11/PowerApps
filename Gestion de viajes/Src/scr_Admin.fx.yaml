@@ -1,0 +1,4342 @@
+scr_Admin As screen:
+    Fill: =
+    OnVisible: =Refresh(SolicitudesDeViajes)
+
+    Label4_4 As label:
+        Fill: =RGBA(50, 200, 200, 1)
+        Height: =1080
+        PaddingRight: =5.56
+        PaddingTop: =5.56
+        Size: =14.45
+        Text: =""
+        Width: =1920
+        ZIndex: =1
+
+    comp_Encabezado_3 As comp_Encabezado:
+        ZIndex: =2
+
+    lbl_TituloAdmin As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Height: =94
+        PaddingRight: =5.56
+        PaddingTop: =5.56
+        Size: =27
+        Text: ="Administración"
+        Width: =425.69
+        X: =735
+        ZIndex: =3
+
+    dd_Borrardor_2 As dropdown:
+        Items: =Choices('Estado (SolicitudesDeViajes)',"Borrador")
+        PaddingRight: =11.11
+        PaddingTop: =11.11
+        Size: =14.45
+        Visible: =false
+        Width: =75.58
+        X: =1844
+        Y: =1040
+        ZIndex: =4
+
+    "ComboboxCanvas1_7 As 'Cuadro combinado'.pcfdataset":
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontItalic: =false
+        FontSize: =20
+        FontStrikethrough: =false
+        FontUnderline: =false
+        FontWeight: =""
+        Height: =45
+        InputTextPlaceholder: |-
+            ="Empresa
+            "
+        Items: =Distinct(col_Aprobadores, Empresa)
+        Width: =350
+        X: =86
+        Y: =218
+        ZIndex: =35
+
+    TextCanvas1_16 As Texto:
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontColor: =
+        FontItalic: =false
+        FontStrikethrough: =false
+        FontUnderline: =false
+        Height: =30
+        Size: =18
+        Text: |-
+            ="Empresa:"
+        Weight: ='TextCanvas.Weight'.Bold
+        Width: =106.7
+        X: =86
+        Y: =186
+        ZIndex: =36
+
+    "ComboboxCanvas1_8 As 'Cuadro combinado'.pcfdataset":
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontItalic: =false
+        FontSize: =20
+        FontStrikethrough: =false
+        FontUnderline: =false
+        FontWeight: =""
+        Height: =45
+        InputTextPlaceholder: ="Dirección"
+        Items: =If(IsBlank(ComboboxCanvas1_7.Selected.Value), [""], Distinct(Filter(col_Aprobadores, Empresa = ComboboxCanvas1_7.Selected.Value, Direccion <> "EX PATRIADOS",  Direccion <> "ADMINISTRACION DE PERSONAL"), Direccion))
+        Width: =388
+        X: =475
+        Y: =218
+        ZIndex: =37
+
+    TextCanvas1_17 As Texto:
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontColor: =
+        FontItalic: =false
+        FontStrikethrough: =false
+        FontUnderline: =false
+        Height: =30
+        Size: =18
+        Text: |-
+            ="Dirección:"
+        Weight: ='TextCanvas.Weight'.Bold
+        Width: =106.7
+        X: =475
+        Y: =186
+        ZIndex: =38
+
+    "ComboboxCanvas1_9 As 'Cuadro combinado'.pcfdataset":
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontItalic: =false
+        FontSize: =20
+        FontStrikethrough: =false
+        FontUnderline: =false
+        FontWeight: =""
+        Height: =45
+        InputTextPlaceholder: ="Area"
+        Items: =If(IsBlank(ComboboxCanvas1_8.Selected.Value), [""], Distinct(Filter(col_Aprobadores, Direccion = ComboboxCanvas1_8.Selected.Value), Area))
+        Width: =231.19
+        X: =893
+        Y: =219
+        ZIndex: =39
+
+    TextCanvas1_18 As Texto:
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontColor: =
+        FontItalic: =false
+        FontStrikethrough: =false
+        FontUnderline: =false
+        Height: =30
+        Size: =18
+        Text: |-
+            ="Area:"
+        Weight: ='TextCanvas.Weight'.Bold
+        Width: =106.7
+        X: =893
+        Y: =187
+        ZIndex: =40
+
+    Label12_22 As label:
+        Align: =Align.Center
+        Color: =RGBA(2, 45, 186, 1)
+        FontWeight: =FontWeight.Semibold
+        Height: =20
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        Size: =15
+        Text: ="Info"
+        Width: =65
+        X: =1758
+        Y: =67
+        ZIndex: =41
+
+    Icon5_40 As icon.Save:
+        Color: =RGBA(2, 45, 186, 1)
+        Height: =45
+        Icon: =Icon.Information
+        OnSelect: =Set(var_verLinks, true)
+        Width: =45
+        X: =1768
+        Y: =25
+        ZIndex: =42
+
+    Button2 As button:
+        OnSelect: |-
+            =ClearCollect(col_filtros,
+                {
+                    ID: TextInputCanvas1_4.Value,
+                    Estado: If(IsBlank(ComboboxCanvas1_4.Selected.Value), 0, ComboboxCanvas1_4.Selected.Value),
+                    Pasajero: TextInputCanvas1_5.Value,
+                    TipoVuelo: ComboboxCanvas1_5.Selected.Value,
+                    Fecha: DatePickerCanvas1_2.SelectedDate,
+                    Fecha2: DateAdd(DatePickerCanvas1_2.SelectedDate, 1,TimeUnit.Days),
+                    Empresa: ComboboxCanvas1_7.Selected.Value,
+                    Direccion: ComboboxCanvas1_8.Selected.Value,
+                    Area: ComboboxCanvas1_9.Selected.Value
+                }
+            );
+            ExportV3.Run(User().Email, JSON(col_filtros,JSONFormat.IndentFour), Concat(cmbx_ServiciosReporte.SelectedItems,Value, ","));
+        Text: ="Botón"
+        Visible: =false
+        Y: =1040
+        ZIndex: =43
+
+    icn_DescargarReporte2_1 As icon.AddDocument:
+        Color: =RGBA(255, 0, 4, 1)
+        Height: =25
+        Icon: =Icon.Lightbulb
+        OnSelect: =Set(var_ServiciosReporte, true)
+        Width: =25
+        X: =1551
+        Y: =114
+        ZIndex: =44
+
+    Label5_48 As label:
+        BorderThickness: =2
+        Fill: =RGBA(40, 112, 134, 0.65)
+        Height: =176
+        PaddingRight: =5.56
+        PaddingTop: =5.56
+        Size: =14.45
+        Text: =""
+        Visible: =var_ServiciosReporte
+        Width: =767
+        X: =1151
+        Y: =101
+        ZIndex: =45
+
+    "cmbx_ServiciosReporte As 'Cuadro combinado'.pcfdataset":
+        DefaultSelectedItems: =["Aéreo", "Hotelería", "Taxi/Remis", "Alquiler auto", "Transporte terrestre"]
+        DisplayMode: =DisplayMode.Edit
+        FontSize: =22
+        FontStrikethrough: =false
+        Height: =52
+        InputTextPlaceholder: ="Servicios"
+        Items: =["Aéreo", "Hotelería", "Taxi/Remis", "Alquiler auto", "Transporte terrestre"]
+        SelectMultiple: =true
+        Visible: =var_ServiciosReporte
+        Width: =660
+        X: =1212
+        Y: =171
+        ZIndex: =46
+
+    icn_DescargarReporte2_2 As icon.AddDocument:
+        Color: =RGBA(255, 0, 4, 1)
+        Height: =35
+        Icon: =Icon.Cancel
+        OnSelect: =Set(var_ServiciosReporte, false)
+        Visible: =var_ServiciosReporte
+        Width: =35
+        X: =1870
+        Y: =113
+        ZIndex: =47
+
+    HtmlText3_134 As htmlViewer:
+        Height: =120
+        HtmlText: |-
+            ="<div style=""margin: 0px; width: "&(Self.Width-5)&"px; height: "&(Self.Height-5)&"px; background-color: rgba(100,250,255,0.5); box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.2); border-radius:5px""></div>"
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        Size: =12.23
+        Width: =1916
+        X: =4
+        Y: =960
+        ZIndex: =48
+
+    HtmlText4_3 As htmlViewer:
+        Height: =120
+        HtmlText: |-
+            ="<strong>Tratamiento de datos personales.</strong>
+            <p>La recopilación de datos personales se realiza exclusivamente dentro del marco de tratamiento y según lo especificado por la Ley N° 25.326 de Protección de datos personales de la República Argentina, a los fines de realizar reservas de viajes corporativos en Total Austral S.A, TotalEnergies Gas Cono Sur S.A, Total Especialidades Argentina S.A, Total Eren S.A y TotalEnergies E&P Américas, LLC.</p><p>De conformidad con el cumplimiento de la normativa de protección de datos, Total Austral S.A, como responsable del tratamiento basándose en el legítimo interés, trata datos de identificación de colaboradores y eventualmente familiares de estos únicamente con el propósito de concretar reservas de viajes.
+            Los datos tratados son: apellido, nombre, tipo de documento y número, IGG, empresa, unidad organizacional y lugar de trabajo. En caso de solicitar traslado (taxi/remise, etc) se solicitará además dirección de origen y destino de los pasajeros.</p>
+            <p>Conservaremos la información a efectos de poder tramitar los servicios específicos de viajes solicitados y, posteriormente, durante el tiempo que nos permita gestionar o responder a cualquier reclamación o consulta relacionada con las reservas.</p>
+            <p>Con el fin de cumplir con el proceso de gestión del viaje, los datos son compartidos con empresas hoteleras, aerolíneas, agencias de viajes y empresas de traslados de pasajeros.</p>
+            <p>Como titular del dato usted tiene derechos inherentes reconocidos por la Ley N° 25.326, art. 13. Para ejercer sus derechos puede utilizar los siguientes canales de comunicación: dirección postal: Moreno 877, piso 16, (1091) Ciudad Autónoma de Buenos Aires, atención Responsable de Gestión de Información y Documentación - Data Privacy Liaison (DPL) ó por correo electrónico ep.arg-data-protection@totalenergies.com
+            Si considera, después de ponerse en contacto con nosotros, que no se han respetado sus derechos, puede presentar el reclamo ante la autoridad de control competente AAIP –Protección de Datos Personales. Av. Pte. Gral. Julio A. Roca 710, piso 5 - Ciudad Autónoma de Buenos Aires
+            C1067ABP, Teléfono: (54-11) 3988-3968 ó escribiendo a datospersonales@aaip.gob.ar</p>
+            <p>Última actualización de este aviso: 21 de noviembre de 2023</p>"
+        PaddingBottom: =10
+        PaddingLeft: =10
+        PaddingRight: =10
+        PaddingTop: =7
+        Size: =14
+        Width: =1920
+        Y: =960
+        ZIndex: =49
+
+    Info6 As group:
+        Height: =5
+        Width: =5
+        X: =60
+        Y: =17
+        ZIndex: =73
+
+        HtmlText1_19 As htmlViewer:
+            Height: =1080
+            HtmlText: |-
+                ="<div style=""margin: 10px; width: "&(Self.Width-15)&"px; height: "&(Self.Height-25)&"px; background-color: rgba(100,250,255,1); box-shadow: -3px 3px 3px 0 rgba(0,0,0,0.2); border-radius: 0px""></div>"
+            OnSelect: =
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =12.23
+            Visible: =var_verLinks
+            Width: =558
+            X: =1362
+            ZIndex: =50
+
+        "Gallery6_5 As gallery.'BrowseLayout_Vertical_TwoTextVariant_ver5.0'":
+            DelayItemLoading: =true
+            Height: =780
+            Items: =Filter(InfoAdicional, Tipo = "Documentación")
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            TemplatePadding: =0
+            TemplateSize: =68
+            Visible: =var_verLinks
+            Width: =540
+            X: =1379
+            Y: =90
+            ZIndex: =51
+
+            HtmlText1_18 As htmlViewer:
+                Height: =65
+                HtmlText: |-
+                    ="<div style=""margin: 0px; width: "&(Self.Width-10)&"px; height: "&(Self.Height-5)&"px; background-color: rgba(255,255,255,0.8); box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =12.23
+                Width: =533
+                X: =1
+                ZIndex: =1
+
+            Title5_5 As label:
+                FontWeight: =FontWeight.Semibold
+                Height: =59
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =15
+                Text: =ThisItem.Titulo
+                Width: =484
+                X: =8
+                ZIndex: =2
+
+            NextArrow4_5 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                Color: =RGBA(40, 90, 255, 1)
+                Height: =30
+                Icon: =Icon.ChevronRight
+                OnSelect: |-
+                    =Select(Parent);
+                    Launch(ThisItem.Link)
+                Tooltip: ="Ver los detalles del elemento"
+                Width: =30
+                X: =492
+                Y: =17
+                ZIndex: =4
+
+        Icon5_41 As icon.Save:
+            Color: =RGBA(40, 90, 255, 1)
+            Height: =44
+            Icon: =Icon.Cancel
+            OnSelect: =Set(var_verLinks, false)
+            Visible: =var_verLinks
+            Width: =45
+            X: =1865
+            Y: =10
+            ZIndex: =52
+
+        Label1_18 As label:
+            FontWeight: =FontWeight.Bold
+            Height: =37
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =27
+            Text: ="Links"
+            Visible: =var_verLinks
+            Width: =425
+            X: =1383
+            Y: =25
+            ZIndex: =53
+
+        Separator1_54 As rectangle:
+            Height: =2
+            OnSelect: =
+            Visible: =var_verLinks
+            Width: =222
+            X: =1382
+            Y: =62
+            ZIndex: =54
+
+    Galeria3 As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =76
+
+        "gal_SolicitudesAdmin As gallery.'BrowseLayout_Vertical_OneTextVariant_ver5.0'":
+            DelayItemLoading: =true
+            Height: =614
+            Items: |-
+                =SortByColumns(Search(Search(Filter(SolicitudesDeViajes, 
+                    (Estado = ComboboxCanvas1_4.Selected.Value|| ComboboxCanvas1_4.Selected.Value = Blank()) &&
+                    (TipoServicio = ComboboxCanvas1_5.Selected.Value|| ComboboxCanvas1_5.Selected.Value = Blank()) &&
+                    (FechaPartida = DatePickerCanvas1_2.SelectedDate|| DatePickerCanvas1_2.SelectedDate = Blank()) &&
+                    (Empresa = ComboboxCanvas1_7.Selected.Value|| ComboboxCanvas1_7.Selected.Value = Blank()) &&
+                    (Direccion = ComboboxCanvas1_8.Selected.Value|| ComboboxCanvas1_8.Selected.Value = Blank()) &&
+                    (Area = ComboboxCanvas1_9.Selected.Value|| ComboboxCanvas1_9.Selected.Value = Blank())
+                    ), TextInputCanvas1_4.Value, "cr3e6_solicitud"), TextInputCanvas1_5.Value, "cr3e6_pasajeros"), "cr3e6_solanexa", SortOrder.Descending, "createdon", SortOrder.Descending)
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            OnSelect: |-
+                =/*If(Label2_9.Text = "Borrador" || Label2_9.Text = "Solicitud de Modificación" || ThisItem.NAprobacion = 1; Set(var_EditSol; 1);Set(var_EditSol; 2));;
+                Set(var_EditPasajero; false);;
+                Set(var_SolSelec; ThisItem);;
+                Navigate(scr_NuevaSolicitud);;
+                */
+                If(Label2_38.Text = "Borrador" || Label2_38.Text = "Solicitud de Modificación" || ThisItem.NAprobacion = 1, Set(var_EditSol, 1), Set(var_EditSol, 2));
+                Set(var_CeCoSelect, ThisItem.CentroCosto);
+                Set(var_EditPasajero, false);
+                Set(var_dc_Pasajeros, true);
+                Set(var_SolSelec, ThisItem);
+                Set(var_validacion, false);
+                Navigate(scr_NuevaSolicitud);
+            ShowScrollbar: =false
+            TemplatePadding: =0
+            TemplateSize: =68
+            Transition: =Transition.Pop
+            Width: =1864
+            Y: =346
+            ZIndex: =7
+
+            HtmlText1_3 As htmlViewer:
+                Height: =65
+                HtmlText: |-
+                    ="<div style=""margin: 0px; width: "&(Self.Width-10)&"px; height: "&(Self.Height-5)&"px; background-color: "&If(ThisItem.IsSelected,"rgba(180,215,225,0.9)","rgba(255,255,255,0.8)")&"; box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =12.23
+                Width: =1755
+                X: =80
+                ZIndex: =1
+
+            Label2_14 As label:
+                FontWeight: =FontWeight.Semibold
+                Height: =55
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                Size: =15
+                Text: =ThisItem.Solicitud
+                Width: =60
+                X: =107
+                ZIndex: =4
+
+            Label2_38 As label:
+                Align: =Align.Center
+                Height: =55
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                Size: =16
+                Text: =ThisItem.Estado
+                Width: =205
+                X: =167
+                ZIndex: =5
+
+            Label2_39 As label:
+                Align: =Align.Center
+                Height: =55
+                Size: =15
+                Text: |-
+                    =//Last(Filter(Pasajeros; IdSolicitud = ThisItem.Id)).Nombre&" "&First(Filter(Pasajeros; IdSolicitud = ThisItem.Id)).Apellido
+                    //Concat(Filter(Pasajeros; IdSolicitud = ThisItem.Id); NombreApellido; ", ")
+                    First(Split(ThisItem.Pasajeros, ", ")).Value& If(CountRows(Split(ThisItem.Pasajeros, ", ")) > 1, " +"& CountRows(Split(ThisItem.Pasajeros, ", "))-1)
+                Tooltip: =ThisItem.Pasajeros
+                Width: =375
+                X: =372
+                ZIndex: =6
+
+            Label2_40 As label:
+                Align: =Align.Center
+                Height: =55
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                Size: =16
+                Text: =ThisItem.TipoViaje
+                Width: =242
+                X: =749
+                ZIndex: =7
+
+            Label2_41 As label:
+                Align: =Align.Center
+                Height: =55
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                Size: =16
+                Text: =ThisItem.TipoServicio
+                Width: =175
+                X: =993
+                ZIndex: =8
+
+            Label2_42 As label:
+                Align: =Align.Center
+                Height: =55
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                Size: =16
+                Text: |-
+                    =//ThisItem.Pais&", "&ThisItem.Ciudad
+                    //If(IsBlank(First(Filter(Tramos; IdSolicitud = ThisItem.Id)).PaisDestino) || IsBlank(First(Filter(Tramos; IdSolicitud = ThisItem.Id)).CiudadDestino); ""; First(Filter(Tramos; IdSolicitud = ThisItem.Id)).PaisDestino&", "&First(Filter(Tramos; IdSolicitud = ThisItem.Id)).CiudadDestino)
+                    ThisItem.RutaVuelo
+                Width: =275
+                X: =1168
+                ZIndex: =9
+
+            Label2_43 As label:
+                Align: =Align.Center
+                Height: =55
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                Size: =16
+                Text: |-
+                    =Text(First(Sort(Filter(Tramos, IdSolicitud = ThisItem.Id), FechaPartida, SortOrder.Ascending)).FechaPartida, "dd/mm/yyyy")
+                    //&" "&Text(Last(Sort(Filter(Tramos; IdSolicitud = ThisItem.Id); FechaLlegada; SortOrder.Ascending)).FechaLlegada; "dd/mm/yyyy")
+                Width: =169
+                X: =1444
+                ZIndex: =11
+
+            Label2_44 As label:
+                Align: =Align.Center
+                Height: =55
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                Size: =16
+                Text: |-
+                    =Text(ThisItem.'Created On', "dd/mm/yyyy hh:mm")
+                Width: =201
+                X: =1619
+                ZIndex: =12
+
+            Button1_1 As button:
+                BorderStyle: =BorderStyle.None
+                DisplayMode: =DisplayMode.View
+                Fill: |
+                    =Switch(Label2_38.Text,
+                        "Borrador", RGBA(0, 176, 255, 1),
+                        "Pendiente de aprobación", RGBA(255, 100, 100, 1),
+                        "Rechazada", RGBA(255, 1, 1, 1),
+                        "Solicitud de Modificación", RGBA(236, 255, 0, 1),
+                        "Pendiente de emisión", RGBA(255, 0, 236, 1),
+                        "Cerrada", RGBA(0, 189, 66, 1)
+                    )
+                Height: =15
+                OnSelect: =Select(Parent)
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                RadiusBottomLeft: =3
+                RadiusBottomRight: =3
+                RadiusTopLeft: =3
+                RadiusTopRight: =3
+                Size: =16.67
+                Text: =""
+                Width: =15
+                X: =92
+                Y: =21
+                ZIndex: =14
+
+        HtmlText1_4 As htmlViewer:
+            Height: =65
+            HtmlText: |-
+                ="<div style=""margin: 0px; width: "&(Self.Width-5)&"px; height: "&(Self.Height-5)&"px; background-color: rgba(56,76,178,0.9); box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+            OnSelect: =
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =12.23
+            Width: =1750
+            X: =77
+            Y: =277
+            ZIndex: =8
+
+        Label2_6 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =52
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="ID"
+            Width: =71
+            X: =94
+            Y: =283
+            ZIndex: =9
+
+        Label2_45 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =52
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Estado"
+            Width: =205
+            X: =165
+            Y: =283
+            ZIndex: =10
+
+        Label2_46 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =52
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: |-
+                ="Pasajeros
+                "
+            Width: =388
+            X: =355
+            Y: =283
+            ZIndex: =11
+
+        Label2_47 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =52
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Tipo de viaje"
+            Width: =244
+            X: =744
+            Y: =283
+            ZIndex: =12
+
+        Label2_48 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =52
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Tipo de servicio"
+            Width: =176
+            X: =988
+            Y: =283
+            ZIndex: =13
+
+        Label2_49 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =52
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Ruta"
+            Width: =275
+            X: =1164
+            Y: =283
+            ZIndex: =14
+
+        Label2_50 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =52
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Fecha de servicio"
+            Width: =172
+            X: =1439
+            Y: =283
+            ZIndex: =15
+
+        Label2_51 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =52
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Fecha de carga"
+            Width: =201
+            X: =1611
+            Y: =283
+            ZIndex: =16
+
+    Filtros5 As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =77
+
+        icn_DescargarReporte2 As icon.AddDocument:
+            Color: =RGBA(2, 45, 186, 1)
+            Height: =40
+            Icon: =Icon.Download
+            OnSelect: |
+                =ClearCollect(col_filtros,
+                    {
+                        ID: TextInputCanvas1_4.Value,
+                        Estado: If(IsBlank(ComboboxCanvas1_4.Selected.Value), 0, ComboboxCanvas1_4.Selected.Value),
+                        Pasajero: TextInputCanvas1_5.Value,
+                        TipoVuelo: ComboboxCanvas1_5.Selected.Value,
+                        Fecha: DatePickerCanvas1_2.SelectedDate,
+                        Fecha2: DateAdd(DatePickerCanvas1_2.SelectedDate, 1,TimeUnit.Days),
+                        Empresa: ComboboxCanvas1_7.Selected.Value,
+                        Direccion: ComboboxCanvas1_8.Selected.Value,
+                        Area: ComboboxCanvas1_9.Selected.Value
+                    }
+                );
+                //ExportV2.Run(User().Email; JSON(col_filtros;JSONFormat.IndentFour));;
+                ExportV3.Run(User().Email, JSON(col_filtros,JSONFormat.IndentFour), Concat(cmbx_ServiciosReporte.SelectedItems,Value, ","));
+                Notify("La exportación esta en curso. Se enviara un mail a la casilla '" &User().Email& "' cuando este listo.", NotificationType.Success);
+            Width: =40
+            X: =1515
+            Y: =118
+            ZIndex: =5
+
+        icn_ABM As icon.AddDocument:
+            Color: =RGBA(2, 45, 186, 1)
+            Height: =40
+            Icon: =Icon.Settings
+            OnSelect: |-
+                =Set(var_ABMs, true); Set(var_EditRol, false);
+                ClearCollect(col_Empresa, Sort(Distinct(col_Aprobadores, Empresa),Value, SortOrder.Ascending));
+                Collect(col_Empresa, {Value: "OTRO"})
+            Width: =40
+            X: =1655
+            Y: =118
+            ZIndex: =6
+
+        "TextInputCanvas1_4 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =45
+            Placeholder: ="ID"
+            ValidationState: ="None"
+            Value: =""
+            Width: =84
+            X: =86
+            Y: =138
+            ZIndex: =17
+
+        "TextInputCanvas1_5 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =45
+            Placeholder: ="Pasajero"
+            ValidationState: ="None"
+            Width: =195.62
+            X: =473
+            Y: =138
+            ZIndex: =18
+
+        "ComboboxCanvas1_5 As 'Cuadro combinado'.pcfdataset":
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =45
+            InputTextPlaceholder: ="Tipo de servicio"
+            Items: =["Nacional", "Internacional"]
+            Width: =189
+            X: =704
+            Y: =138
+            ZIndex: =19
+
+        "ComboboxCanvas1_4 As 'Cuadro combinado'.pcfdataset":
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =45
+            InputTextPlaceholder: ="Estado"
+            Items: =Choices('Estado (SolicitudesDeViajes)')
+            Width: =231.19
+            X: =205
+            Y: =138
+            ZIndex: =20
+
+        "DatePickerCanvas1_2 As 'Selector de fecha'":
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =45
+            Placeholder: ="Seleccionar fecha"
+            ValidationState: ="None"
+            Width: =222
+            X: =929
+            Y: =138
+            ZIndex: =21
+
+        TextCanvas1_10 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =30
+            Size: =18
+            Text: |-
+                ="ID:"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =84
+            X: =86
+            Y: =107
+            ZIndex: =22
+
+        TextCanvas1_11 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =30
+            Size: =18
+            Text: |-
+                ="Estado:"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =106.7
+            X: =205
+            Y: =106
+            ZIndex: =23
+
+        TextCanvas1_12 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =30
+            Size: =18
+            Text: |-
+                ="Pasajero:"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =106.7
+            X: =473
+            Y: =107
+            ZIndex: =24
+
+        TextCanvas1_13 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =30
+            Size: =18
+            Text: |-
+                ="Tipo de servicio:"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =172
+            X: =704
+            Y: =107
+            ZIndex: =25
+
+        TextCanvas1_14 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =30
+            Size: =18
+            Text: |-
+                ="Fecha de partida:"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =191
+            X: =929
+            Y: =107
+            ZIndex: =26
+
+        icn_BorrarFiltros3 As icon.AddDocument:
+            Color: =RGBA(2, 45, 186, 1)
+            Height: =40
+            Icon: =Icon.Erase
+            OnSelect: |
+                =Reset(TextInputCanvas1_4);Reset(ComboboxCanvas1_4);Reset(TextInputCanvas1_5);Reset(ComboboxCanvas1_5);Reset(DatePickerCanvas1_2);
+                Reset(ComboboxCanvas1_7);Reset(ComboboxCanvas1_8);Reset(ComboboxCanvas1_9);
+            Width: =40
+            X: =1229
+            Y: =118
+            ZIndex: =27
+
+        Icon1_11 As icon.AddDocument:
+            Height: =45
+            Icon: =Icon.Cancel
+            OnSelect: =Reset(TextInputCanvas1_5)
+            Width: =20
+            X: =645
+            Y: =137
+            ZIndex: =28
+
+        Icon1_9 As icon.AddDocument:
+            Height: =45
+            Icon: =Icon.Cancel
+            OnSelect: =Reset(TextInputCanvas1_4)
+            Width: =20
+            X: =141
+            Y: =138
+            ZIndex: =29
+
+        icn_Refrescar3 As icon.AddDocument:
+            Color: =RGBA(2, 45, 186, 1)
+            Height: =40
+            Icon: =Icon.Reload
+            OnSelect: |-
+                =Refresh(SolicitudesDeViajes);
+                Refresh(Aprobaciones)
+            Width: =40
+            X: =1365
+            Y: =118
+            ZIndex: =30
+
+        Label12_29 As label:
+            Align: =Align.Center
+            Color: =RGBA(2, 45, 186, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =25
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =14
+            Text: ="Refrescar"
+            Width: =95
+            X: =1337
+            Y: =162
+            ZIndex: =31
+
+        Label12_30 As label:
+            Align: =Align.Center
+            Color: =RGBA(2, 45, 186, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =25
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =14
+            Text: ="Borrar filtros"
+            Width: =134
+            X: =1182
+            Y: =162
+            ZIndex: =32
+
+        Label12_31 As label:
+            Align: =Align.Center
+            Color: =RGBA(2, 45, 186, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =25
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =14
+            Text: ="Descargar reporte"
+            Width: =185
+            X: =1442
+            Y: =162
+            ZIndex: =33
+
+        Label12_32 As label:
+            Align: =Align.Center
+            Color: =RGBA(2, 45, 186, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =25
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =14
+            Text: ="ABMs"
+            Width: =112
+            X: =1619
+            Y: =162
+            ZIndex: =34
+
+    ABM_Info As group:
+        Height: =5
+        Width: =5
+        X: =20
+        Y: =20
+        ZIndex: =118
+
+        "gal_InfoABM As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+            DelayItemLoading: =true
+            Height: =656
+            Items: =Sort(Search(Filter(InfoAdicional, Tipo = "Documentacion"),txt_BuscardorABM.Value, "cr3e6_column1"), Tipo, SortOrder.Ascending)
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            TemplatePadding: =0
+            TemplateSize: =97
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Información Adicional"
+            Width: =457
+            X: =628
+            Y: =264
+            ZIndex: =95
+
+            HtmlText1_22 As htmlViewer:
+                Height: =89
+                HtmlText: |-
+                    ="<div style=""margin: 0px; width: "&(Self.Width-10)&"px; height: "&(Self.Height-5)&"px; background-color: "&If(ThisItem.IsSelected,"rgba(180,215,225,0.9)","rgba(255,255,255,0.8)")&"; box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =12.23
+                Width: =457
+                ZIndex: =1
+
+            Title1_57 As label:
+                FontWeight: =FontWeight.Bold
+                Height: =80
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =16
+                Text: =ThisItem.Titulo
+                Width: =373
+                ZIndex: =2
+
+            NextArrow1_49 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                Color: =RGBA(40, 90, 255, 1)
+                Height: =25
+                Icon: =Icon.Edit
+                OnSelect: |-
+                    =Select(Parent);
+                    Set(var_EditRol, true);
+                Tooltip: ="Ver los detalles del elemento"
+                Width: =25
+                X: =373
+                Y: =55
+                ZIndex: =3
+
+            NextArrow1_51 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                Color: =RGBA(255, 0, 0, 1)
+                Height: =25
+                Icon: =Icon.Trash
+                OnSelect: |-
+                    =Select(Parent);
+                    Set(var_EditRol, false);
+                    Remove(InfoAdicional, ThisItem)
+                Tooltip: ="Ver los detalles del elemento"
+                Width: =25
+                X: =414
+                Y: =55
+                ZIndex: =6
+
+            Button5 As button:
+                Height: =28
+                OnSelect: =Launch(ThisItem.Link)
+                Text: ="Link"
+                Width: =65
+                X: =373
+                Y: =11
+                ZIndex: =11
+
+        "TextInputCanvas2_64 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =RGBA(255, 255, 255, 1)
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            ValidationState: ="None"
+            Value: |
+                =If(var_EditRol,
+                gal_InfoABM.Selected.Titulo
+                )
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Información Adicional"
+            Width: =506
+            X: =1163
+            Y: =295
+            ZIndex: =96
+
+        TextCanvas2_99 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Título de la documentación"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Información Adicional"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =308
+            X: =1163
+            Y: =260
+            ZIndex: =97
+
+        "TextInputCanvas2_73 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =322
+            Mode: ='TextInputCanvas.Mode'.Multiline
+            ValidationState: ="None"
+            Value: |-
+                =If(var_EditRol,
+                gal_InfoABM.Selected.Link
+                )
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Información Adicional"
+            Width: =503
+            X: =1166
+            Y: =369
+            ZIndex: =98
+
+        TextCanvas2_108 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Link"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Información Adicional"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =226.74
+            X: =1166
+            Y: =334
+            ZIndex: =99
+
+        Icon4_12 As icon.Add:
+            Color: =RGBA(40, 90, 255, 1)
+            Height: =45
+            Icon: =If(var_EditRol, Icon.Save ,Icon.Add)
+            OnSelect: |-
+                =Patch(InfoAdicional, If(var_EditRol, gal_InfoABM.Selected, Defaults(InfoAdicional)), 
+                {Titulo: TextInputCanvas2_64.Value, Link: TextInputCanvas2_73.Value, Tipo: "Documentación"});
+                
+                Reset(TextInputCanvas2_55); Reset(TextInputCanvas2_73);
+                
+                Set(var_EditRol, false)
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Información Adicional"
+            Width: =45
+            X: =1610
+            Y: =216
+            ZIndex: =100
+
+        Label1_28 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Información Adicional"
+            Width: =17
+            X: =1148
+            Y: =263
+            ZIndex: =101
+
+        Label1_26 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Información Adicional"
+            Width: =17
+            X: =1151
+            Y: =334
+            ZIndex: =102
+
+    ABM_CeCos As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =126
+
+        "gal_CeCosABM As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+            DelayItemLoading: =true
+            Height: =656
+            Items: =Search(CentrosCostos, txt_BuscardorABM.Value, "cr3e6_column1", "cr3e6_descripcion")
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            TemplatePadding: =0
+            TemplateSize: =74
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Centro de Costos"
+            Width: =457
+            X: =628
+            Y: =265
+            ZIndex: =103
+
+            HtmlText1_23 As htmlViewer:
+                Height: =70
+                HtmlText: |-
+                    ="<div style=""margin: 0px; width: "&(Self.Width-10)&"px; height: "&(Self.Height-5)&"px; background-color: "&If(ThisItem.IsSelected,"rgba(180,215,225,0.9)","rgba(255,255,255,0.8)")&"; box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =12.23
+                Width: =457
+                ZIndex: =1
+
+            Title1_59 As label:
+                FontWeight: =FontWeight.Semibold
+                Height: =30
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =ThisItem.Departamento
+                VerticalAlign: =VerticalAlign.Top
+                Width: =373
+                Y: =38
+                ZIndex: =2
+
+            NextArrow1_52 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                Color: =RGBA(40, 90, 255, 1)
+                Height: =25
+                Icon: =Icon.Edit
+                OnSelect: |-
+                    =Select(Parent);
+                    Set(var_EditRol, true);
+                Tooltip: ="Ver los detalles del elemento"
+                Width: =25
+                X: =373
+                Y: =35
+                ZIndex: =3
+
+            NextArrow1_53 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                Color: =RGBA(255, 0, 0, 1)
+                Height: =25
+                Icon: =Icon.Trash
+                OnSelect: |-
+                    =Select(Parent);
+                    Set(var_EditRol, false);
+                    Remove(CentrosCostos, ThisItem)
+                Tooltip: ="Ver los detalles del elemento"
+                Width: =25
+                X: =414
+                Y: =35
+                ZIndex: =6
+
+            Title1_60 As label:
+                FontWeight: =FontWeight.Bold
+                Height: =35
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =18
+                Text: =ThisItem.CentroCostos
+                VerticalAlign: =VerticalAlign.Top
+                Width: =439
+                Y: =5
+                ZIndex: =10
+
+        "TextInputCanvas2_65 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =RGBA(255, 255, 255, 1)
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            ValidationState: ="None"
+            Value: |
+                =If(var_EditRol,
+                gal_CeCosABM.Selected.Departamento
+                )
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Centro de Costos"
+            Width: =506
+            X: =1163
+            Y: =375
+            ZIndex: =104
+
+        TextCanvas2_102 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Departamento"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Centro de Costos"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =228.96
+            X: =1163
+            Y: =340
+            ZIndex: =105
+
+        TextCanvas2_106 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Centro de Costo"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Centro de Costos"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =202
+            X: =1163
+            Y: =266
+            ZIndex: =106
+
+        "TextInputCanvas2_77 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =122
+            Mode: ='TextInputCanvas.Mode'.Multiline
+            ValidationState: ="None"
+            Value: |-
+                =If(var_EditRol,
+                gal_CeCosABM.Selected.Descripcion
+                )
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Centro de Costos"
+            Width: =503
+            X: =1163
+            Y: =449
+            ZIndex: =107
+
+        TextCanvas2_109 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Descripción"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Centro de Costos"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =226.74
+            X: =1163
+            Y: =414
+            ZIndex: =108
+
+        Icon4_14 As icon.Add:
+            Color: =RGBA(40, 90, 255, 1)
+            Height: =45
+            Icon: =If(var_EditRol, Icon.Save ,Icon.Add)
+            OnSelect: |-
+                =Patch(CentrosCostos, If(var_EditRol, gal_CeCosABM.Selected, Defaults(CentrosCostos)), 
+                {CentroCostos: TextInputCanvas2_66.Value, Departamento: TextInputCanvas2_65.Value, Descripcion: TextInputCanvas2_77.Value});
+                
+                Reset(TextInputCanvas2_66); Reset(TextInputCanvas2_65); Reset(TextInputCanvas2_77);
+                Set(var_EditRol, false)
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Centro de Costos"
+            Width: =45
+            X: =1610
+            Y: =217
+            ZIndex: =109
+
+        Label1_30 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Centro de Costos"
+            Width: =17
+            X: =1148
+            Y: =343
+            ZIndex: =110
+
+        Label1_29 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Centro de Costos"
+            Width: =17
+            X: =1148
+            Y: =414
+            ZIndex: =111
+
+        Label1_27 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Centro de Costos"
+            Width: =17
+            X: =1148
+            Y: =268
+            ZIndex: =112
+
+        "TextInputCanvas2_66 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =RGBA(255, 255, 255, 1)
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            ValidationState: ="None"
+            Value: |
+                =If(var_EditRol,
+                gal_CeCosABM.Selected.CentroCostos
+                )
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Centro de Costos"
+            Width: =506
+            X: =1163
+            Y: =302
+            ZIndex: =113
+
+    ABM_CompAerea As group:
+        Height: =5
+        Width: =5
+        X: =20
+        Y: =20
+        ZIndex: =137
+
+        "gal_CompaniasAereasABM As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+            DelayItemLoading: =true
+            Height: =656
+            Items: =Sort(Search(Filter(InfoAdicional, Tipo = "Aerolinea"),txt_BuscardorABM.Value, "cr3e6_column1"), Titulo, SortOrder.Ascending)
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            TemplatePadding: =0
+            TemplateSize: =97
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Compañías Aéreas"
+            Width: =457
+            X: =628
+            Y: =266
+            ZIndex: =114
+
+            HtmlText1_24 As htmlViewer:
+                Height: =93
+                HtmlText: |-
+                    ="<div style=""margin: 0px; width: "&(Self.Width-10)&"px; height: "&(Self.Height-5)&"px; background-color: "&If(ThisItem.IsSelected,"rgba(180,215,225,0.9)","rgba(255,255,255,0.8)")&"; box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =12.23
+                Width: =457
+                ZIndex: =1
+
+            Title1_61 As label:
+                FontWeight: =FontWeight.Bold
+                Height: =75
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =16
+                Text: =ThisItem.Titulo
+                Width: =373
+                Y: =5
+                ZIndex: =2
+
+            NextArrow1_54 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                Color: =RGBA(40, 90, 255, 1)
+                Height: =25
+                Icon: =Icon.Edit
+                OnSelect: |-
+                    =Select(Parent);
+                    Set(var_EditRol, true);
+                Tooltip: ="Ver los detalles del elemento"
+                Width: =25
+                X: =373
+                Y: =55
+                ZIndex: =3
+
+            NextArrow1_55 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                Color: =RGBA(255, 0, 0, 1)
+                Height: =25
+                Icon: =Icon.Trash
+                OnSelect: |-
+                    =Select(Parent);
+                    Set(var_EditRol, false);
+                    Remove(InfoAdicional, ThisItem)
+                Tooltip: ="Ver los detalles del elemento"
+                Width: =25
+                X: =414
+                Y: =55
+                ZIndex: =6
+
+            Button5_1 As button:
+                Height: =28
+                OnSelect: =Launch(ThisItem.Link)
+                Text: ="Link"
+                Width: =64
+                X: =373
+                Y: =11
+                ZIndex: =11
+
+        "TextInputCanvas2_69 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =RGBA(255, 255, 255, 1)
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            ValidationState: ="None"
+            Value: |
+                =If(var_EditRol,
+                gal_CompaniasAereasABM.Selected.Titulo
+                )
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Compañías Aéreas"
+            Width: =506
+            X: =1163
+            Y: =285
+            ZIndex: =115
+
+        TextCanvas2_103 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Nombre de la aerolínea"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Compañías Aéreas"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =228.96
+            X: =1163
+            Y: =250
+            ZIndex: =116
+
+        "TextInputCanvas2_90 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =212
+            Mode: ='TextInputCanvas.Mode'.Multiline
+            ValidationState: ="None"
+            Value: |-
+                =If(var_EditRol,
+                gal_CompaniasAereasABM.Selected.Link
+                )
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Compañías Aéreas"
+            Width: =503
+            X: =1166
+            Y: =438
+            ZIndex: =117
+
+        TextCanvas2_110 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Link"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Compañías Aéreas"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =226.74
+            X: =1166
+            Y: =403
+            ZIndex: =118
+
+        Icon4_15 As icon.Add:
+            Color: =RGBA(40, 90, 255, 1)
+            Height: =45
+            Icon: =If(var_EditRol, Icon.Save ,Icon.Add)
+            OnSelect: |-
+                =Patch(InfoAdicional, If(var_EditRol, gal_CompaniasAereasABM.Selected, Defaults(InfoAdicional)), 
+                {Titulo: TextInputCanvas2_69.Value, Link: TextInputCanvas2_90.Value, Tipo: "Aerolinea", CodigoAerolinea: Value(TextInputCanvas2_74.Value)});
+                
+                Reset(TextInputCanvas2_69); Reset(TextInputCanvas2_90);
+                
+                Set(var_EditRol, false)
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Compañías Aéreas"
+            Width: =45
+            X: =1610
+            Y: =218
+            ZIndex: =119
+
+        Label1_33 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Compañías Aéreas"
+            Width: =17
+            X: =1148
+            Y: =253
+            ZIndex: =120
+
+        Label1_32 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Compañías Aéreas"
+            Width: =17
+            X: =1151
+            Y: =403
+            ZIndex: =121
+
+    ABM_IATA As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =153
+
+        "gal_IATAABM As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+            DelayItemLoading: =true
+            Height: =656
+            Items: =Search(CodigosIATA, txt_BuscardorABM.Value, "cr3e6_column1", "cr3e6_column2", "cr3e6_column6", "cr3e6_column5")
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            TemplatePadding: =0
+            TemplateSize: =100
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Rutas Aereas"
+            Width: =457
+            X: =628
+            Y: =265
+            ZIndex: =122
+
+            HtmlText1_25 As htmlViewer:
+                Height: =98
+                HtmlText: |-
+                    ="<div style=""margin: 0px; width: "&(Self.Width-10)&"px; height: "&(Self.Height-5)&"px; background-color: "&If(ThisItem.IsSelected,"rgba(180,215,225,0.9)","rgba(255,255,255,0.8)")&"; box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =12.23
+                Width: =457
+                ZIndex: =1
+
+            Title1_63 As label:
+                FontWeight: =FontWeight.Semibold
+                Height: =30
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =ThisItem.Ciudad
+                VerticalAlign: =VerticalAlign.Top
+                Width: =373
+                Y: =38
+                ZIndex: =2
+
+            NextArrow1_56 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                Color: =RGBA(40, 90, 255, 1)
+                Height: =25
+                Icon: =Icon.Edit
+                OnSelect: |-
+                    =Select(Parent);
+                    Set(var_EditRol, true);
+                Tooltip: ="Ver los detalles del elemento"
+                Width: =25
+                X: =373
+                Y: =35
+                ZIndex: =3
+
+            NextArrow1_57 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                Color: =RGBA(255, 0, 0, 1)
+                Height: =25
+                Icon: =Icon.Trash
+                OnSelect: |-
+                    =Select(Parent);
+                    Set(var_EditRol, false);
+                    Remove(CodigosIATA, ThisItem)
+                Tooltip: ="Ver los detalles del elemento"
+                Width: =25
+                X: =414
+                Y: =35
+                ZIndex: =6
+
+            Title1_62 As label:
+                FontWeight: =FontWeight.Bold
+                Height: =35
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =18
+                Text: =ThisItem.Pais
+                VerticalAlign: =VerticalAlign.Top
+                Width: =439
+                Y: =5
+                ZIndex: =10
+
+            Title1_64 As label:
+                FontWeight: =FontWeight.Semibold
+                Height: =30
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =ThisItem.Aeropuerto
+                VerticalAlign: =VerticalAlign.Top
+                Width: =457
+                Y: =68
+                ZIndex: =11
+
+        "TextInputCanvas2_70 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =RGBA(255, 255, 255, 1)
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            ValidationState: ="None"
+            Value: |
+                =If(var_EditRol,
+                gal_IATAABM.Selected.Ciudad
+                )
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Rutas Aereas"
+            Width: =506
+            X: =1163
+            Y: =375
+            ZIndex: =123
+
+        TextCanvas2_104 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Ciudad"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Rutas Aereas"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =228.96
+            X: =1163
+            Y: =340
+            ZIndex: =124
+
+        TextCanvas2_107 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Pais"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Rutas Aereas"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =202
+            X: =1163
+            Y: =266
+            ZIndex: =125
+
+        "TextInputCanvas2_91 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            Mode: ='TextInputCanvas.Mode'.Multiline
+            ValidationState: ="None"
+            Value: |-
+                =If(var_EditRol,
+                gal_IATAABM.Selected.Aeropuerto
+                )
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Rutas Aereas"
+            Width: =503
+            X: =1163
+            Y: =449
+            ZIndex: =126
+
+        TextCanvas2_111 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Aeropuerto"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Rutas Aereas"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =226.74
+            X: =1163
+            Y: =414
+            ZIndex: =127
+
+        Icon4_16 As icon.Add:
+            Color: =RGBA(40, 90, 255, 1)
+            Height: =45
+            Icon: =If(var_EditRol, Icon.Save ,Icon.Add)
+            OnSelect: |-
+                =Patch(CodigosIATA, If(var_EditRol, gal_IATAABM.Selected, Defaults(CodigosIATA)), 
+                {Pais: TextInputCanvas2_72.Value, Ciudad: TextInputCanvas2_70.Value, Aeropuerto: TextInputCanvas2_91.Value, iataCod: TextInputCanvas2_92.Value});
+                
+                Reset(TextInputCanvas2_72); Reset(TextInputCanvas2_70); Reset(TextInputCanvas2_91); Reset(TextInputCanvas2_92);
+                
+                Set(var_EditRol, false)
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Rutas Aereas"
+            Width: =45
+            X: =1610
+            Y: =217
+            ZIndex: =128
+
+        Label1_35 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Rutas Aereas"
+            Width: =17
+            X: =1148
+            Y: =343
+            ZIndex: =129
+
+        Label1_34 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Rutas Aereas"
+            Width: =17
+            X: =1148
+            Y: =414
+            ZIndex: =130
+
+        Label1_31 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Rutas Aereas"
+            Width: =17
+            X: =1148
+            Y: =268
+            ZIndex: =131
+
+        "TextInputCanvas2_72 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =RGBA(255, 255, 255, 1)
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            ValidationState: ="None"
+            Value: |-
+                =If(var_EditRol,
+                gal_IATAABM.Selected.Pais
+                )
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Rutas Aereas"
+            Width: =506
+            X: =1163
+            Y: =302
+            ZIndex: =132
+
+        "TextInputCanvas2_92 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            Mode: ='TextInputCanvas.Mode'.Multiline
+            ValidationState: ="None"
+            Value: |-
+                =If(var_EditRol,
+                gal_IATAABM.Selected.iataCod
+                )
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Rutas Aereas"
+            Width: =503
+            X: =1163
+            Y: =525
+            ZIndex: =133
+
+        TextCanvas2_112 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Código IATA"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Rutas Aereas"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =226.74
+            X: =1163
+            Y: =490
+            ZIndex: =134
+
+        Label1_36 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Rutas Aereas"
+            Width: =17
+            X: =1148
+            Y: =490
+            ZIndex: =135
+
+    gp_ABMs As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =177
+
+        Label5_47 As label:
+            Fill: =RGBA(40, 112, 134, 0.65)
+            Height: =1079
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =14.45
+            Text: =""
+            Visible: =var_ABMs
+            Width: =1920
+            Y: =1
+            ZIndex: =55
+
+        HtmlText3_120 As htmlViewer:
+            Height: =836
+            HtmlText: |-
+                ="<div style=""margin: 0px; width: "&(Self.Width-13)&"px; height: "&(Self.Height-13)&"px; background-color: rgba(100,250,255,1); box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.2); border-radius:5px""></div>"
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =12.23
+            Visible: =var_ABMs
+            Width: =1598
+            X: =141
+            Y: =120
+            ZIndex: =56
+
+        Label1_7 As label:
+            Align: =Align.Center
+            FontWeight: =FontWeight.Bold
+            Height: =57
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =22.23
+            Text: =gal_ABMs.Selected.Value
+            Underline: =true
+            Visible: =var_ABMs
+            Width: =926
+            X: =627
+            Y: =138
+            ZIndex: =57
+
+        icn_CerrarABM As icon.Save:
+            Color: =RGBA(40, 90, 255, 1)
+            Height: =45
+            Icon: =Icon.Cancel
+            OnSelect: =Set(var_ABMs, false);Set(var_EditRol, false);Set(var_RolSelect, Blank());
+            Visible: =var_ABMs
+            Width: =45
+            X: =1653
+            Y: =139
+            ZIndex: =58
+
+        Label1_11 As label:
+            Align: =Align.Center
+            FontWeight: =FontWeight.Bold
+            Height: =57
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =22.23
+            Text: ="ABMs"
+            Visible: =var_ABMs
+            Width: =409
+            X: =170
+            Y: =138
+            ZIndex: =59
+
+        "gal_ABMs As gallery.'BrowseLayout_Vertical_OneTextVariant_ver5.0'":
+            DelayItemLoading: =true
+            Height: =709
+            Items: =["Acting","Centro de Costos","Compañías Aéreas","Información Adicional","Justificación Fuera de Política","Roles","Rutas Aereas","Tipo de Viaje"]
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            OnSelect: |
+                =//Select(Parent);;
+                Reset(txt_BuscardorABM);Reset(cbox_ABM);
+            TemplatePadding: =0
+            TemplateSize: =55
+            Visible: =var_ABMs
+            Width: =424
+            X: =170
+            Y: =195
+            ZIndex: =60
+
+            HtmlText1_20 As htmlViewer:
+                Height: =50
+                HtmlText: |-
+                    ="<div style=""margin: 0px; width: "&(Self.Width-10)&"px; height: "&(Self.Height-5)&"px; background-color: "&If(ThisItem.IsSelected,"rgba(180,215,225,0.9)","rgba(255,255,255,0.8)")&"; box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+                OnSelect: |-
+                    =Reset(txt_BuscardorABM);Reset(cbox_ABM);
+                    Set(var_EditRol, false)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =12.23
+                Width: =414
+                Y: =5
+                ZIndex: =1
+
+            Title4 As label:
+                FontWeight: =If(ThisItem.IsSelected, FontWeight.Bold, FontWeight.Normal)
+                Height: =Self.Size * 1.8
+                OnSelect: |-
+                    =Reset(txt_BuscardorABM);Reset(cbox_ABM);
+                    Set(var_EditRol, false)
+                PaddingBottom: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =18
+                Text: =ThisItem.Value
+                VerticalAlign: =VerticalAlign.Top
+                Width: =369
+                Y: =14
+                ZIndex: =2
+
+            NextArrow3 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                Color: =RGBA(166, 166, 166, 1)
+                Height: =30
+                Icon: =Icon.ChevronRight
+                OnSelect: |-
+                    =Reset(txt_BuscardorABM);Reset(cbox_ABM);Set(var_RolSelect, Blank());
+                    Set(var_EditRol, false)
+                Tooltip: ="Ver los detalles del elemento"
+                Width: =30
+                X: =369
+                Y: =15
+                ZIndex: =3
+
+        "txt_BuscardorABM As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =18
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =45
+            Placeholder: |-
+                =Switch(gal_ABMs.Selected.Value,
+                "Información Adicional", "Información",
+                "Roles", "Nombre y apellido",
+                "Centro de Costos", "Centro de Costo",
+                "Compañías Aéreas", "Compañía Aérea",
+                "Rutas Aereas", "Ruta"
+                )
+            ValidationState: ="None"
+            Visible: =var_ABMs //&& (gal_ABMs.Selected.Value = "Roles")
+            Width: =225
+            X: =625
+            Y: =202
+            ZIndex: =61
+
+        icn_BorrarBuscadorABM As icon.AddDocument:
+            Height: =45
+            Icon: =Icon.Cancel
+            OnSelect: =Reset(txt_BuscardorABM)
+            Visible: =var_ABMs //&& (gal_ABMs.Selected.Value = "Roles")
+            Width: =20
+            X: =826
+            Y: =202
+            ZIndex: =62
+
+        "cbox_ABM As 'Cuadro combinado'.pcfdataset":
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontItalic: =false
+            FontSize: =17
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =45
+            InputTextPlaceholder: |-
+                =Switch(gal_ABMs.Selected.Value,
+                "Información Adicional", "Tipo",
+                "Roles", "Rol"
+                )
+            Items: |-
+                =Switch(gal_ABMs.Selected.Value,
+                "Información Adicional", ["Aerolinea", "Documentación"],
+                "Roles", ["Solicitante", "Aprobador", "Agencia", "Administrador", "Seguro de viaje"],
+                "Justificación Fuera de Política", ["Aereo", "Hotel", "Todos"] 
+                )
+            Visible: =var_ABMs && (gal_ABMs.Selected.Value = "Roles" || gal_ABMs.Selected.Value = "Justificación Fuera de Política")
+            Width: =170
+            X: =865
+            Y: =203
+            ZIndex: =63
+
+        icn_BorrarFiltrosABM As icon.AddDocument:
+            Color: =RGBA(40, 90, 255, 1)
+            Height: =40
+            Icon: =Icon.Erase
+            OnSelect: =Reset(txt_BuscardorABM);Reset(cbox_ABM);
+            Visible: =var_ABMs
+            Width: =40
+            X: =1051
+            Y: =207
+            ZIndex: =64
+
+        fm_line_10 As rectangle:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =750
+            Visible: =var_ABMs
+            Width: =3
+            X: =598
+            Y: =171
+            ZIndex: =65
+
+        HtmlText3_121 As htmlViewer:
+            Height: =735
+            HtmlText: |-
+                ="<div style=""margin: 0px; width: "&(Self.Width-13)&"px; height: "&(Self.Height-13)&"px; background-color: rgba(150,150,150, 0.2); box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.2); border-radius:5px""></div>"
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =12.23
+            Visible: =var_ABMs
+            Width: =614
+            X: =1098
+            Y: =191
+            ZIndex: =66
+
+        icn_RefreshABM As icon.AddDocument:
+            Color: =RGBA(40, 90, 255, 1)
+            Height: =40
+            Icon: =Icon.Reload
+            OnSelect: |-
+                =Switch(gal_ABMs.Selected.Value,
+                "Información Adicional", Refresh(InfoAdicional),
+                "Roles", Refresh(Roles),
+                "Centro de Costos", Refresh(CentrosCostos),
+                "Compañías Aéreas", Refresh(InfoAdicional),
+                "Rutas Aereas", Refresh(CodigosIATA),
+                "Justificaciión Fuera de Política", Refresh(FueraPolitica),
+                "Acting", Refresh(Acting)
+                )
+            Visible: =var_ABMs
+            Width: =40
+            X: =1333
+            Y: =145
+            ZIndex: =139
+
+    Group1 As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =185
+
+        "gal_RolesABM_1 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+            DelayItemLoading: =true
+            Height: =656
+            Items: =Sort(Search(Acting, txt_BuscardorABM.Value, "cr3e6_nombreapellido", "cr3e6_mail", "cr3e6_mailaprobador"), NombreApellido, SortOrder.Ascending)
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            TemplatePadding: =0
+            TemplateSize: =112
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Acting"
+            Width: =457
+            X: =623
+            Y: =263
+            ZIndex: =169
+
+            HtmlText1_28 As htmlViewer:
+                Height: =110
+                HtmlText: |-
+                    ="<div style=""margin: 0px; width: "&(Self.Width-10)&"px; height: "&(Self.Height-5)&"px; background-color: "&If(ThisItem.IsSelected,"rgba(180,215,225,0.9)","rgba(255,255,255,0.8)")&"; box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =12.23
+                Width: =457
+                ZIndex: =1
+
+            Title1_109 As label:
+                FontWeight: =FontWeight.Bold
+                Height: =30
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =17
+                Text: =ThisItem.NombreApellido
+                VerticalAlign: =VerticalAlign.Top
+                Width: =370
+                X: =72
+                Y: =3
+                ZIndex: =2
+
+            NextArrow1_62 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                Color: =RGBA(40, 90, 255, 1)
+                Height: =25
+                Icon: =Icon.Edit
+                OnSelect: |-
+                    =Select(Parent);
+                    Set(var_EditRol, true);
+                    Set(var_RolSelect, Blank());
+                    Reset(txt_BuscarActng)
+                Tooltip: ="Ver los detalles del elemento"
+                Width: =25
+                X: =373
+                Y: =35
+                ZIndex: =3
+
+            NextArrow1_63 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                Color: =RGBA(255, 0, 0, 1)
+                Height: =25
+                Icon: =Icon.Trash
+                OnSelect: |-
+                    =Select(Parent);
+                    Set(var_EditRol, false);
+                    Remove(Acting, ThisItem)
+                Tooltip: ="Ver los detalles del elemento"
+                Width: =25
+                X: =414
+                Y: =35
+                ZIndex: =6
+
+            Icon7_9 As icon.Person:
+                Height: =50
+                Icon: =Icon.Person
+                OnSelect: =Select(Parent)
+                Width: =55.57
+                X: =10
+                Y: =14
+                ZIndex: =7
+
+            Image1_12 As image:
+                Height: =60
+                Image: |-
+                    =If(CountRows(UsuariosdeOffice365.SearchUser({searchTerm: ThisItem.Mail, top: 1})) > 0,
+                        If(!IsBlank(ThisItem.Mail), UsuariosdeOffice365.UserPhotoV2(ThisItem.Mail))
+                    )
+                OnSelect: =Select(Parent)
+                RadiusBottomLeft: =8
+                RadiusBottomRight: =8
+                RadiusTopLeft: =8
+                RadiusTopRight: =8
+                Width: =66.69
+                X: =4
+                Y: =6
+                ZIndex: =8
+
+            Title1_112 As label:
+                FontWeight: =FontWeight.Semibold
+                Height: =30
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =13
+                Text: =ThisItem.MailAprobador
+                Width: =439
+                X: =7
+                Y: =70
+                ZIndex: =9
+
+            Title1_110 As label:
+                FontWeight: =FontWeight.Semibold
+                Height: =25
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =15
+                Text: =Text(ThisItem.FechaInicio, "dd-mm-yyyy")& " / "&Text(ThisItem.FechaFin, "dd-mm-yyyy")
+                VerticalAlign: =VerticalAlign.Top
+                Width: =294
+                X: =70
+                Y: =33
+                ZIndex: =10
+
+        "TextInputCanvas2_80 As 'Entrada de texto'":
+            AccessibleLabel: =""
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: |-
+                =//If(!IsBlank(var_RolSelect) || var_EditRol ; DisplayMode.View; DisplayMode.Edit)
+                DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            Placeholder: ="Buscar empleado"
+            Type: ='TextInputCanvas.Type'.Text
+            ValidationState: ="None"
+            Value: |-
+                =If(!IsBlank(var_RolSelect),
+                var_RolSelect.GivenName&" "&var_RolSelect.Surname)
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Acting"
+            Width: =434
+            X: =1150
+            Y: =218
+            ZIndex: =170
+
+        Icon4_4 As icon.Cancel:
+            DisplayMode: |-
+                =//If(var_EditPasajero; DisplayMode.View; DisplayMode.Edit)
+                 DisplayMode.Edit
+            Height: =40
+            Icon: =Icon.Cancel
+            OnSelect: |-
+                =Set(var_RolSelect, Blank());
+                Reset(TextInputCanvas2_80)
+            PaddingBottom: =5
+            PaddingTop: =5.56
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Acting"
+            Width: =26.68
+            X: =1546
+            Y: =220
+            ZIndex: =171
+
+        "TextInputCanvas2_68 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =RGBA(255, 255, 255, 1)
+            DisplayMode: =DisplayMode.View
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            ValidationState: ="None"
+            Value: |
+                =If(var_EditRol && IsBlank(var_RolSelect),
+                gal_RolesABM_1.Selected.NombreApellido
+                , var_RolSelect.DisplayName
+                )
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Acting"
+            Width: =506
+            X: =1150
+            Y: =314
+            ZIndex: =172
+
+        TextCanvas2_114 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Nombre y apellido"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Acting"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =228.96
+            X: =1150
+            Y: =279
+            ZIndex: =173
+
+        "TextInputCanvas2_71 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.View
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            ValidationState: ="None"
+            Value: |-
+                =If(var_EditRol && IsBlank(var_RolSelect),
+                gal_RolesABM_1.Selected.Mail
+                ,var_RolSelect.Mail
+                )
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Acting"
+            Width: =503
+            X: =1150
+            Y: =389
+            ZIndex: =174
+
+        TextCanvas2_116 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Mail"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Acting"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =106.7
+            X: =1150
+            Y: =354
+            ZIndex: =175
+
+        TextCanvas2_117 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Fecha de inicio"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Acting"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =184
+            X: =1150
+            Y: =504
+            ZIndex: =176
+
+        TextCanvas2_120 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Fecha de fin"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Acting"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =167
+            X: =1150
+            Y: =579
+            ZIndex: =177
+
+        "TextInputCanvas2_79 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            ValidationState: ="None"
+            Value: |
+                =gal_RolesABM_1.Selected.MailAprobador
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Acting"
+            Width: =503
+            X: =1150
+            Y: =464
+            ZIndex: =178
+
+        TextCanvas2_124 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Mail del aprobador"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Acting"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =226.74
+            X: =1150
+            Y: =429
+            ZIndex: =179
+
+        Icon4_8 As icon.Add:
+            Color: =RGBA(40, 90, 255, 1)
+            Height: =45
+            Icon: =If(var_EditRol, Icon.Save ,Icon.Add)
+            OnSelect: |-
+                =Patch(Acting, If(var_EditRol, gal_RolesABM_1.Selected, Defaults(Acting)), 
+                {NombreApellido: TextInputCanvas2_68.Value, Mail: TextInputCanvas2_71.Value, MailAprobador: TextInputCanvas2_79.Value, FechaInicio: DatePickerCanvas1.SelectedDate, FechaFin: DatePickerCanvas1_1.SelectedDate});
+                
+                If(!var_EditRol,
+                    Agregarusuario.Run(TextInputCanvas2_71.Value)
+                );
+                
+                Set(var_RolSelect, Blank());
+                Reset(TextInputCanvas2_68); Reset(TextInputCanvas2_71); Reset(TextInputCanvas2_79); Reset(DatePickerCanvas1);Reset(DatePickerCanvas1_1);
+                
+                Set(var_EditRol, false)
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Acting"
+            Width: =45
+            X: =1605
+            Y: =215
+            ZIndex: =180
+
+        Label1_5 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Acting"
+            Width: =17
+            X: =1135
+            Y: =282
+            ZIndex: =181
+
+        Label1_4 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Acting"
+            Width: =17
+            X: =1135
+            Y: =357
+            ZIndex: =182
+
+        Label1_10 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Acting"
+            Width: =17
+            X: =1135
+            Y: =432
+            ZIndex: =183
+
+        Label1_37 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Acting"
+            Width: =17
+            X: =1135
+            Y: =507
+            ZIndex: =184
+
+        Label1_25 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Acting"
+            Width: =17
+            X: =1135
+            Y: =582
+            ZIndex: =185
+
+        "Gallery2_4 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+            BorderThickness: =1
+            DelayItemLoading: =true
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =235
+            Items: |-
+                =If(!IsBlank(Trim(TextInputCanvas2_80.Value)), UsuariosdeOffice365.SearchUser({searchTerm: Trim(TextInputCanvas2_80.Value), top: 15}))
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            OnSelect: =Set(var_RolSelect, ThisItem)
+            ShowScrollbar: =false
+            TemplatePadding: =0
+            TemplateSize: =79
+            Visible: =Len(TextInputCanvas2_80.Value) > 3 && IsBlank(var_RolSelect) && var_ABMs
+            Width: =548
+            X: =1127
+            Y: =263
+            ZIndex: =186
+
+            Icon3_3 As icon.Person:
+                Height: =50
+                Icon: =Icon.Person
+                OnSelect: =Select(Parent)
+                Width: =55.57
+                X: =10
+                Y: =13
+                ZIndex: =1
+
+            Image1_13 As image:
+                Height: =50
+                Image: |-
+                    =//UsuariosdeOffice365.UserPhoto(ThisItem.Mail)
+                    If(CountRows(UsuariosdeOffice365.SearchUser({searchTerm: Trim(TextInputCanvas2_80.Value), top: 15})) > 0,
+                        If(!IsBlank(ThisItem.Mail), UsuariosdeOffice365.UserPhotoV2(ThisItem.Mail))
+                    )
+                OnSelect: =Select(Parent)
+                RadiusBottomLeft: =8
+                RadiusBottomRight: =8
+                RadiusTopLeft: =8
+                RadiusTopRight: =8
+                Width: =55.57
+                X: =10
+                Y: =14
+                ZIndex: =2
+
+            Title1_5 As label:
+                FontWeight: =FontWeight.Semibold
+                Height: =25
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =15
+                Text: =ThisItem.DisplayName
+                VerticalAlign: =VerticalAlign.Top
+                Width: =476
+                X: =72.25
+                Y: =5
+                ZIndex: =3
+
+            Subtitle1_3 As label:
+                FontWeight: =FontWeight.Semibold
+                Height: =43
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =13
+                Text: =ThisItem.Mail
+                VerticalAlign: =VerticalAlign.Top
+                Width: =476
+                X: =72.25
+                Y: =28
+                ZIndex: =4
+
+            Separator1_5 As rectangle:
+                Fill: =RGBA(0, 0, 0, 0.55)
+                Height: =2
+                OnSelect: =Select(Parent)
+                Width: =548
+                Y: =77
+                ZIndex: =5
+
+            Rectangle1_5 As rectangle:
+                Height: =Parent.TemplateHeight - Separator1_5.Height
+                OnSelect: =Select(Parent)
+                Visible: =ThisItem.IsSelected
+                Width: =4.45
+                ZIndex: =6
+
+    FondoFecha_10 As label:
+        Fill: =RGBA(245, 245, 245, 1)
+        Text: =""
+        Visible: =var_ABMs && gal_ABMs.Selected.Value = "Acting"
+        Width: =217
+        X: =1150
+        Y: =537
+        ZIndex: =187
+
+    "DatePickerCanvas1 As 'Selector de fecha'":
+        BasePaletteColor: =RGBA(245, 245, 245, 1)
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontColor: =
+        FontItalic: =false
+        FontSize: =20
+        FontStrikethrough: =false
+        FontUnderline: =false
+        FontWeight: =""
+        Format: ='DatePickerCanvas.Format'.Short
+        Height: =35
+        OnChange: =
+        Placeholder: ="Fecha"
+        SelectedDate: =gal_RolesABM_1.Selected.FechaInicio
+        ValidationState: ="None"
+        Visible: =var_ABMs && gal_ABMs.Selected.Value = "Acting"
+        Width: =217
+        X: =1150
+        Y: =541
+        ZIndex: =188
+
+    FondoFecha_11 As label:
+        Fill: =RGBA(245, 245, 245, 1)
+        Text: =""
+        Visible: =var_ABMs && gal_ABMs.Selected.Value = "Acting"
+        Width: =217
+        X: =1151
+        Y: =615
+        ZIndex: =189
+
+    "DatePickerCanvas1_1 As 'Selector de fecha'":
+        BasePaletteColor: =RGBA(245, 245, 245, 1)
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontColor: =
+        FontItalic: =false
+        FontSize: =20
+        FontStrikethrough: =false
+        FontUnderline: =false
+        FontWeight: =""
+        Format: ='DatePickerCanvas.Format'.Short
+        Height: =35
+        OnChange: =
+        Placeholder: ="Fecha"
+        SelectedDate: =gal_RolesABM_1.Selected.FechaFin
+        ValidationState: ="None"
+        Visible: =var_ABMs && gal_ABMs.Selected.Value = "Acting"
+        Width: =217
+        X: =1151
+        Y: =619
+        ZIndex: =190
+
+    "TextInputCanvas2_74 As 'Entrada de texto'":
+        Align: ="Start"
+        BasePaletteColor: =RGBA(255, 255, 255, 1)
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontColor: =
+        FontItalic: =false
+        FontSize: =20
+        FontStrikethrough: =false
+        FontUnderline: =false
+        FontWeight: =""
+        Height: =40
+        ValidationState: ="None"
+        Value: |
+            =If(var_EditRol,
+            gal_CompaniasAereasABM.Selected.CodigoAerolinea
+            )
+        Visible: =var_ABMs && gal_ABMs.Selected.Value = "Compañías Aéreas"
+        Width: =506
+        X: =1163
+        Y: =362
+        ZIndex: =191
+
+    ABM_FueraPolitica As group:
+        Height: =5
+        Width: =5
+        X: =20
+        Y: =20
+        ZIndex: =191
+
+        "galFueraPoliticaABM As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+            DelayItemLoading: =true
+            Height: =656
+            Items: |
+                =Sort(Search(Filter(FueraPolitica,
+                    (Servicio = cbox_ABM.Selected.Value || cbox_ABM.Selected.Value = Blank())
+                ),txt_BuscardorABM.Value, "cr3e6_column1"), Justificacion, SortOrder.Ascending)
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            TemplatePadding: =0
+            TemplateSize: =120
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Justificación Fuera de Política"
+            Width: =457
+            X: =627
+            Y: =263
+            ZIndex: =154
+
+            HtmlText1_27 As htmlViewer:
+                Height: =120
+                HtmlText: |-
+                    ="<div style=""margin: 0px; width: "&(Self.Width-10)&"px; height: "&(Self.Height-5)&"px; background-color: "&If(ThisItem.IsSelected,"rgba(180,215,225,0.9)","rgba(255,255,255,0.8)")&"; box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =12.23
+                Width: =457
+                ZIndex: =1
+
+            Title1_58 As label:
+                FontWeight: =FontWeight.Bold
+                Height: =30
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =17
+                Text: =ThisItem.Servicio
+                VerticalAlign: =VerticalAlign.Top
+                Width: =370
+                X: =9
+                Y: =3
+                ZIndex: =2
+
+            NextArrow1_60 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                Color: =RGBA(40, 90, 255, 1)
+                Height: =25
+                Icon: =Icon.Edit
+                OnSelect: |-
+                    =Select(Parent);
+                    Set(var_EditRol, true);
+                    Set(var_RolSelect, Blank());
+                    Reset(txt_BuscarActng)
+                Tooltip: ="Ver los detalles del elemento"
+                Width: =25
+                X: =373
+                Y: =35
+                ZIndex: =3
+
+            NextArrow1_61 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                Color: =RGBA(255, 0, 0, 1)
+                Height: =25
+                Icon: =Icon.Trash
+                OnSelect: |-
+                    =Select(Parent);
+                    Set(var_EditRol, false);
+                    Remove(FueraPolitica, ThisItem)
+                Tooltip: ="Ver los detalles del elemento"
+                Width: =25
+                X: =414
+                Y: =35
+                ZIndex: =6
+
+            Title1_66 As label:
+                FontWeight: =FontWeight.Semibold
+                Height: =79
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =15
+                Text: =ThisItem.Justificacion
+                VerticalAlign: =VerticalAlign.Top
+                Width: =366
+                X: =7
+                Y: =33
+                ZIndex: =11
+
+        "TextInputCanvas2_94 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =RGBA(255, 255, 255, 1)
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            ValidationState: ="None"
+            Value: |
+                =If(var_EditRol,
+                galFueraPoliticaABM.Selected.Justificacion)
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Justificación Fuera de Política"
+            Width: =506
+            X: =1154
+            Y: =307
+            ZIndex: =155
+
+        TextCanvas2_115 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Fuera de politica"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Justificación Fuera de Política"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =228.96
+            X: =1154
+            Y: =272
+            ZIndex: =156
+
+        TextCanvas2_119 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Rol"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Justificación Fuera de Política"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =106.7
+            X: =1154
+            Y: =351
+            ZIndex: =157
+
+        Icon4_19 As icon.Add:
+            Color: =RGBA(40, 90, 255, 1)
+            Height: =45
+            Icon: =If(var_EditRol, Icon.Save ,Icon.Add)
+            OnSelect: |-
+                =Patch(FueraPolitica, If(var_EditRol, galFueraPoliticaABM.Selected, Defaults(FueraPolitica)), 
+                {Justificacion: TextInputCanvas2_94.Value, Servicio: DropdownCanvas2_1.Selected.Value});
+                
+                Reset(TextInputCanvas2_60); Reset(DropdownCanvas2_1);
+                Set(var_EditRol, false)
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Justificación Fuera de Política"
+            Width: =45
+            X: =1609
+            Y: =215
+            ZIndex: =158
+
+        DropdownCanvas2_3 As Desplegable.pcfdataset:
+            DefaultSelectedItems: |-
+                =If(var_EditRol,
+                [galFueraPoliticaABM.Selected.Servicio], [""])
+            DisplayMode: =DisplayMode.Edit
+            FontSize: =20
+            Height: =40
+            Items: =["Nacional", "Internacional"]
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Justificación Fuera de Política"
+            Width: =503
+            X: =1154
+            Y: =385
+            ZIndex: =159
+
+        Label1_42 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Justificación Fuera de Política"
+            Width: =17
+            X: =1139
+            Y: =275
+            ZIndex: =160
+
+        Label1_40 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Justificación Fuera de Política"
+            Width: =17
+            X: =1139
+            Y: =353
+            ZIndex: =161
+
+    TextCanvas2_113 As Texto:
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontColor: =
+        FontItalic: =false
+        FontStrikethrough: =false
+        FontUnderline: =false
+        Height: =35
+        Size: =18
+        Text: ="Código de la aerolínea"
+        Visible: =var_ABMs && gal_ABMs.Selected.Value = "Compañías Aéreas"
+        Weight: ='TextCanvas.Weight'.Bold
+        Width: =228.96
+        X: =1163
+        Y: =327
+        ZIndex: =192
+
+    Label1_38 As label:
+        Color: =RGBA(255, 0, 0, 1)
+        FontWeight: =FontWeight.Bold
+        Height: =30
+        PaddingLeft: =0
+        Text: ="*"
+        Visible: =var_ABMs && gal_ABMs.Selected.Value = "Compañías Aéreas"
+        Width: =17
+        X: =1148
+        Y: =330
+        ZIndex: =193
+
+    ABM_Roles As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =195
+
+        "gal_RolesABM As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+            DelayItemLoading: =true
+            Height: =656
+            Items: |
+                =Sort(Search(Filter(Roles, 
+                    (Rol = cbox_ABM.Selected.Value || cbox_ABM.Selected.Value = Blank())
+                ),txt_BuscardorABM.Value, "cr3e6_nombreapellido", "cr3e6_direccion", "cr3e6_area"), NombreApellido, SortOrder.Ascending)
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            TemplatePadding: =0
+            TemplateSize: =120
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Roles"
+            Width: =457
+            X: =627
+            Y: =265
+            ZIndex: =67
+
+            HtmlText1_21 As htmlViewer:
+                Height: =120
+                HtmlText: |-
+                    ="<div style=""margin: 0px; width: "&(Self.Width-10)&"px; height: "&(Self.Height-5)&"px; background-color: "&If(ThisItem.IsSelected,"rgba(180,215,225,0.9)","rgba(255,255,255,0.8)")&"; box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =12.23
+                Width: =457
+                ZIndex: =1
+
+            Title1_45 As label:
+                FontWeight: =FontWeight.Bold
+                Height: =30
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =17
+                Text: =ThisItem.NombreApellido
+                VerticalAlign: =VerticalAlign.Top
+                Width: =370
+                X: =72
+                Y: =3
+                ZIndex: =2
+
+            NextArrow1_48 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                Color: =RGBA(40, 90, 255, 1)
+                Height: =25
+                Icon: =Icon.Edit
+                OnSelect: |-
+                    =Select(Parent);
+                    Set(var_EditRol, true);
+                    Set(var_RolSelect, Blank());
+                    Reset(txt_BuscarActng)
+                Tooltip: ="Ver los detalles del elemento"
+                Width: =25
+                X: =373
+                Y: =35
+                ZIndex: =3
+
+            NextArrow1_50 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                Color: =RGBA(255, 0, 0, 1)
+                Height: =25
+                Icon: =Icon.Trash
+                OnSelect: |-
+                    =Select(Parent);
+                    Set(var_EditRol, false);
+                    Remove(Roles, ThisItem)
+                Tooltip: ="Ver los detalles del elemento"
+                Width: =25
+                X: =414
+                Y: =35
+                ZIndex: =6
+
+            Icon7_4 As icon.Person:
+                Height: =50
+                Icon: =Icon.Person
+                OnSelect: =Select(Parent)
+                Width: =55.57
+                X: =10
+                Y: =14
+                ZIndex: =7
+
+            Image1_6 As image:
+                Height: =60
+                Image: |-
+                    =If(CountRows(UsuariosdeOffice365.SearchUser({searchTerm: ThisItem.Mail, top: 1})) > 0,
+                        If(!IsBlank(ThisItem.Mail), UsuariosdeOffice365.UserPhotoV2(ThisItem.Mail))
+                    )
+                OnSelect: =Select(Parent)
+                RadiusBottomLeft: =8
+                RadiusBottomRight: =8
+                RadiusTopLeft: =8
+                RadiusTopRight: =8
+                Width: =66.69
+                X: =4
+                Y: =6
+                ZIndex: =8
+
+            Title1_47 As label:
+                FontWeight: =FontWeight.Semibold
+                Height: =11
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =11.11
+                Text: =ThisItem.Mail
+                VerticalAlign: =VerticalAlign.Top
+                Visible: =false
+                Width: =80.03
+                Y: =70
+                ZIndex: =9
+
+            Title1_46 As label:
+                FontWeight: =FontWeight.Semibold
+                Height: =25
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =15
+                Text: |-
+                    ="Rol: "&ThisItem.Rol & If(ThisItem.Rol = "Aprobador", "     -     Nivel: "&ThisItem.NAprobacion)
+                VerticalAlign: =VerticalAlign.Top
+                Width: =294
+                X: =70
+                Y: =33
+                ZIndex: =10
+
+            Title1_55 As label:
+                Align: =Align.Center
+                FontWeight: =FontWeight.Semibold
+                Height: =45
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =15
+                Text: |-
+                    =Switch(ThisItem.Rol,
+                    "Administrador", ThisItem.Empresa,
+                    "Agencia", "",
+                    "Aprobador", ThisItem.Empresa&" / "&ThisItem.Direccion&" / "&ThisItem.Area,
+                    "Solicitante", ThisItem.Empresa&" / "&ThisItem.Direccion&" / "&ThisItem.Region,
+                    "Seguro de viaje", ""
+                    )
+                VerticalAlign: =VerticalAlign.Top
+                Width: =435
+                X: =7
+                Y: =67
+                ZIndex: =11
+
+        "TextInputCanvas2_57 As 'Entrada de texto'":
+            AccessibleLabel: =""
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: |-
+                =//If(!IsBlank(var_RolSelect) || var_EditRol ; DisplayMode.View; DisplayMode.Edit)
+                DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            Placeholder: ="Buscar empleado"
+            Type: ='TextInputCanvas.Type'.Text
+            ValidationState: ="None"
+            Value: |-
+                =If(!IsBlank(var_RolSelect),
+                var_RolSelect.GivenName&" "&var_RolSelect.Surname)
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Roles" && gal_ABMs.Selected.Value = "Roles"
+            Width: =434
+            X: =1154
+            Y: =220
+            ZIndex: =68
+
+        Icon4_3 As icon.Cancel:
+            DisplayMode: |-
+                =//If(var_EditPasajero; DisplayMode.View; DisplayMode.Edit)
+                 DisplayMode.Edit
+            Height: =40
+            Icon: =Icon.Cancel
+            OnSelect: |-
+                =Set(var_RolSelect, Blank());
+                Reset(TextInputCanvas2_57)
+            PaddingBottom: =5
+            PaddingTop: =5.56
+            Visible: =var_ABMs && !IsBlank(var_RolSelect)
+            Width: =26.68
+            X: =1550
+            Y: =222
+            ZIndex: =69
+
+        "TextInputCanvas2_55 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =RGBA(255, 255, 255, 1)
+            DisplayMode: =DisplayMode.View
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            ValidationState: ="None"
+            Value: |
+                =If(var_EditRol && IsBlank(var_RolSelect),
+                gal_RolesABM.Selected.NombreApellido
+                , var_RolSelect.DisplayName
+                )
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Roles" && gal_ABMs.Selected.Value = "Roles"
+            Width: =506
+            X: =1154
+            Y: =316
+            ZIndex: =70
+
+        TextCanvas2_91 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Nombre y apellido"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Roles" && gal_ABMs.Selected.Value = "Roles"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =228.96
+            X: =1154
+            Y: =281
+            ZIndex: =71
+
+        "TextInputCanvas2_56 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.View
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            ValidationState: ="None"
+            Value: |-
+                =If(var_EditRol && IsBlank(var_RolSelect),
+                gal_RolesABM.Selected.Mail
+                ,var_RolSelect.Mail
+                )
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Roles" && gal_ABMs.Selected.Value = "Roles"
+            Width: =503
+            X: =1154
+            Y: =391
+            ZIndex: =72
+
+        TextCanvas2_92 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Mail"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Roles" && gal_ABMs.Selected.Value = "Roles"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =106.7
+            X: =1154
+            Y: =356
+            ZIndex: =73
+
+        "TextInputCanvas2_58 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            ValidationState: ="None"
+            Value: |-
+                =If(DropdownCanvas2_46.Selected.Value <> "OTRO",
+                DropdownCanvas2_46.Selected.Value
+                )
+            Visible: =var_ABMs && (DropdownCanvas2.Selected.Value = "Aprobador" || DropdownCanvas2.Selected.Value = "Solicitante") && gal_ABMs.Selected.Value = "Roles"
+            Width: =504
+            X: =1154
+            Y: =616
+            ZIndex: =74
+
+        TextCanvas2_93 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Dirección"
+            Visible: =var_ABMs && (DropdownCanvas2.Selected.Value = "Aprobador" || DropdownCanvas2.Selected.Value = "Solicitante") && gal_ABMs.Selected.Value = "Roles"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =106.7
+            X: =1154
+            Y: =581
+            ZIndex: =75
+
+        "TextInputCanvas2_59 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            ValidationState: ="None"
+            Value: |-
+                =If(DropdownCanvas2_30.Selected.Value <> "OTRO",
+                DropdownCanvas2_30.Selected.Value
+                )
+            Visible: =var_ABMs && DropdownCanvas2.Selected.Value = "Aprobador" && gal_ABMs.Selected.Value = "Roles"
+            Width: =503
+            X: =1154
+            Y: =691
+            ZIndex: =76
+
+        TextCanvas2_94 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Area"
+            Visible: =var_ABMs && DropdownCanvas2.Selected.Value = "Aprobador" && gal_ABMs.Selected.Value = "Roles"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =106.7
+            X: =1154
+            Y: =656
+            ZIndex: =77
+
+        TextCanvas2_95 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Rol"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Roles"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =106.7
+            X: =1154
+            Y: =432
+            ZIndex: =78
+
+        "TextInputCanvas2_61 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            OnChange: |-
+                =If(!IsMatch(TextInputCanvas2_61.Value,"[0-9]+") && !IsBlank(TextInputCanvas2_61.Value), 
+                Notify("La tarifa debe ser un valor numérico.",NotificationType.Warning);
+                Reset(TextInputCanvas2_61))
+            ValidationState: ="None"
+            Value: |-
+                =If(var_EditRol,
+                gal_RolesABM.Selected.NAprobacion
+                )
+            Visible: =var_ABMs && DropdownCanvas2.Selected.Value = "Aprobador" && gal_ABMs.Selected.Value = "Roles"
+            Width: =503
+            X: =1154
+            Y: =766
+            ZIndex: =79
+
+        TextCanvas2_96 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Nivel de aprobación"
+            Visible: =var_ABMs && DropdownCanvas2.Selected.Value = "Aprobador" && gal_ABMs.Selected.Value = "Roles"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =226.74
+            X: =1154
+            Y: =731
+            ZIndex: =80
+
+        "TextInputCanvas2_62 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            ValidationState: ="None"
+            Value: |-
+                =If(var_EditRol,
+                gal_RolesABM.Selected.Region
+                )
+            Visible: =var_ABMs && DropdownCanvas2.Selected.Value = "Solicitante" && gal_ABMs.Selected.Value = "Roles"
+            Width: =503
+            X: =1154
+            Y: =692
+            ZIndex: =81
+
+        TextCanvas2_97 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Región"
+            Visible: =var_ABMs && DropdownCanvas2.Selected.Value = "Solicitante" && gal_ABMs.Selected.Value = "Roles"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =226.74
+            X: =1154
+            Y: =657
+            ZIndex: =82
+
+        "TextInputCanvas2_63 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            ValidationState: ="None"
+            Value: |-
+                =If(DropdownCanvas2_2.Selected.Value <> "OTRO",
+                DropdownCanvas2_2.Selected.Value
+                )
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Roles" && DropdownCanvas2.Selected.Value <> "Agencia" && gal_ABMs.Selected.Value = "Roles"
+            Width: =503
+            X: =1154
+            Y: =541
+            ZIndex: =83
+
+        TextCanvas2_98 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Empresa"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Roles"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =226.74
+            X: =1154
+            Y: =506
+            ZIndex: =84
+
+        Icon4_7 As icon.Add:
+            Color: =RGBA(40, 90, 255, 1)
+            Height: =45
+            Icon: =If(var_EditRol, Icon.Save ,Icon.Add)
+            OnSelect: |-
+                =Patch(Roles, If(var_EditRol, gal_RolesABM.Selected, Defaults(Roles)), 
+                {NombreApellido: TextInputCanvas2_55.Value, Mail: TextInputCanvas2_56.Value, Direccion: TextInputCanvas2_58.Value, Area: TextInputCanvas2_59.Value, Rol: DropdownCanvas2.Selected.Value, NAprobacion: TextInputCanvas2_61.Value, Region: TextInputCanvas2_62.Value, Empresa: TextInputCanvas2_63.Value, Tope: Value(TextInputCanvas2_93.Value)});
+                //TextInputCanvas2_75
+                If(!var_EditRol,
+                    Agregarusuario.Run(TextInputCanvas2_56.Value)
+                );
+                
+                Set(var_RolSelect, Blank());
+                Reset(TextInputCanvas2_55); Reset(TextInputCanvas2_56); Reset(TextInputCanvas2_58); Reset(TextInputCanvas2_59);Reset(DropdownCanvas2); Reset(TextInputCanvas2_61); Reset(TextInputCanvas2_62); Reset(TextInputCanvas2_63); Reset(TextInputCanvas2_93);Reset(DropdownCanvas2_2); Reset(DropdownCanvas2_30);
+                
+                Set(var_EditRol, false);
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Roles" && gal_ABMs.Selected.Value = "Roles"
+            Width: =45
+            X: =1609
+            Y: =217
+            ZIndex: =85
+
+        DropdownCanvas2 As Desplegable.pcfdataset:
+            DefaultSelectedItems: |-
+                =If(var_EditRol,
+                [gal_RolesABM.Selected.Rol])
+            DisplayMode: =DisplayMode.Edit
+            FontSize: =20
+            Height: =40
+            Items: =["Administrador", "Agencia", "Aprobador", "Solicitante", "Seguro de viaje"]
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Roles"
+            Width: =503
+            X: =1154
+            Y: =466
+            ZIndex: =86
+
+        Label1 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Roles"
+            Width: =17
+            X: =1139
+            Y: =284
+            ZIndex: =87
+
+        Label1_1 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Roles"
+            Width: =17
+            X: =1139
+            Y: =359
+            ZIndex: =88
+
+        Label1_2 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Roles"
+            Width: =17
+            X: =1139
+            Y: =434
+            ZIndex: =89
+
+        Label1_9 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && (DropdownCanvas2.Selected.Value = "Aprobador" || DropdownCanvas2.Selected.Value = "Solicitante" || DropdownCanvas2.Selected.Value = "Administrador") && gal_ABMs.Selected.Value = "Roles"
+            Width: =17
+            X: =1139
+            Y: =509
+            ZIndex: =90
+
+        Label1_19 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && (DropdownCanvas2.Selected.Value = "Aprobador" || DropdownCanvas2.Selected.Value = "Solicitante") && gal_ABMs.Selected.Value = "Roles"
+            Width: =17
+            X: =1139
+            Y: =584
+            ZIndex: =91
+
+        Label1_20 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && (DropdownCanvas2.Selected.Value = "Aprobador" || DropdownCanvas2.Selected.Value = "Solicitante") && gal_ABMs.Selected.Value = "Roles"
+            Width: =17
+            X: =1139
+            Y: =659
+            ZIndex: =92
+
+        Label1_21 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Roles" && DropdownCanvas2.Selected.Value = "Aprobador"
+            Width: =17
+            X: =1139
+            Y: =734
+            ZIndex: =93
+
+        "Gallery2_3 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+            BorderThickness: =1
+            DelayItemLoading: =true
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =235
+            Items: |-
+                =If(!IsBlank(Trim(TextInputCanvas2_57.Value)), UsuariosdeOffice365.SearchUser({searchTerm: Trim(TextInputCanvas2_57.Value), top: 15}))
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            OnSelect: =Set(var_RolSelect, ThisItem)
+            ShowScrollbar: =false
+            TemplatePadding: =0
+            TemplateSize: =79
+            Visible: =Len(TextInputCanvas2_57.Value) > 3 && IsBlank(var_RolSelect) && var_ABMs
+            Width: =548
+            X: =1131
+            Y: =265
+            ZIndex: =94
+
+            Icon3_2 As icon.Person:
+                Height: =50
+                Icon: =Icon.Person
+                OnSelect: =Select(Parent)
+                Width: =55.57
+                X: =10
+                Y: =13
+                ZIndex: =1
+
+            Image1_7 As image:
+                Height: =50
+                Image: |-
+                    =//UsuariosdeOffice365.UserPhoto(ThisItem.Mail)
+                    If(CountRows(UsuariosdeOffice365.SearchUser({searchTerm: Trim(TextInputCanvas2_57.Value), top: 15})) > 0,
+                        If(!IsBlank(ThisItem.Mail), UsuariosdeOffice365.UserPhotoV2(ThisItem.Mail))
+                    )
+                OnSelect: =Select(Parent)
+                RadiusBottomLeft: =8
+                RadiusBottomRight: =8
+                RadiusTopLeft: =8
+                RadiusTopRight: =8
+                Width: =55.57
+                X: =10
+                Y: =14
+                ZIndex: =2
+
+            Title1_3 As label:
+                FontWeight: =FontWeight.Semibold
+                Height: =25
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =15
+                Text: =ThisItem.DisplayName
+                VerticalAlign: =VerticalAlign.Top
+                Width: =476
+                X: =72.25
+                Y: =5
+                ZIndex: =3
+
+            Subtitle1_2 As label:
+                FontWeight: =FontWeight.Semibold
+                Height: =43
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =13
+                Text: =ThisItem.Mail
+                VerticalAlign: =VerticalAlign.Top
+                Width: =476
+                X: =72.25
+                Y: =28
+                ZIndex: =4
+
+            Separator1_3 As rectangle:
+                Fill: =RGBA(0, 0, 0, 0.55)
+                Height: =2
+                OnSelect: =Select(Parent)
+                Width: =548
+                Y: =77
+                ZIndex: =5
+
+            Rectangle1_3 As rectangle:
+                Height: =Parent.TemplateHeight - Separator1_3.Height
+                OnSelect: =Select(Parent)
+                Visible: =ThisItem.IsSelected
+                Width: =4.45
+                ZIndex: =6
+
+        "TextInputCanvas2_93 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            ValidationState: ="None"
+            Value: |-
+                =If(var_EditRol,
+                gal_RolesABM.Selected.Tope
+                )
+            Visible: =var_ABMs && DropdownCanvas2.Selected.Value = "Solicitante" && gal_ABMs.Selected.Value = "Roles"
+            Width: =503
+            X: =1155
+            Y: =766
+            ZIndex: =136
+
+        TextCanvas2_105 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Tope de aprobación provisional"
+            Visible: =var_ABMs && DropdownCanvas2.Selected.Value = "Solicitante" && gal_ABMs.Selected.Value = "Roles"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =412
+            X: =1155
+            Y: =731
+            ZIndex: =137
+
+        Label1_22 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && (DropdownCanvas2.Selected.Value = "Aprobador" || DropdownCanvas2.Selected.Value = "Solicitante") && gal_ABMs.Selected.Value = "Roles"
+            Width: =17
+            X: =1140
+            Y: =733
+            ZIndex: =138
+
+        Icon4_6 As icon.Cancel:
+            DisplayMode: |-
+                =//If(var_EditPasajero; DisplayMode.View; DisplayMode.Edit)
+                 DisplayMode.Edit
+            Height: =40
+            Icon: =Icon.Cancel
+            OnSelect: =Reset(DropdownCanvas2_2)
+            PaddingBottom: =5
+            PaddingTop: =5.56
+            Visible: =var_ABMs && DropdownCanvas2_2.Selected.Value = "OTRO"
+            Width: =26.68
+            X: =1625
+            Y: =543
+            ZIndex: =140
+
+        DropdownCanvas2_2 As Desplegable.pcfdataset:
+            DefaultSelectedItems: |-
+                =If(var_EditRol,
+                [gal_RolesABM.Selected.Empresa])
+            DisplayMode: =DisplayMode.Edit
+            FontSize: =20
+            Height: =40
+            Items: |-
+                =//["Total Austral"; "Total Especialidades Argentina"; "TotalEnergies Gas Marketng Cono Sur"; "Total Eren"; "Total DIG"]
+                col_Empresa
+                //ClearCollect(col_Empresa; Sort(Distinct(col_Aprobadores; Empresa);Value; SortOrder.Ascending));;
+                //Collect(col_Empresa; {Value: "OTRO"})
+            OnChange: |-
+                =ClearCollect(col_Direccion, Sort(If(IsBlank(DropdownCanvas2_2.Selected.Value), [""], Distinct(Filter(col_Aprobadores, Empresa = DropdownCanvas2_2.Selected.Value, Direccion <> "EX PATRIADOS",  Direccion <> "ADMINISTRACION DE PERSONAL"), Direccion)),Value, SortOrder.Ascending));
+                Collect(col_Direccion, "OTRO")
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Roles" && DropdownCanvas2_2.Selected.Value <> "OTRO"
+            Width: =503
+            X: =1153
+            Y: =542
+            ZIndex: =141
+
+        DropdownCanvas2_30 As Desplegable.pcfdataset:
+            DefaultSelectedItems: |-
+                =If(var_EditRol,
+                Distinct(Filter(Roles, Area = gal_RolesABM.Selected.Area), Area))
+            DisplayMode: =DisplayMode.Edit
+            FontSize: =20
+            Height: =40
+            Items: |-
+                =col_Area
+                //Sort(If(IsBlank(DropdownCanvas2_46.Selected.Value); [""]; Distinct(Filter(col_Aprobadores; Direccion = DropdownCanvas2_46.Selected.Value; Empresa = DropdownCanvas2_2.Selected.Value); Area));Value; SortOrder.Ascending)
+            Visible: =var_ABMs && DropdownCanvas2.Selected.Value = "Aprobador" && gal_ABMs.Selected.Value = "Roles" && DropdownCanvas2_30.Selected.Value <> "OTRO"
+            Width: =504
+            X: =1153
+            Y: =691
+            ZIndex: =142
+
+        DropdownCanvas2_46 As Desplegable.pcfdataset:
+            DefaultSelectedItems: |-
+                =If(var_EditRol,
+                Distinct(Filter(Roles, Direccion = gal_RolesABM.Selected.Direccion), Direccion))
+            DisplayMode: =DisplayMode.Edit
+            FontSize: =20
+            Height: =40
+            Items: |-
+                =col_Direccion
+                //Sort(If(IsBlank(DropdownCanvas2_2.Selected.Value); [""]; Distinct(Filter(col_Aprobadores; Empresa = DropdownCanvas2_2.Selected.Value; Direccion <> "EX PATRIADOS";  Direccion <> "ADMINISTRACION DE PERSONAL"); Direccion));Value; SortOrder.Ascending)
+            OnChange: |-
+                =ClearCollect(col_Area, Sort(If(IsBlank(DropdownCanvas2_46.Selected.Value), [""], Distinct(Filter(col_Aprobadores, Direccion = DropdownCanvas2_46.Selected.Value, Empresa = DropdownCanvas2_2.Selected.Value), Area)),Value, SortOrder.Ascending));
+                
+                Collect(col_Area ,"OTRO")
+            Visible: =var_ABMs && (DropdownCanvas2.Selected.Value = "Aprobador" || DropdownCanvas2.Selected.Value = "Solicitante") && gal_ABMs.Selected.Value = "Roles" && DropdownCanvas2_46.Selected.Value <> "OTRO"
+            Width: =504
+            X: =1153
+            Y: =616
+            ZIndex: =143
+
+        Icon4_5 As icon.Cancel:
+            DisplayMode: |-
+                =//If(var_EditPasajero; DisplayMode.View; DisplayMode.Edit)
+                 DisplayMode.Edit
+            Height: =40
+            Icon: =Icon.Cancel
+            OnSelect: =Reset(DropdownCanvas2_46)
+            PaddingBottom: =5
+            PaddingTop: =5.56
+            Visible: =var_ABMs && DropdownCanvas2_46.Selected.Value = "OTRO"
+            Width: =26.68
+            X: =1627
+            Y: =617
+            ZIndex: =144
+
+        Icon4_18 As icon.Cancel:
+            DisplayMode: |-
+                =//If(var_EditPasajero; DisplayMode.View; DisplayMode.Edit)
+                 DisplayMode.Edit
+            Height: =40
+            Icon: =Icon.Cancel
+            OnSelect: =Reset(DropdownCanvas2_30)
+            PaddingBottom: =5
+            PaddingTop: =5.56
+            Visible: =var_ABMs && DropdownCanvas2_30.Selected.Value = "OTRO"
+            Width: =26.68
+            X: =1627
+            Y: =691
+            ZIndex: =145
+
+    ABM_TipoViaje As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =202
+
+        "gal_TipoViajeABM As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+            DelayItemLoading: =true
+            Height: =656
+            Items: =Sort(Search(TiposViaje,txt_BuscardorABM.Value, "cr3e6_column1"), TipoViaje, SortOrder.Ascending)
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            TemplatePadding: =0
+            TemplateSize: =98
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Tipo de Viaje"
+            Width: =457
+            X: =628
+            Y: =264
+            ZIndex: =146
+
+            HtmlText1_26 As htmlViewer:
+                Height: =93
+                HtmlText: |-
+                    ="<div style=""margin: 0px; width: "&(Self.Width-10)&"px; height: "&(Self.Height-5)&"px; background-color: "&If(ThisItem.IsSelected,"rgba(180,215,225,0.9)","rgba(255,255,255,0.8)")&"; box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =12.23
+                Width: =457
+                ZIndex: =1
+
+            Title1_56 As label:
+                FontWeight: =FontWeight.Bold
+                Height: =30
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =17
+                Text: =ThisItem.TipoViaje
+                VerticalAlign: =VerticalAlign.Top
+                Width: =370
+                X: =9
+                Y: =3
+                ZIndex: =2
+
+            NextArrow1_58 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                Color: =RGBA(40, 90, 255, 1)
+                Height: =25
+                Icon: =Icon.Edit
+                OnSelect: |-
+                    =Select(Parent);
+                    Set(var_EditRol, true);
+                    Set(var_RolSelect, Blank());
+                    Reset(txt_BuscarActng)
+                Tooltip: ="Ver los detalles del elemento"
+                Width: =25
+                X: =373
+                Y: =35
+                ZIndex: =3
+
+            NextArrow1_59 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                Color: =RGBA(255, 0, 0, 1)
+                Height: =25
+                Icon: =Icon.Trash
+                OnSelect: |-
+                    =Select(Parent);
+                    Set(var_EditRol, false);
+                    Remove(TiposViaje, ThisItem)
+                Tooltip: ="Ver los detalles del elemento"
+                Width: =25
+                X: =414
+                Y: =35
+                ZIndex: =6
+
+            Title1_65 As label:
+                FontWeight: =FontWeight.Semibold
+                Height: =30
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =15
+                Text: =ThisItem.TipoServicio
+                VerticalAlign: =VerticalAlign.Top
+                Width: =366
+                X: =7
+                Y: =33
+                ZIndex: =11
+
+            Title1_67 As label:
+                FontWeight: =FontWeight.Semibold
+                Height: =30
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =15
+                Text: =ThisItem.CantAprobaciones
+                VerticalAlign: =VerticalAlign.Top
+                Width: =366
+                X: =9
+                Y: =63
+                ZIndex: =12
+
+        "TextInputCanvas2_60 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =RGBA(255, 255, 255, 1)
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            ValidationState: ="None"
+            Value: |
+                =If(var_EditRol,
+                gal_TipoViajeABM.Selected.TipoViaje)
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Tipo de Viaje"
+            Width: =506
+            X: =1155
+            Y: =301
+            ZIndex: =147
+
+        "'Tipo de Viaje' As Texto":
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Tipo de viaje"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Tipo de Viaje"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =228.96
+            X: =1155
+            Y: =266
+            ZIndex: =148
+
+        TextCanvas2_118 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Tipo de servicio"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Tipo de Viaje"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =207
+            X: =1155
+            Y: =345
+            ZIndex: =149
+
+        Icon4_17 As icon.Add:
+            Color: =RGBA(40, 90, 255, 1)
+            Height: =45
+            Icon: =If(var_EditRol, Icon.Save ,Icon.Add)
+            OnSelect: |-
+                =Patch(TiposViaje, If(var_EditRol, gal_TipoViajeABM.Selected, Defaults(TiposViaje)), 
+                {TipoViaje: TextInputCanvas2_60.Value, TipoServicio: DropdownCanvas2_1.Selected.Value, CantAprobaciones: Value(TextInputCanvas2_95.Value), Direccion: TextInputCanvas2_96.Value, Area: TextInputCanvas2_97.Value});
+                
+                Reset(TextInputCanvas2_60); Reset(DropdownCanvas2_1); Reset(TextInputCanvas2_95); Reset(TextInputCanvas2_96); Reset(TextInputCanvas2_97);
+                Set(var_EditRol, false)
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Tipo de Viaje"
+            Width: =45
+            X: =1610
+            Y: =216
+            ZIndex: =150
+
+        DropdownCanvas2_1 As Desplegable.pcfdataset:
+            DefaultSelectedItems: |-
+                =If(var_EditRol,
+                [gal_TipoViajeABM.Selected.TipoServicio])
+            DisplayMode: =DisplayMode.Edit
+            FontSize: =20
+            Height: =40
+            Items: =["Nacional", "Internacional"]
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Tipo de Viaje"
+            Width: =503
+            X: =1155
+            Y: =379
+            ZIndex: =151
+
+        Label1_41 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Tipo de Viaje"
+            Width: =17
+            X: =1140
+            Y: =269
+            ZIndex: =152
+
+        Label1_39 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Tipo de Viaje"
+            Width: =17
+            X: =1140
+            Y: =347
+            ZIndex: =153
+
+        "TextInputCanvas2_95 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =RGBA(255, 255, 255, 1)
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            ValidationState: ="None"
+            Value: |
+                =If(var_EditRol,
+                gal_TipoViajeABM.Selected.CantAprobaciones)
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Tipo de Viaje"
+            Width: =506
+            X: =1151
+            Y: =454
+            ZIndex: =162
+
+        "'Cantidad de aprobaciones' As Texto":
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Cantidad de aprobaciones"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Tipo de Viaje"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =288
+            X: =1151
+            Y: =419
+            ZIndex: =163
+
+        Label1_43 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =0
+            Text: ="*"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Tipo de Viaje"
+            Width: =17
+            X: =1136
+            Y: =422
+            ZIndex: =164
+
+        "TextInputCanvas2_96 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =RGBA(255, 255, 255, 1)
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            ValidationState: ="None"
+            Value: |
+                =If(var_EditRol,
+                gal_TipoViajeABM.Selected.Direccion)
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Tipo de Viaje"
+            Width: =506
+            X: =1149
+            Y: =530
+            ZIndex: =165
+
+        "'Tipo de Viaje_2' As Texto":
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Dirección excepción"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Tipo de Viaje"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =228.96
+            X: =1149
+            Y: =495
+            ZIndex: =166
+
+        "TextInputCanvas2_97 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =RGBA(255, 255, 255, 1)
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            ValidationState: ="None"
+            Value: |
+                =If(var_EditRol,
+                gal_TipoViajeABM.Selected.Area)
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Tipo de Viaje"
+            Width: =506
+            X: =1149
+            Y: =605
+            ZIndex: =167
+
+        "'Tipo de Viaje_3' As Texto":
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: |
+                ="Area excepción"
+            Visible: =var_ABMs && gal_ABMs.Selected.Value = "Tipo de Viaje"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =228.96
+            X: =1149
+            Y: =570
+            ZIndex: =168
+

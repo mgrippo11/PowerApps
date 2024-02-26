@@ -1,0 +1,90 @@
+App As appinfo:
+    BackEnabled: =false
+    OnStart: |-
+        =Set(var_StartLoading, true);
+        Set(var_StartTimer, false);
+        Set(varVersionApp,"v2.1.1");
+        Set(var_ParamID, Param("IdSolicitud"));
+        
+        Set(var_userRol, {
+            Region: First(Filter(Roles,Mail = User().Email)).Region, 
+            Rol: First(Filter(Roles,Mail = User().Email)).Rol, 
+            NivelAprobacion: First(Filter(Roles,Mail = User().Email)).NAprobacion,
+            Empresa: First(Filter(Roles,Mail = User().Email)).Empresa,
+            Direccion: First(Filter(Roles,Mail = User().Email)).Direccion,
+            Area: First(Filter(Roles,Mail = User().Email)).Area,
+            Sector: First(Filter(Roles,Mail = User().Email)).Sector
+            //Tope: First(Filter(Roles;Mail = User().Email)).Tope
+            }
+        );
+        //Set(var_userRol;{Region: "BA"; Rol: "Aprobador"; NivelAprobacion: 2});;
+        Reset(tmr_Roles);
+        ClearCollect(
+            Menu_Nav,
+            Table(
+                {
+                    Menu: "Mis Solicitudes",
+                    MenuIcon: Icon.Person,
+                    MenuScreen: scr_MisSolicitudes,
+                    MenuID: 1,
+                    Visible: "Solicitante; Administrador"
+                },
+                {
+                    Menu: "Mis Aprobaciones",
+                    MenuIcon: Icon.LikeDislike,
+                    MenuScreen: scr_MisAprobaciones,
+                    MenuID: 3,
+                    Visible: "Aprobador; Agencia; Administrador"
+                },
+                {
+                    Menu: "Admin",
+                    MenuIcon: Icon.Globe,
+                    MenuScreen: scr_Admin,
+                    MenuID: 4,
+                    Visible: "Administrador"
+                }
+        ));
+        Clear(col_Estados);
+        ForAll(Choices('Estado (SolicitudesDeViajes)'), Collect(col_Estados, {Value: ThisRecord}));
+        ClearCollect(col_Aerolineas, ForAll(Filter(InfoAdicional, Tipo = "Aerolinea"), {Value: ThisRecord.Titulo}));
+        ClearCollect(col_FueraPolitica,
+            ForAll(FueraPolitica,
+                {
+                    Justificacion: ThisRecord.Justificacion,
+                    Servicio: ThisRecord.Servicio
+                }
+            )
+        );
+        ClearCollect(col_CentroCostos,
+            ForAll(CentrosCostos,
+                {
+                    Value: ThisRecord.CentroCostos,
+                    Descripcion: ThisRecord.Descripcion,
+                    Departamento: ThisRecord.Departamento
+                }
+            )
+        );
+        //ClearCollect(col_CentroCostos2; 'ReservadeViajes-ObtenerCeCos'.Run().cecos);;
+        ClearCollect(col_Aprobadores,
+            ForAll(Filter(Roles, Rol = "Aprobador"),
+                {
+                    Empresa: ThisRecord.Empresa,
+                    Direccion: ThisRecord.Direccion,
+                    Area: ThisRecord.Area
+                }
+            )
+        );
+        Set(var_ActingSolicitante, CountRows(Filter(Acting, Mail = User().Email)));
+        Set(var_dc_Pasajeros, false);
+        Set(var_StartTimer, true);
+        Set(var_startRuta, false);
+    StartScreen: =scr_Loading
+    Theme: =PowerAppsTheme
+
+    Host As hostControl.DefaultHostControlVariant:
+        OnCancel: =false
+        OnEdit: =false
+        OnNew: =false
+        OnSave: =false
+        OnView: =false
+

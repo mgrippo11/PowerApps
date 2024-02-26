@@ -1,0 +1,1180 @@
+scr_MisSolicitudes As screen:
+    Fill: =
+    OnVisible: |-
+        =//Refresh(SolicitudesDeViajes)
+        Set(var_dc_Pasajeros, true)
+
+    lbl_Fondo As label:
+        Fill: =RGBA(50, 200, 200, 1)
+        Height: =1080
+        PaddingRight: =5.56
+        PaddingTop: =5.56
+        Size: =14.45
+        Text: =""
+        Width: =1920
+        ZIndex: =1
+
+    comp_Encabezado_1 As comp_Encabezado:
+        ZIndex: =13
+
+    lbl_MisSolicitudes As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Height: =94
+        PaddingRight: =5.56
+        PaddingTop: =5.56
+        Size: =27
+        Text: ="Mis Solicitudes"
+        Width: =425
+        X: =735
+        ZIndex: =27
+
+    ddl_Borrador As dropdown:
+        Items: =Choices('Estado (SolicitudesDeViajes)')
+        PaddingRight: =11.11
+        PaddingTop: =11.11
+        Size: =14.45
+        Visible: =false
+        Width: =75.58
+        Y: =1040
+        ZIndex: =29
+
+    btn_Info As icon.Save:
+        Color: =RGBA(2, 45, 186, 1)
+        Height: =45
+        Icon: =Icon.Information
+        OnSelect: =Set(var_verLinks, true)
+        Width: =45
+        X: =1768
+        Y: =24
+        ZIndex: =39
+
+    lbl_Info As label:
+        Align: =Align.Center
+        Color: =RGBA(2, 45, 186, 1)
+        FontWeight: =FontWeight.Semibold
+        Height: =20
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        Size: =15
+        Text: ="Info"
+        Width: =65
+        X: =1758
+        Y: =66
+        ZIndex: =40
+
+    th_FondoDisclaimer As htmlViewer:
+        Height: =120
+        HtmlText: |-
+            ="<div style=""margin: 0px; width: "&(Self.Width-5)&"px; height: "&(Self.Height-5)&"px; background-color: rgba(100,250,255,0.5); box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.2); border-radius:5px""></div>"
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        Size: =12.23
+        Width: =1916
+        X: =4
+        Y: =960
+        ZIndex: =42
+
+    th_Disclaimer As htmlViewer:
+        Height: =120
+        HtmlText: |-
+            ="<strong>Tratamiento de datos personales.</strong>
+            <p>La recopilación de datos personales se realiza exclusivamente dentro del marco de tratamiento y según lo especificado por la Ley N° 25.326 de Protección de datos personales de la República Argentina, a los fines de realizar reservas de viajes corporativos en Total Austral S.A, TotalEnergies Gas Cono Sur S.A, Total Especialidades Argentina S.A, Total Eren S.A y TotalEnergies E&P Américas, LLC.</p><p>De conformidad con el cumplimiento de la normativa de protección de datos, Total Austral S.A, como responsable del tratamiento basándose en el legítimo interés, trata datos de identificación de colaboradores y eventualmente familiares de estos únicamente con el propósito de concretar reservas de viajes.
+            Los datos tratados son: apellido, nombre, tipo de documento y número, IGG, empresa, unidad organizacional y lugar de trabajo. En caso de solicitar traslado (taxi/remise, etc) se solicitará además dirección de origen y destino de los pasajeros.</p>
+            <p>Conservaremos la información a efectos de poder tramitar los servicios específicos de viajes solicitados y, posteriormente, durante el tiempo que nos permita gestionar o responder a cualquier reclamación o consulta relacionada con las reservas.</p>
+            <p>Con el fin de cumplir con el proceso de gestión del viaje, los datos son compartidos con empresas hoteleras, aerolíneas, agencias de viajes y empresas de traslados de pasajeros.</p>
+            <p>Como titular del dato usted tiene derechos inherentes reconocidos por la Ley N° 25.326, art. 13. Para ejercer sus derechos puede utilizar los siguientes canales de comunicación: dirección postal: Moreno 877, piso 16, (1091) Ciudad Autónoma de Buenos Aires, atención Responsable de Gestión de Información y Documentación - Data Privacy Liaison (DPL) ó por correo electrónico ep.arg-data-protection@totalenergies.com
+            Si considera, después de ponerse en contacto con nosotros, que no se han respetado sus derechos, puede presentar el reclamo ante la autoridad de control competente AAIP –Protección de Datos Personales. Av. Pte. Gral. Julio A. Roca 710, piso 5 - Ciudad Autónoma de Buenos Aires
+            C1067ABP, Teléfono: (54-11) 3988-3968 ó escribiendo a datospersonales@aaip.gob.ar</p>
+            <p>Última actualización de este aviso: 21 de noviembre de 2023</p>"
+        PaddingBottom: =10
+        PaddingLeft: =10
+        PaddingRight: =10
+        PaddingTop: =7
+        Size: =14
+        Width: =1920
+        Y: =960
+        ZIndex: =43
+
+    gp_Info As group:
+        Height: =5
+        Width: =5
+        X: =60
+        Y: =17
+        ZIndex: =43
+
+        th_Info As htmlViewer:
+            Height: =1080
+            HtmlText: |-
+                ="<div style=""margin: 10px; width: "&(Self.Width-15)&"px; height: "&(Self.Height-25)&"px; background-color: rgba(100,250,255,1); box-shadow: -3px 3px 3px 0 rgba(0,0,0,0.2); border-radius: 0px""></div>"
+            OnSelect: =
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =12.23
+            Visible: =var_verLinks
+            Width: =558
+            X: =1362
+            ZIndex: =44
+
+        "gal_Info As gallery.'BrowseLayout_Vertical_TwoTextVariant_ver5.0'":
+            DelayItemLoading: =true
+            Height: =780
+            Items: =Filter(InfoAdicional, Tipo = "Documentación")
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            TemplatePadding: =0
+            TemplateSize: =68
+            Visible: =var_verLinks
+            Width: =540
+            X: =1379
+            Y: =90
+            ZIndex: =45
+
+            HtmlText1_9 As htmlViewer:
+                Height: =65
+                HtmlText: |-
+                    ="<div style=""margin: 0px; width: "&(Self.Width-10)&"px; height: "&(Self.Height-5)&"px; background-color: rgba(255,255,255,0.8); box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =12.23
+                Width: =533
+                X: =1
+                ZIndex: =1
+
+            Title5_1 As label:
+                FontWeight: =FontWeight.Semibold
+                Height: =59
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =15
+                Text: =ThisItem.Titulo
+                Width: =484
+                X: =8
+                ZIndex: =2
+
+            NextArrow4_1 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                Color: =RGBA(40, 90, 255, 1)
+                Height: =30
+                Icon: =Icon.ChevronRight
+                OnSelect: |-
+                    =Select(Parent);
+                    Launch(ThisItem.Link)
+                Tooltip: ="Ver los detalles del elemento"
+                Width: =30
+                X: =492
+                Y: =17
+                ZIndex: =4
+
+        icn_CerrarInfo As icon.Save:
+            Color: =RGBA(40, 90, 255, 1)
+            Height: =44
+            Icon: =Icon.Cancel
+            OnSelect: =Set(var_verLinks, false)
+            Visible: =var_verLinks
+            Width: =45
+            X: =1865
+            Y: =9
+            ZIndex: =46
+
+        lbl_InfoTitulo As label:
+            FontWeight: =FontWeight.Bold
+            Height: =37
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =27
+            Text: ="Links"
+            Visible: =var_verLinks
+            Width: =425
+            X: =1383
+            Y: =24
+            ZIndex: =47
+
+        fm_InfoSeparador As rectangle:
+            Height: =2
+            OnSelect: =
+            Visible: =var_verLinks
+            Width: =222
+            X: =1382
+            Y: =61
+            ZIndex: =48
+
+    gp_MisSolicitudes As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =46
+
+        "gal_MisSolicitudes As gallery.'BrowseLayout_Vertical_OneTextVariant_ver5.0'":
+            DelayItemLoading: =true
+            Height: =681
+            Items: |-
+                =/*If(var_userRol.Rol = "Solicitante";
+                SortByColumns(Search(Search(Filter(SolicitudesDeViajes;
+                    (Estado = cbox_Estados.Selected.Value|| cbox_Estados.Selected.Value = Blank()) &&
+                    (TipoServicio = cbox_TipoVuelos.Selected.Value|| cbox_TipoVuelos.Selected.Value = Blank()) &&
+                    (FechaPartida = dt_FechaPartida.SelectedDate|| dt_FechaPartida.SelectedDate = Blank()) &&
+                    ('Created By'.'Primary Email' = User().Email || DireccionSolicitante = var_userRol.Direccion)
+                    ); txt_ID.Value; "cr3e6_solicitud"); txt_Pasajero.Value; "cr3e6_pasajeros"); "cr3e6_solanexa"; SortOrder.Descending; "createdon"; SortOrder.Descending)
+                ;
+                SortByColumns(Search(Search(Filter(SolicitudesDeViajes;
+                    (Estado = cbox_Estados.Selected.Value|| cbox_Estados.Selected.Value = Blank()) &&
+                    (TipoServicio = cbox_TipoVuelos.Selected.Value|| cbox_TipoVuelos.Selected.Value = Blank()) &&
+                    (FechaPartida = dt_FechaPartida.SelectedDate|| dt_FechaPartida.SelectedDate = Blank())
+                    ); txt_ID.Value; "cr3e6_solicitud"); txt_Pasajero.Value; "cr3e6_pasajeros"); "cr3e6_solanexa"; SortOrder.Descending; "createdon"; SortOrder.Descending)
+                )*/
+                
+                If(var_userRol.Rol = "Solicitante",
+                SortByColumns(Search(Filter(SolicitudesDeViajes,
+                    (Estado = cbox_Estados.Selected.Value|| cbox_Estados.Selected.Value = Blank()) &&
+                    (TipoServicio = cbox_TipoVuelos.Selected.Value|| cbox_TipoVuelos.Selected.Value = Blank()) &&
+                    (FechaPartida = dt_FechaPartida.SelectedDate|| dt_FechaPartida.SelectedDate = Blank()) &&
+                    If('Created By'.'Primary Email' = "sparep-pwappsflw@service.hubtotal.net", 
+                        (CreadoPor.'Primary Email' = User().Email || DireccionSolicitante = var_userRol.Direccion),
+                        ('Created By'.'Primary Email' = User().Email || DireccionSolicitante = var_userRol.Direccion)
+                    ) &&
+                    (SolAnexa = Value(txt_ID.Value) || txt_ID.Value = "")
+                    ), txt_Pasajero.Value, "cr3e6_pasajeros"), "cr3e6_solanexa", SortOrder.Descending, "createdon", SortOrder.Descending
+                )
+                ,
+                SortByColumns(Search(Filter(SolicitudesDeViajes,
+                    (Estado = cbox_Estados.Selected.Value|| cbox_Estados.Selected.Value = Blank()) &&
+                    (TipoServicio = cbox_TipoVuelos.Selected.Value|| cbox_TipoVuelos.Selected.Value = Blank()) &&
+                    (FechaPartida = dt_FechaPartida.SelectedDate|| dt_FechaPartida.SelectedDate = Blank()) &&
+                    (SolAnexa = Value(txt_ID.Value) || txt_ID.Value = "")
+                    ), txt_Pasajero.Value, "cr3e6_pasajeros"), "cr3e6_solanexa", SortOrder.Descending, "createdon", SortOrder.Descending
+                )
+                )
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            OnSelect: |-
+                =/*If(Label2_9.Text = "Borrador" || Label2_9.Text = "Solicitud de Modificación" || ThisItem.NAprobacion = 1; Set(var_EditSol; 1);Set(var_EditSol; 2));;
+                Set(var_EditPasajero; false);;
+                Set(var_SolSelec; ThisItem);;
+                Navigate(scr_NuevaSolicitud);;
+                */
+                If(Label2_9.Text = "Borrador" || Label2_9.Text = "Solicitud de Modificación" || ThisItem.NAprobacion = 1, Set(var_EditSol, 1), Set(var_EditSol, 2));
+                Set(var_CeCoSelect, ThisItem.CentroCosto);
+                Set(var_EditPasajero, false);
+                Set(var_dc_Pasajeros, true);
+                Set(var_SolSelec, ThisItem);
+                Set(var_validacion, false);
+                Navigate(scr_NuevaSolicitud);
+            ShowScrollbar: =false
+            TemplatePadding: =0
+            TemplateSize: =68
+            Transition: =Transition.Pop
+            Width: =1920
+            Y: =279
+            ZIndex: =3
+
+            HtmlText1 As htmlViewer:
+                Height: =65
+                HtmlText: |-
+                    ="<div style=""margin: 0px; width: "&(Self.Width-10)&"px; height: "&(Self.Height-5)&"px; background-color: "&If(ThisItem.IsSelected,"rgba(125,225,225,0.6)","rgba(255,255,255,0.8)")&"; box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =12.23
+                Width: =1878
+                X: =25
+                ZIndex: =1
+
+            Label2_8 As label:
+                FontWeight: =FontWeight.Semibold
+                Height: =55
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                Size: =15
+                Text: =ThisItem.Solicitud
+                Width: =86
+                X: =48
+                ZIndex: =4
+
+            Label2_9 As label:
+                Align: =Align.Center
+                Height: =55
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                Size: =16
+                Text: =ThisItem.Estado
+                Width: =145
+                X: =210
+                ZIndex: =5
+
+            Label2_10 As label:
+                Align: =Align.Center
+                Height: =55
+                Size: =15
+                Text: |-
+                    =//Last(Filter(Pasajeros; IdSolicitud = ThisItem.Id)).Nombre&" "&First(Filter(Pasajeros; IdSolicitud = ThisItem.Id)).Apellido
+                    
+                    //Concat(Filter(Pasajeros; IdSolicitud = ThisItem.Id); NombreApellido; ", ")
+                    First(Split(ThisItem.Pasajeros, ", ")).Value& If(CountRows(Split(ThisItem.Pasajeros, ", ")) > 1, " +"& CountRows(Split(ThisItem.Pasajeros, ", "))-1)
+                Tooltip: =ThisItem.Pasajeros
+                Width: =300
+                X: =558
+                ZIndex: =6
+
+            Label2_11 As label:
+                Align: =Align.Center
+                Height: =55
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                Size: =16
+                Text: =ThisItem.TipoViaje
+                Width: =245
+                X: =858
+                ZIndex: =7
+
+            Label2_12 As label:
+                Align: =Align.Center
+                Height: =55
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                Size: =16
+                Text: =ThisItem.TipoServicio
+                Width: =175
+                X: =1103
+                ZIndex: =8
+
+            Label2_13 As label:
+                Align: =Align.Center
+                Height: =55
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                Size: =16
+                Text: |-
+                    =//ThisItem.Pais&", "&ThisItem.Ciudad
+                    //If(IsBlank(First(Filter(Tramos; IdSolicitud = ThisItem.Id)).PaisDestino) || IsBlank(First(Filter(Tramos; IdSolicitud = ThisItem.Id)).CiudadDestino); ""; First(Filter(Tramos; IdSolicitud = ThisItem.Id)).PaisDestino&", "&First(Filter(Tramos; IdSolicitud = ThisItem.Id)).CiudadDestino)
+                    ThisItem.RutaVuelo
+                Width: =260
+                X: =1278
+                ZIndex: =9
+
+            Label2_15 As label:
+                Align: =Align.Center
+                Height: =55
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                Size: =16
+                Text: |-
+                    =//Text(First(Sort(Filter(Tramos; IdSolicitud = ThisItem.Id); FechaPartida; SortOrder.Ascending)).FechaPartida; "dd/mm/yyyy")
+                    //&" "&Text(Last(Sort(Filter(Tramos; IdSolicitud = ThisItem.Id); FechaLlegada; SortOrder.Ascending)).FechaLlegada; "dd/mm/yyyy")
+                    Text(ThisItem.FechaPartida, "dd/mm/yyyy")
+                X: =1538
+                ZIndex: =11
+
+            Label2_17 As label:
+                Align: =Align.Center
+                Height: =55
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                Size: =16
+                Text: |-
+                    =Text(ThisItem.'Created On', "dd/mm/yyyy hh:mm")
+                Width: =143
+                X: =1688
+                ZIndex: =12
+
+            NextArrow2 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                Color: =RGBA(40, 90, 255, 1)
+                Height: =55
+                Icon: |-
+                    =If(Label2_9.Text = "Borrador" || (Label2_9.Text = "Solicitud de Modificación") || (Label2_9.Text = "Pendiente de emisión" && Text(ThisItem.Provisional) = "Sí" ) || (Label2_9.Text = "Pendiente de aprobación" && Text(ThisItem.Provisional) = "No" && ThisItem.NAprobacion = 1), 
+                    Icon.Edit, Icon.View)
+                OnSelect: |-
+                    =Select(Parent);
+                    Reset(dt_FechaSol);Reset(ddl_TipoViajeSol);Reset(ddl_TipoServicioSol);Reset(ddl_EmpresaSol);Reset(ddl_DireccionSol);Reset(ddl_AreaSol);Reset(cbox_CeCos);Reset(ddl_Direccion2);Reset(txt_Comentarios);
+                    Reset(ddl_FueraPoliticaHotel); Reset(txt_JustificacionHotel);Reset(chk_Hotel);Reset(chk_Aereo);Reset(chk_Taxi);Reset(chk_AlquilerAuto);Reset(chk_Terrestre);Reset(txt_ConsumosExtra);Set(var_CeCoSelect, Blank());Reset(ddl_MonedaAereo);Reset(txt_TarifaAereo);Reset(chk_FPAereo);Reset(ddl_FPAereo);Reset(txt_JustificacionAereo);
+                    Set(var_pasajeroSelect, Blank()); Set(var_Igg, Blank());
+                    Reset(txt_BuscarPasajero);
+                    
+                    /*If(//Label2_9.Text = "Borrador" || Label2_9.Text = "Solicitud de Modificación" || ThisItem.NAprobacion = 1; 
+                    Label2_9.Text = "Borrador" || (Label2_9.Text = "Solicitud de Modificación" && ThisItem.NAprobacion = 1) || (Label2_9.Text = "Pendiente de emisión" && Text(ThisItem.Provisional) = "Sí" ) || (Label2_9.Text = "Pendiente de aprobación" && Text(ThisItem.Provisional) = "No" && ThisItem.NAprobacion = 1);
+                    //If(Label2_80.Text = 1;
+                    Set(var_EditSol; If(Label2_9.Text = "Borrador" || (Label2_9.Text = "Solicitud de Modificación" && ThisItem.NAprobacion = 1) || (Label2_9.Text = "Pendiente de emisión" && Text(ThisItem.Provisional) = "Sí" ) || (Label2_9.Text = "Pendiente de aprobación" && Text(ThisItem.Provisional) = "No" && ThisItem.NAprobacion = 1)//ThisItem.Provisional
+                    ; 1; 2));;
+                    // Set(var_EditSol; 2));;
+                    */
+                    
+                    Set(var_CeCoSelect, ThisItem.CentroCosto);
+                    Set(var_EditPasajero, false);
+                    Set(var_dc_Pasajeros, true);
+                    Set(var_SolSelec, ThisItem);
+                    Set(var_validacion, false);
+                    Navigate(scr_NuevaSolicitud);
+                PaddingBottom: =5
+                PaddingTop: =5.56
+                Tooltip: ="Ver los detalles del elemento"
+                Width: =50
+                X: =1834
+                ZIndex: =13
+
+            Button1 As button:
+                BorderStyle: =BorderStyle.None
+                DisplayMode: =DisplayMode.View
+                Fill: |
+                    =Switch(Label2_9.Text,
+                        "Borrador", RGBA(0, 176, 255, 1),
+                        "Pendiente de aprobación", RGBA(255, 100, 100, 1),
+                        "Rechazada", RGBA(255, 1, 1, 1),
+                        "Solicitud de Modificación", RGBA(236, 255, 0, 1),
+                        "Pendiente de emisión", RGBA(255, 0, 236, 1),
+                        "Cerrada", RGBA(0, 189, 66, 1)
+                    )
+                Height: =15
+                OnSelect: =Select(Parent)
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                RadiusBottomLeft: =3
+                RadiusBottomRight: =3
+                RadiusTopLeft: =3
+                RadiusTopRight: =3
+                Size: =16.67
+                Text: =""
+                Width: =15
+                X: =33
+                Y: =21
+                ZIndex: =14
+
+            Icon2_4 As icon.ChevronDown:
+                Color: =RGBA(233, 79, 76, 1)
+                DisplayMode: =DisplayMode.View
+                Height: =45
+                Icon: =Icon.Flag
+                OnSelect: =Select(Parent)
+                Visible: =ThisItem.Provisional
+                Width: =45
+                X: =131
+                Y: =5
+                ZIndex: =15
+
+            Label2_16 As label:
+                Align: =Align.Center
+                Height: =55
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                Size: =16
+                Text: =If(ThisItem.'Created By'.'Full Name' = "EP SPAREP-PWAPPSFLW", ThisItem.CreadoPor.'Full Name', ThisItem.'Created By'.'Full Name')
+                Width: =210
+                X: =348
+                ZIndex: =16
+
+        th_Encabezado As htmlViewer:
+            Height: =79
+            HtmlText: |-
+                ="<div style=""margin: 0px; width: "&(Self.Width-5)&"px; height: "&(Self.Height-5)&"px; background-color: rgba(56,76,178,0.9); box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+            OnSelect: =
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =12.23
+            Width: =1875
+            X: =22
+            Y: =200
+            ZIndex: =4
+
+        lbl_ID1 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =63
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="ID"
+            Visible: =false
+            Width: =71
+            X: =101
+            Y: =207
+            ZIndex: =5
+
+        lbl_Estado1 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =63
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Estado"
+            Visible: =false
+            Width: =205
+            X: =172
+            Y: =207
+            ZIndex: =6
+
+        lbl_Pasajeros As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =63
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: |-
+                ="Pasajeros
+                "
+            Visible: =false
+            Width: =388
+            X: =362
+            Y: =207
+            ZIndex: =7
+
+        lbl_TipoViaje As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =63
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Tipo de viaje"
+            Visible: =false
+            Width: =244
+            X: =751
+            Y: =207
+            ZIndex: =8
+
+        lbl_TipoServicio As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =63
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Tipo de servicio"
+            Visible: =false
+            Width: =176
+            X: =995
+            Y: =207
+            ZIndex: =9
+
+        lbl_Ruta As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =63
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Ruta"
+            Visible: =false
+            Width: =275
+            X: =1171
+            Y: =207
+            ZIndex: =10
+
+        lbl_FechaServicio As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =63
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Fecha de servicio"
+            Visible: =false
+            Width: =172
+            X: =1446
+            Y: =207
+            ZIndex: =11
+
+        lbl_FechaCarga As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =63
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Fecha de carga"
+            Visible: =false
+            Width: =144
+            X: =1618
+            Y: =207
+            ZIndex: =12
+
+    Container2 As groupContainer.horizontalAutoLayoutContainer:
+        BorderStyle: =BorderStyle.None
+        DropShadow: =DropShadow.None
+        Height: =70
+        LayoutAlignItems: =LayoutAlignItems.Center
+        LayoutMode: =LayoutMode.Auto
+        LayoutWrap: =true
+        Width: =1874
+        X: =25
+        Y: =204
+        ZIndex: =49
+
+        lbl_ID1_2 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =63
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="ID"
+            Width: =75
+            X: =35
+            Y: =207
+            ZIndex: =1
+
+        lbl_Provisional_2 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =60
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Provisional"
+            Width: =112
+            X: =51
+            Y: =207
+            ZIndex: =2
+
+        lbl_Estado1_2 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =63
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Estado"
+            Width: =140
+            X: =132
+            Y: =207
+            ZIndex: =3
+
+        lbl_Emisor_2 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =60
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Emisor"
+            Width: =210
+            X: =309
+            Y: =207
+            ZIndex: =4
+
+        lbl_Pasajeros_2 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =63
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: |-
+                ="Pasajeros
+                "
+            Width: =300
+            X: =469
+            Y: =207
+            ZIndex: =5
+
+        lbl_TipoViaje_2 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =63
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Tipo de viaje"
+            Width: =245
+            X: =821
+            Y: =207
+            ZIndex: =6
+
+        lbl_TipoServicio_2 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =63
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Tipo de servicio"
+            Width: =175
+            X: =1065
+            Y: =207
+            ZIndex: =7
+
+        lbl_Ruta_2 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =63
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Ruta"
+            Width: =260
+            X: =1242
+            Y: =207
+            ZIndex: =8
+
+        lbl_FechaServicio_2 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =63
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Fecha de servicio"
+            X: =1496
+            Y: =207
+            ZIndex: =9
+
+        lbl_FechaCarga_2 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =63
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Fecha de carga"
+            Width: =145
+            X: =1663
+            Y: =207
+            ZIndex: =10
+
+    gp_Filtros As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =49
+
+        "txt_ID As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =45
+            Placeholder: ="ID"
+            ValidationState: ="None"
+            Value: =""
+            Width: =84
+            X: =86
+            Y: =138
+            ZIndex: =14
+
+        "txt_Pasajero As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =45
+            Placeholder: ="Pasajero"
+            ValidationState: ="None"
+            Width: =195.62
+            X: =473
+            Y: =138
+            ZIndex: =15
+
+        "cbox_TipoVuelos As 'Cuadro combinado'.pcfdataset":
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =45
+            InputTextPlaceholder: ="Tipo de servicio"
+            Items: =["Nacional", "Internacional"]
+            Width: =192
+            X: =704
+            Y: =138
+            ZIndex: =16
+
+        "cbox_Estados As 'Cuadro combinado'.pcfdataset":
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =45
+            InputTextPlaceholder: ="Estado"
+            Items: =Choices('Estado (SolicitudesDeViajes)')
+            Width: =231.19
+            X: =205
+            Y: =138
+            ZIndex: =17
+
+        "dt_FechaPartida As 'Selector de fecha'":
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =45
+            Placeholder: ="Seleccionar fecha"
+            ValidationState: ="None"
+            Width: =166
+            X: =929
+            Y: =138
+            ZIndex: =18
+
+        lbl_ID As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =30
+            Size: =18
+            Text: |-
+                ="ID:"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =84
+            X: =86
+            Y: =107
+            ZIndex: =19
+
+        lbl_Estado As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =30
+            Size: =18
+            Text: |-
+                ="Estado:"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =106.7
+            X: =205
+            Y: =106
+            ZIndex: =20
+
+        lbl_Pasajero As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =30
+            Size: =18
+            Text: |-
+                ="Pasajero:"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =106.7
+            X: =473
+            Y: =107
+            ZIndex: =21
+
+        lbl_TipoVuelo As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =30
+            Size: =18
+            Text: |-
+                ="Tipo de servicio:"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =172
+            X: =704
+            Y: =107
+            ZIndex: =22
+
+        lbl_FechaPartida As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =30
+            Size: =18
+            Text: |-
+                ="Fecha de partida:"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =191
+            X: =929
+            Y: =107
+            ZIndex: =23
+
+        icn_BorrarFiltros As icon.AddDocument:
+            Color: =RGBA(2, 45, 186, 1)
+            Height: =40
+            Icon: =Icon.Erase
+            OnSelect: =Reset(txt_ID);Reset(cbox_Estados);Reset(txt_Pasajero);Reset(cbox_TipoVuelos);Reset(dt_FechaPartida)
+            Width: =40
+            X: =1175
+            Y: =122
+            ZIndex: =24
+
+        icn_BorrarPasajero As icon.AddDocument:
+            Height: =45
+            Icon: =Icon.Cancel
+            OnSelect: =Reset(txt_Pasajero)
+            Width: =20
+            X: =645
+            Y: =137
+            ZIndex: =25
+
+        icn_BorrarID As icon.AddDocument:
+            Height: =45
+            Icon: =Icon.Cancel
+            OnSelect: =Reset(txt_ID)
+            Width: =20
+            X: =146
+            Y: =138
+            ZIndex: =26
+
+        icn_Refresh As icon.AddDocument:
+            Color: =RGBA(2, 45, 186, 1)
+            Height: =40
+            Icon: =Icon.Reload
+            OnSelect: |-
+                =Refresh(SolicitudesDeViajes);
+                Refresh(Aprobaciones)
+            Width: =40
+            X: =1311
+            Y: =122
+            ZIndex: =30
+
+        lbl_NuevaSol As label:
+            FontWeight: =FontWeight.Semibold
+            Height: =55
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =14.45
+            Text: ="Nueva solicitud"
+            Visible: =false
+            Width: =207
+            X: =1612
+            Y: =126
+            ZIndex: =31
+
+        btn_NuevaSol1 As button:
+            Align: =Align.Left
+            BorderColor: =RGBA(0, 35, 150, 1)
+            BorderThickness: =0
+            Color: =RGBA(0, 35, 150, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(150, 230, 0, 1)
+            Height: =60
+            HoverBorderColor: =
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =
+            OnSelect: |-
+                =Set(var_EditSol, 0);
+                Set(var_EditPasajero, false);
+                Set(var_SolSelec, Patch(SolicitudesDeViajes, Defaults(SolicitudesDeViajes), {Estado:ddl_Borrador.Selected.Value}));
+                Navigate(scr_NuevaSolicitud);
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Size: =16.67
+            Text: ="Nueva solicitud"
+            Width: =216
+            X: =1612
+            Y: =123
+            ZIndex: =32
+
+        icn_NuevaSol As icon.AddDocument:
+            Color: =RGBA(0, 35, 150, 1)
+            Height: =55
+            Icon: =Icon.AddDocument
+            Width: =45
+            X: =1783
+            Y: =126
+            ZIndex: =33
+
+        btn_NuevaSol As button:
+            Align: =Align.Left
+            BorderColor: =RGBA(0, 35, 150, 1)
+            Color: =RGBA(0, 35, 150, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =60
+            HoverBorderColor: =
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =
+            OnSelect: |-
+                =Reset(dt_FechaSol);Reset(ddl_TipoViajeSol);Reset(ddl_TipoServicioSol);Reset(ddl_EmpresaSol);Reset(ddl_DireccionSol);Reset(ddl_AreaSol);Reset(cbox_CeCos);Reset(ddl_Direccion2);Reset(txt_Comentarios);
+                Reset(ddl_FueraPoliticaHotel); Reset(txt_JustificacionHotel);Reset(chk_Hotel);Reset(chk_Aereo);Reset(chk_Taxi);Reset(chk_AlquilerAuto);Reset(chk_Terrestre);Reset(txt_ConsumosExtra);Set(var_CeCoSelect, Blank());Reset(ddl_MonedaAereo);Reset(txt_TarifaAereo);Reset(chk_FPAereo);Reset(ddl_FPAereo);Reset(txt_JustificacionAereo);
+                Set(var_pasajeroSelect, Blank()); Set(var_Igg, Blank());
+                Reset(txt_BuscarPasajero);
+                Set(var_EditPasajero, false);Set(var_Documento, Blank());
+                Set(var_EditAlternativa, false);
+                Set(var_EditTramo, false);Set(var_IATAOrigen, Blank());Set(var_IATADestino, Blank());
+                Set(var_EditHotel, false);
+                Set(var_EditTaxi, false);
+                Set(var_EditTransporte, false);
+                Set(var_validacion, false);
+                
+                Set(var_EditSol, 0);
+                Set(var_EditPasajero, false);
+                Set(var_SolSelec, Patch(SolicitudesDeViajes, Defaults(SolicitudesDeViajes), {Estado:ddl_Borrador.Selected.Value}));
+                Set(var_SolSelec, Patch(SolicitudesDeViajes, var_SolSelec, {Solicitud: var_SolSelec.Id, SolAnexa: Value(var_SolSelec.Id)}));
+                Navigate(scr_NuevaSolicitud);
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Size: =16.67
+            Text: =""
+            Width: =216
+            X: =1613
+            Y: =123
+            ZIndex: =34
+
+        icn_DescargarReporte As icon.AddDocument:
+            Color: =RGBA(2, 45, 186, 1)
+            Height: =40
+            Icon: =Icon.Download
+            OnSelect: |
+                =ClearCollect(col_filtros,
+                    {
+                        ID: txt_ID.Value,
+                        Estado: If(IsBlank(cbox_Estados.Selected.Value), 0, cbox_Estados.Selected.Value),
+                        Pasajero: txt_Pasajero.Value,
+                        TipoVuelo: cbox_TipoVuelos.Selected.Value,
+                        Fecha: dt_FechaPartida.SelectedDate,
+                        Fecha2: DateAdd(dt_FechaPartida.SelectedDate, 1,TimeUnit.Days),
+                        Empresa: "",
+                        Direccion: "",
+                        Area: ""
+                    }
+                );
+                ExportV2.Run(User().Email, JSON(col_filtros,JSONFormat.IndentFour));
+                Notify("La exportación esta en curso. Se enviara un mail a la casilla '" &User().Email& "' cuando este listo.", NotificationType.Success);
+            Width: =40
+            X: =1461
+            Y: =122
+            ZIndex: =35
+
+        lbl_Refrescar As label:
+            Align: =Align.Center
+            Color: =RGBA(2, 45, 186, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =25
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =15
+            Text: ="Refrescar"
+            Width: =95
+            X: =1283
+            Y: =163
+            ZIndex: =36
+
+        lbl_BorrarFiltros As label:
+            Align: =Align.Center
+            Color: =RGBA(2, 45, 186, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =25
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =15
+            Text: ="Borrar filtros"
+            Width: =134
+            X: =1128
+            Y: =163
+            ZIndex: =37
+
+        lbl_DescargarReporte As label:
+            Align: =Align.Center
+            Color: =RGBA(2, 45, 186, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =25
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =15
+            Text: ="Descargar reporte"
+            Width: =185
+            X: =1388
+            Y: =163
+            ZIndex: =38
+
+        "lbl_FechaFiltro As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.View
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =45
+            Placeholder: ="Fecha"
+            ValidationState: ="None"
+            Value: =Text(dt_FechaPartida.SelectedDate, "dd/mm/yyyy")
+            Width: =131
+            X: =930
+            Y: =138
+            ZIndex: =41
+

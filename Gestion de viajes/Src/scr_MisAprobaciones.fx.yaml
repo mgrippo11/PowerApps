@@ -1,0 +1,2528 @@
+scr_MisAprobaciones As screen:
+    OnVisible: |-
+        =Refresh(SolicitudesDeViajes);
+        Refresh(Aprobaciones);
+        Refresh(Acting);
+        
+        ClearCollect(col_SolicitudesFiltradas,
+        Filter(AddColumns(SolicitudesDeViajes, "IsActing",
+            First(Filter(ForAll(Filter(Acting, Mail = User().Email && (MailAprobador = A1Mail || MailAprobador = A2Mail)), If(ThisRecord.FechaInicio <= Today() && ThisRecord.FechaFin >= Today(), "1")), Value = "1")).Value),
+            A1Mail = User().Email || A2Mail = User().Email || IsActing = "1")
+        )
+
+    lbl_Fondo3 As label:
+        Fill: =RGBA(50, 200, 200, 1)
+        Height: =1080
+        PaddingRight: =5.56
+        PaddingTop: =5.56
+        Size: =14.45
+        Text: =""
+        Width: =1920
+        ZIndex: =1
+
+    comp_Encabezado_2 As comp_Encabezado:
+        ZIndex: =12
+
+    lbl_TituloAprobadores As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Height: =94
+        PaddingRight: =5.56
+        PaddingTop: =5.56
+        Size: =27
+        Text: ="Mis Aprobaciones"
+        Width: =425
+        X: =735
+        ZIndex: =28
+
+    sw_Aprobadores As toggleSwitch:
+        BorderStyle: =BorderStyle.None
+        Default: =true
+        FalseText: =""
+        Height: =35
+        ShowLabel: =false
+        Size: =12.23
+        TextPosition: =TextPosition.Left
+        TrueText: =""
+        Visible: =var_userRol.Rol = "Administrador"
+        Width: =70.02
+        X: =1781
+        Y: =164
+        ZIndex: =31
+
+    lbl_Aprobadores As Texto:
+        Align: ='TextCanvas.Align'.Center
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontColor: =
+        FontItalic: =false
+        FontStrikethrough: =false
+        FontUnderline: =false
+        Height: =30
+        Size: =15.56
+        Text: =If(sw_Aprobadores.Value, "Aprobadores", "Agencia")
+        Visible: =var_userRol.Rol = "Administrador"
+        Weight: ='TextCanvas.Weight'.Bold
+        Width: =120
+        X: =1756
+        Y: =196
+        ZIndex: =32
+
+    lbl_Info2 As label:
+        Align: =Align.Center
+        Color: =RGBA(2, 45, 186, 1)
+        FontWeight: =FontWeight.Semibold
+        Height: =20
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        Size: =15
+        Text: ="Info"
+        Width: =65
+        X: =1758
+        Y: =68
+        ZIndex: =36
+
+    icn_Info2 As icon.Save:
+        Color: =RGBA(2, 45, 186, 1)
+        Height: =45
+        Icon: =Icon.Information
+        OnSelect: =Set(var_verLinks, true)
+        Width: =45
+        X: =1768
+        Y: =26
+        ZIndex: =37
+
+    "gal_Agencia As gallery.'BrowseLayout_Vertical_OneTextVariant_ver5.0'":
+        DelayItemLoading: =true
+        Height: =605
+        Items: |-
+            =If(var_userRol.Rol = "Solicitante" && (var_userRol.Region = "TDF" || var_userRol.Region = "NQN"),
+            SortByColumns(Search(Filter(SolicitudesDeViajes, 
+                (Estado = cbox_Esados2.Selected.Value|| cbox_Esados2.Selected.Value = Blank()) &&
+                (TipoServicio = cbox_TipoServicios2.Selected.Value|| cbox_TipoServicios2.Selected.Value = Blank()) &&
+                (FechaPartida = dt_FechaPartida2.SelectedDate|| dt_FechaPartida2.SelectedDate = Blank()) &&
+                RegionSolicitante = var_userRol.Region &&
+                (FechaCierre >= dt_FechaCierre.SelectedDate && FechaCierre < DateAdd(dt_FechaCierre.SelectedDate, 1,TimeUnit.Days) || dt_FechaCierre.SelectedDate = Blank()) &&
+                (SolAnexa = Value(txt_BuscarID2.Value) || txt_BuscarID2.Value = "")
+                ), txt_BuscarPasajero2.Value, "cr3e6_pasajeros"), "cr3e6_solanexa", SortOrder.Descending, "createdon", SortOrder.Descending)
+            
+            ,
+            SortByColumns(Search(Filter(SolicitudesDeViajes, 
+                (Estado = cbox_Esados2.Selected.Value|| cbox_Esados2.Selected.Value = Blank()) &&
+                (TipoServicio = cbox_TipoServicios2.Selected.Value|| cbox_TipoServicios2.Selected.Value = Blank()) &&
+                (FechaPartida = dt_FechaPartida2.SelectedDate|| dt_FechaPartida2.SelectedDate = Blank()) &&
+                (FechaCierre >= dt_FechaCierre.SelectedDate && FechaCierre < DateAdd(dt_FechaCierre.SelectedDate, 1,TimeUnit.Days) || dt_FechaCierre.SelectedDate = Blank()) &&
+                (FechaPartida >= dt_FechaDesde.SelectedDate && FechaLlegada < DateAdd(dt_FechaHasta.SelectedDate, 1,TimeUnit.Days) || dt_FechaDesde.SelectedDate = Blank() && dt_FechaHasta.SelectedDate = Blank()) &&
+                (SolAnexa = Value(txt_BuscarID2.Value) || txt_BuscarID2.Value = "")
+                ), txt_BuscarPasajero2.Value, "cr3e6_pasajeros"), "cr3e6_solanexa", SortOrder.Descending, "createdon", SortOrder.Descending)
+            )
+        Layout: =Layout.Vertical
+        LoadingSpinner: =LoadingSpinner.Data
+        OnSelect: |-
+            =/*Set(var_SolSelec; ThisItem);;
+            If(Label2_54.Text = "Pendiente de emisión";
+                Set(var_EditAprobador; 1); Set(var_EditAprobador; 0)
+            );;
+            
+            Navigate(scr_SolicitudAgencia);;*/
+        ShowScrollbar: =false
+        TemplatePadding: =0
+        TemplateSize: =68
+        Visible: |-
+            =If(var_userRol.Rol = "Administrador",
+                If(sw_Aprobadores.Value, false, true)
+            ,
+                var_userRol.Rol = "Agencia" || (var_userRol.Rol = "Solicitante" && (var_userRol.Region = "TDF" || var_userRol.Region = "NQN"))
+            )
+        Width: =1840
+        X: =44
+        Y: =355
+        ZIndex: =39
+
+        HtmlText2_1 As htmlViewer:
+            Height: =65
+            HtmlText: |-
+                ="<div style=""margin: 0px; width: "&(Self.Width-10)&"px; height: "&(Self.Height-5)&"px; background-color: rgba(255,255,255,0.8); box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =12.23
+            Width: =1812
+            X: =16
+            ZIndex: =1
+
+        Label2_52 As label:
+            Align: =Align.Center
+            FontWeight: =FontWeight.Semibold
+            Height: =55
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =16
+            Text: =ThisItem.Solicitud
+            Width: =87
+            X: =16
+            ZIndex: =3
+
+        Label2_54 As label:
+            Align: =Align.Center
+            Height: =55
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =16
+            Text: =ThisItem.Estado
+            Width: =144
+            X: =191
+            Y: =2
+            ZIndex: =4
+
+        Label2_56 As label:
+            Align: =Align.Center
+            Height: =55
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =14
+            Text: =First(Split(ThisItem.Pasajeros, ", ")).Value& If(CountRows(Split(ThisItem.Pasajeros, ", ")) > 1, " +"& CountRows(Split(ThisItem.Pasajeros, ", "))-1)
+            Tooltip: =ThisItem.Pasajeros
+            Width: =209
+            X: =502
+            ZIndex: =5
+
+        Label2_57 As label:
+            Align: =Align.Center
+            Height: =55
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: =ThisItem.TipoViaje
+            Width: =239
+            X: =711
+            ZIndex: =6
+
+        Label2_58 As label:
+            Align: =Align.Center
+            Height: =55
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =16
+            Text: =ThisItem.TipoServicio
+            Width: =155
+            X: =950
+            Y: =1
+            ZIndex: =7
+
+        Label2_59 As label:
+            Align: =Align.Center
+            Height: =55
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =16
+            Text: =ThisItem.MonedaVuelo&" "&ThisItem.TarifaVuelo
+            Width: =130
+            X: =1105
+            Y: =2
+            ZIndex: =8
+
+        Label2_60 As label:
+            Align: =Align.Center
+            Height: =55
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =16
+            Text: =ThisItem.RutaVuelo
+            Width: =228
+            X: =1402
+            ZIndex: =9
+
+        Label2_61 As label:
+            Align: =Align.Center
+            Height: =55
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =16
+            Text: =Text(ThisItem.FechaPartida, "dd/mm/yyyy")
+            Width: =139
+            X: =1630
+            ZIndex: =10
+
+        NextArrow2_3 As icon.ChevronRight:
+            AccessibleLabel: =Self.Tooltip
+            Color: =RGBA(40, 90, 255, 1)
+            Height: =55
+            Icon: =If(Label2_54.Text = "Pendiente de emisión", Icon.Edit, Icon.View)
+            OnSelect: |-
+                =Select(Parent);
+                Set(var_Provisional, If(Text(ThisItem.Provisional) = "Sí", true, false));
+                
+                Set(var_SolSelec, ThisItem);
+                If(Label2_54.Text = "Pendiente de emisión",
+                    Set(var_EditAprobador, 1), Set(var_EditAprobador, 0)
+                );
+                
+                Navigate(scr_SolicitudAgencia);
+            PaddingBottom: =5
+            PaddingTop: =5.56
+            Tooltip: ="Ver los detalles del elemento"
+            Width: =40
+            X: =1765
+            ZIndex: =12
+
+        Checkbox1_1 As checkbox:
+            BorderStyle: =BorderStyle.None
+            CheckboxSize: =25
+            Height: =40
+            OnSelect: =
+            Size: =14.45
+            Text: =""
+            Visible: =false
+            Width: =33.34
+            X: =16.67
+            ZIndex: =14
+
+        Label2_55 As label:
+            Align: =Align.Center
+            Height: =55
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =14
+            Text: |-
+                =//First(Filter(Tramos; IdSolicitud = ThisItem.Id)).CompaniaAerea
+                If(ThisItem.'Created By'.'Primary Email' = "sparep-pwappsflw@service.hubtotal.net",
+                ThisItem.CreadoPor.'Full Name',
+                ThisItem.'Created By'.'Full Name')
+            Width: =166
+            X: =336
+            ZIndex: =15
+
+        Icon2_2 As icon.Warning:
+            Color: =RGBA(246, 88, 16, 1)
+            Height: =30
+            Icon: =Icon.Warning
+            Visible: =ThisItem.FueraPoliticaVuelo || CountRows(Filter(Hoteleria, IdSolicitud = ThisItem.Id, FueraPolitica = true)) > 0
+            Width: =30
+            X: =1226
+            Y: =14
+            ZIndex: =16
+
+        Container1_1 As groupContainer.horizontalAutoLayoutContainer:
+            DropShadow: =DropShadow.None
+            Height: =60
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutGap: =5
+            LayoutJustifyContent: =LayoutJustifyContent.Center
+            LayoutMode: =LayoutMode.Auto
+            LayoutWrap: =true
+            RadiusBottomLeft: =3
+            RadiusBottomRight: =3
+            RadiusTopLeft: =3
+            RadiusTopRight: =3
+            Width: =143
+            X: =1259
+            ZIndex: =17
+
+            Icon6_16 As icon.Bus:
+                Height: =30
+                Icon: =Icon.OfficeBuilding
+                Visible: |-
+                    =//CountRows(Filter(Hoteleria; IdSolicitud = ThisItem.Id))>0
+                    If(First(Split(ThisItem.Servicios, ",")).Value = "Hotel", true, false)
+                Width: =30
+                Y: =251
+                ZIndex: =1
+
+            Icon6_14 As icon.Bus:
+                Height: =30
+                Icon: =Icon.Airplane
+                OnSelect: =
+                Visible: |-
+                    =//CountRows(Filter(Tramos; IdSolicitud = ThisItem.Id))>0
+                    If(Trim(Last(Split(ThisItem.Servicios, ",")).Value) = "Aereo", true, false)
+                Width: =30
+                Y: =251
+                ZIndex: =2
+
+            Icon6_15 As icon.Bus:
+                Height: =30
+                Icon: =Icon.Train
+                Visible: |-
+                    =//CountRows(Filter(Transporte; IdSolicitud = ThisItem.Id))>0
+                    If(Trim(Last(FirstN(Split(ThisItem.Servicios, ","), 4)).Value) = "Transporte", true, false)
+                Width: =30
+                Y: =47
+                ZIndex: =3
+
+            Icon6_17 As icon.Bus:
+                Height: =30
+                Icon: =Icon.Cars
+                Visible: |-
+                    =//CountRows(Filter(AlquilerAuto; IdSolicitud = ThisItem.Id))>0 || CountRows(Filter(Taxi; IdSolicitud = ThisItem.Id))>0
+                    If(Trim(Last(FirstN(Split(ThisItem.Servicios, ","), 2)).Value) = "Taxi", true, false) || If(Trim(Last(FirstN(Split(ThisItem.Servicios, ","), 3)).Value) = "Auto", true, false)
+                Width: =30
+                Y: =141
+                ZIndex: =4
+
+        Label2_53 As label:
+            Align: =Align.Center
+            FontWeight: =FontWeight.Semibold
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =12.23
+            Text: =ThisItem.NAprobacion
+            Visible: =false
+            Width: =44.46
+            X: =5
+            ZIndex: =18
+
+        Label2_78 As label:
+            Align: =Align.Center
+            FontWeight: =FontWeight.Semibold
+            Height: =55
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =16
+            Text: =ThisItem.Provisional
+            Visible: =false
+            Width: =72
+            X: =93
+            Y: =1
+            ZIndex: =19
+
+        Icon2_3 As icon.ChevronDown:
+            Color: =RGBA(233, 79, 76, 1)
+            DisplayMode: =DisplayMode.View
+            Height: =45
+            Icon: =Icon.Flag
+            OnSelect: =Select(Parent)
+            Visible: =ThisItem.Provisional
+            Width: =45
+            X: =115
+            Y: =6
+            ZIndex: =20
+
+    btn_AprobarSelec2 As button:
+        BorderColor: =RGBA(0, 35, 150, 1)
+        BorderThickness: =0
+        Color: =RGBA(0, 35, 150, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(0, 0, 0, 0)
+        DisabledFill: =RGBA(0, 0, 0, 0)
+        Fill: =RGBA(150, 230, 0, 1)
+        Height: =55
+        HoverBorderColor: =
+        HoverColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =
+        OnSelect: =
+        PaddingLeft: =1
+        PaddingRight: =25
+        PaddingTop: =3
+        PressedBorderColor: =RGBA(0, 0, 0, 0)
+        PressedColor: =
+        PressedFill: =RGBA(0, 0, 0, 0)
+        Size: =14
+        Text: ="Aprobar seleccionados"
+        Visible: =var_userRol.Rol = "Aprobador" || var_userRol.Rol = "Administrador"
+        Width: =161
+        X: =1469
+        Y: =126
+        ZIndex: =41
+
+    icn_AprobarSelec As icon.AddDocument:
+        Color: =RGBA(0, 35, 150, 1)
+        Height: =25
+        Icon: =Icon.AddDocument
+        Visible: =var_userRol.Rol = "Aprobador" || var_userRol.Rol = "Administrador"
+        Width: =25
+        X: =1602
+        Y: =140
+        ZIndex: =42
+
+    btn_AprobarSelec As button:
+        BorderColor: =RGBA(0, 35, 150, 1)
+        Color: =RGBA(0, 35, 150, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(0, 0, 0, 0)
+        DisabledFill: =RGBA(0, 0, 0, 0)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =55
+        HoverBorderColor: =
+        HoverColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =
+        OnSelect: |-
+            =Clear(col_AprobarSelect);
+            ForAll(Filter(gal_Aprobador.AllItems, Checkbox1.Value = true), 
+                Collect(col_AprobarSelect, ThisRecord)
+            );
+            Set(var_AprobacionSelec, First(Filter(Aprobaciones, IdSolicitud = var_SolSelec.Id, Estado = "Pendiente")));
+            Set(var_AprobarFP, CountRows(Filter(col_AprobarSelect, FueraPoliticaSolicitud = true)) > 0);
+            
+            If(CountRows(col_AprobarSelect) > 0,
+                Set(var_AprobarPopUp, true)
+            ,
+                Notify("No hay solicitudes seleccionadas.", NotificationType.Error)    
+            );
+        PaddingRight: =5.56
+        PaddingTop: =3
+        PressedBorderColor: =RGBA(0, 0, 0, 0)
+        PressedColor: =
+        PressedFill: =RGBA(0, 0, 0, 0)
+        Size: =16.67
+        Text: =""
+        Visible: =var_userRol.Rol = "Aprobador" || var_userRol.Rol = "Administrador"
+        Width: =161
+        X: =1469
+        Y: =126
+        ZIndex: =43
+
+    btn_AprobarTodo2 As button:
+        Align: =Align.Left
+        BorderColor: =RGBA(0, 35, 150, 1)
+        BorderThickness: =0
+        Color: =RGBA(0, 35, 150, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(0, 0, 0, 0)
+        DisabledFill: =RGBA(0, 0, 0, 0)
+        Fill: =RGBA(150, 230, 0, 1)
+        Height: =50
+        HoverBorderColor: =
+        HoverColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =
+        OnSelect: =
+        PaddingRight: =5.56
+        PaddingTop: =5.56
+        PressedBorderColor: =RGBA(0, 0, 0, 0)
+        PressedColor: =
+        PressedFill: =RGBA(0, 0, 0, 0)
+        Size: =14
+        Text: ="Aprobar Todo"
+        Visible: =var_userRol.Rol = "Aprobador" || var_userRol.Rol = "Administrador"
+        Width: =161
+        X: =1469
+        Y: =206
+        ZIndex: =44
+
+    icn_AprobarTodo As icon.AddDocument:
+        Color: =RGBA(0, 35, 150, 1)
+        Height: =25
+        Icon: =Icon.AddDocument
+        Visible: =var_userRol.Rol = "Aprobador" || var_userRol.Rol = "Administrador"
+        Width: =25
+        X: =1602
+        Y: =219
+        ZIndex: =45
+
+    btn_AprobarTodo As button:
+        Align: =Align.Left
+        BorderColor: =RGBA(0, 35, 150, 1)
+        Color: =RGBA(0, 35, 150, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(0, 0, 0, 0)
+        DisabledFill: =RGBA(0, 0, 0, 0)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =50
+        HoverBorderColor: =
+        HoverColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =
+        OnSelect: |-
+            =Clear(col_AprobarSelect);
+            ForAll(Filter(DropColumns(col_SolicitudesFiltradas, "IsActing"),
+                    Estado = ddl_PendienteAprobacion.Selected.Value, TipoServicio = "Nacional", A1Mail = User().Email),
+                Collect(col_AprobarSelect, ThisRecord)
+            );
+            Set(var_AprobacionSelec, First(Filter(Aprobaciones, IdSolicitud = var_SolSelec.Id, Estado = "Pendiente")));
+            Set(var_AprobarFP, CountRows(Filter(col_AprobarSelect, FueraPoliticaSolicitud = true)) > 0);
+            
+            If(CountRows(col_AprobarSelect) > 0,
+            Set(var_AprobarPopUp, true)
+            ,
+            Notify("No tiene ordenes de viaje con tipo de servicio Nacional para aprobar", NotificationType.Success)
+            )
+            
+            
+            //|| If(Value(var_userRol.NivelAprobacion) = NAprobacion; A2Mail = User().Email));
+            //If(CountRows(Filter(Pasajeros; IdSolicitud = ThisRecord.Id; Mail = User().Email)) = 0; 
+        PaddingRight: =5.56
+        PaddingTop: =5.56
+        PressedBorderColor: =RGBA(0, 0, 0, 0)
+        PressedColor: =
+        PressedFill: =RGBA(0, 0, 0, 0)
+        Size: =16.67
+        Text: =""
+        Visible: =var_userRol.Rol = "Aprobador" || var_userRol.Rol = "Administrador"
+        Width: =161
+        X: =1469
+        Y: =206
+        ZIndex: =46
+
+    "dt_FechaCierre As 'Selector de fecha'":
+        BasePaletteColor: =
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontColor: =
+        FontItalic: =false
+        FontSize: =20
+        FontStrikethrough: =false
+        FontUnderline: =false
+        FontWeight: =""
+        Height: =45
+        Placeholder: ="Seleccionar fecha"
+        ValidationState: ="None"
+        Width: =162
+        X: =282
+        Y: =225
+        ZIndex: =47
+
+    lbl_FechaCierre As Texto:
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontColor: =
+        FontItalic: =false
+        FontStrikethrough: =false
+        FontUnderline: =false
+        Height: =30
+        Size: =18
+        Text: |-
+            ="Fecha de cierre:"
+        Weight: ='TextCanvas.Weight'.Bold
+        Width: =162
+        X: =282
+        Y: =193
+        ZIndex: =48
+
+    "lbl_FechaPartidaSelec As 'Entrada de texto'":
+        Align: ="Start"
+        BasePaletteColor: =
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontColor: =
+        FontItalic: =false
+        FontSize: =20
+        FontStrikethrough: =false
+        FontUnderline: =false
+        FontWeight: =""
+        Height: =45
+        Placeholder: ="Fecha"
+        ValidationState: ="None"
+        Value: =Text(dt_FechaPartida2.SelectedDate, "dd/mm/yyyy")
+        Width: =131
+        X: =89
+        Y: =225
+        ZIndex: =49
+
+    "lbl_FechaCierreSelec As 'Entrada de texto'":
+        Align: ="Start"
+        BasePaletteColor: =
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontColor: =
+        FontItalic: =false
+        FontSize: =20
+        FontStrikethrough: =false
+        FontUnderline: =false
+        FontWeight: =""
+        Height: =45
+        Placeholder: ="Fecha"
+        ValidationState: ="None"
+        Value: =Text(dt_FechaCierre.SelectedDate, "dd/mm/yyyy")
+        Width: =131
+        X: =282
+        Y: =225
+        ZIndex: =50
+
+    "dt_FechaDesde As 'Selector de fecha'":
+        BasePaletteColor: =
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontColor: =
+        FontItalic: =false
+        FontSize: =20
+        FontStrikethrough: =false
+        FontUnderline: =false
+        FontWeight: =""
+        Height: =45
+        Placeholder: ="Seleccionar fecha"
+        ValidationState: ="None"
+        Width: =162
+        X: =486
+        Y: =224
+        ZIndex: =51
+
+    lbl_FechaDesde As Texto:
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontColor: =
+        FontItalic: =false
+        FontStrikethrough: =false
+        FontUnderline: =false
+        Height: =30
+        Size: =18
+        Text: |-
+            ="Desde:"
+        Weight: ='TextCanvas.Weight'.Bold
+        Width: =162
+        X: =486
+        Y: =192
+        ZIndex: =52
+
+    "lbl_FechaDesdeSelec As 'Entrada de texto'":
+        Align: ="Start"
+        BasePaletteColor: =
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontColor: =
+        FontItalic: =false
+        FontSize: =20
+        FontStrikethrough: =false
+        FontUnderline: =false
+        FontWeight: =""
+        Height: =45
+        Placeholder: ="Fecha"
+        ValidationState: ="None"
+        Value: =Text(dt_FechaDesde.SelectedDate, "dd/mm/yyyy")
+        Width: =131
+        X: =486
+        Y: =224
+        ZIndex: =53
+
+    "dt_FechaHasta As 'Selector de fecha'":
+        BasePaletteColor: =
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontColor: =
+        FontItalic: =false
+        FontSize: =20
+        FontStrikethrough: =false
+        FontUnderline: =false
+        FontWeight: =""
+        Height: =45
+        Placeholder: ="Seleccionar fecha"
+        ValidationState: ="None"
+        Width: =162
+        X: =674
+        Y: =224
+        ZIndex: =54
+
+    lbl_FechaHasta As Texto:
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontColor: =
+        FontItalic: =false
+        FontStrikethrough: =false
+        FontUnderline: =false
+        Height: =30
+        Size: =18
+        Text: |-
+            ="Hasta:"
+        Weight: ='TextCanvas.Weight'.Bold
+        Width: =162
+        X: =674
+        Y: =192
+        ZIndex: =55
+
+    "lbl_FechaHastaSelec As 'Entrada de texto'":
+        Align: ="Start"
+        BasePaletteColor: =
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontColor: =
+        FontItalic: =false
+        FontSize: =20
+        FontStrikethrough: =false
+        FontUnderline: =false
+        FontWeight: =""
+        Height: =45
+        Placeholder: ="Fecha"
+        ValidationState: ="None"
+        Value: =Text(dt_FechaHasta.SelectedDate, "dd/mm/yyyy")
+        Width: =131
+        X: =674
+        Y: =224
+        ZIndex: =56
+
+    fm_line_9 As rectangle:
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =76
+        Width: =2.22
+        X: =464
+        Y: =195
+        ZIndex: =57
+
+    th_FondoDisclaimer2 As htmlViewer:
+        Height: =120
+        HtmlText: |-
+            ="<div style=""margin: 0px; width: "&(Self.Width-5)&"px; height: "&(Self.Height-5)&"px; background-color: rgba(100,250,255,0.5); box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.2); border-radius:5px""></div>"
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        Size: =12.23
+        Width: =1916
+        X: =4
+        Y: =960
+        ZIndex: =58
+
+    th_Disclamer2 As htmlViewer:
+        Height: =120
+        HtmlText: |-
+            ="<strong>Tratamiento de datos personales.</strong>
+            <p>La recopilación de datos personales se realiza exclusivamente dentro del marco de tratamiento y según lo especificado por la Ley N° 25.326 de Protección de datos personales de la República Argentina, a los fines de realizar reservas de viajes corporativos en Total Austral S.A, TotalEnergies Gas Cono Sur S.A, Total Especialidades Argentina S.A, Total Eren S.A y TotalEnergies E&P Américas, LLC.</p><p>De conformidad con el cumplimiento de la normativa de protección de datos, Total Austral S.A, como responsable del tratamiento basándose en el legítimo interés, trata datos de identificación de colaboradores y eventualmente familiares de estos únicamente con el propósito de concretar reservas de viajes.
+            Los datos tratados son: apellido, nombre, tipo de documento y número, IGG, empresa, unidad organizacional y lugar de trabajo. En caso de solicitar traslado (taxi/remise, etc) se solicitará además dirección de origen y destino de los pasajeros.</p>
+            <p>Conservaremos la información a efectos de poder tramitar los servicios específicos de viajes solicitados y, posteriormente, durante el tiempo que nos permita gestionar o responder a cualquier reclamación o consulta relacionada con las reservas.</p>
+            <p>Con el fin de cumplir con el proceso de gestión del viaje, los datos son compartidos con empresas hoteleras, aerolíneas, agencias de viajes y empresas de traslados de pasajeros.</p>
+            <p>Como titular del dato usted tiene derechos inherentes reconocidos por la Ley N° 25.326, art. 13. Para ejercer sus derechos puede utilizar los siguientes canales de comunicación: dirección postal: Moreno 877, piso 16, (1091) Ciudad Autónoma de Buenos Aires, atención Responsable de Gestión de Información y Documentación - Data Privacy Liaison (DPL) ó por correo electrónico ep.arg-data-protection@totalenergies.com
+            Si considera, después de ponerse en contacto con nosotros, que no se han respetado sus derechos, puede presentar el reclamo ante la autoridad de control competente AAIP –Protección de Datos Personales. Av. Pte. Gral. Julio A. Roca 710, piso 5 - Ciudad Autónoma de Buenos Aires
+            C1067ABP, Teléfono: (54-11) 3988-3968 ó escribiendo a datospersonales@aaip.gob.ar</p>
+            <p>Última actualización de este aviso: 21 de noviembre de 2023</p>"
+        PaddingBottom: =10
+        PaddingLeft: =10
+        PaddingRight: =10
+        PaddingTop: =7
+        Size: =14
+        Width: =1920
+        Y: =960
+        ZIndex: =59
+
+    gp_AprobarMasivo As group:
+        Height: =5
+        Width: =5
+        X: =80
+        Y: =80
+        ZIndex: =82
+
+        lbl_FondoMasivo As label:
+            Fill: =RGBA(40, 112, 134, 0.65)
+            Height: =1080
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =14.45
+            Text: =""
+            Visible: =var_AprobarPopUp
+            Width: =1920
+            ZIndex: =85
+
+        th_Masivo As htmlViewer:
+            Height: =382
+            HtmlText: |-
+                ="<div style=""margin: 0px; width: "&(Self.Width-13)&"px; height: "&(Self.Height-13)&"px; background-color: rgba(100,250,255,1); box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.2); border-radius:5px""></div>"
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =12.23
+            Visible: =var_AprobarPopUp
+            Width: =932
+            X: =543.51
+            Y: =279
+            ZIndex: =86
+
+        icn_CerrarMasivo As icon.Save:
+            Height: =45
+            Icon: =Icon.Cancel
+            OnSelect: |-
+                =Reset(txt_ComentariosAprobador);
+                Clear(col_AprobarSelect);
+                Set(var_AprobarPopUp, false)
+            Visible: =var_AprobarPopUp
+            Width: =45
+            X: =1414
+            Y: =294
+            ZIndex: =87
+
+        "txt_comentariosMasivo As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =126
+            Mode: ='TextInputCanvas.Mode'.Multiline
+            ValidationState: ="None"
+            Visible: =var_AprobarPopUp
+            Width: =492
+            X: =746
+            Y: =435
+            ZIndex: =88
+
+        lbl_ComentariosMasivo As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Comentarios"
+            Visible: =var_AprobarPopUp
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =243.41
+            X: =746
+            Y: =401
+            ZIndex: =89
+
+        lbl_MensajeMasivo As Texto:
+            Align: ='TextCanvas.Align'.Center
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =73
+            Size: =28
+            Text: ="¿Esta seguro que desea aprobar todas las ordenes de viaje con tipo de servicio Nacional?"
+            Visible: =var_AprobarPopUp
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =716
+            X: =639
+            Y: =295
+            ZIndex: =90
+
+        btn_AprobarMasivo As button:
+            Fill: =RGBA(152, 208, 70, 1)
+            OnSelect: |-
+                =//Set(var_CountSelect; CountRows(col_AprobarSelect));;
+                //Set(var_AprobarSelect; true);;
+                //Set(var_gestionAprobador; false);;
+                
+                ForAll(col_AprobarSelect As _aprobarSelect,
+                    If(_aprobarSelect.Provisional,
+                        Patch(SolicitudesDeViajes, _aprobarSelect, {Estado: dd_Cerrada.Selected.Value})
+                    ,
+                        Patch(SolicitudesDeViajes, _aprobarSelect, {Estado: dd_Emision.Selected.Value})
+                    );
+                    Patch(Aprobaciones, First(Filter(Aprobaciones, IdSolicitud = _aprobarSelect.Id, MailAprobador = User().Email)), 
+                        {Estado: "Aprobado", Comentarios: txt_comentariosMasivo.Value, EstadoSolicitud: "Aprobador"}
+                    )
+                );
+                
+                Reset(txt_ComentariosAprobador);
+                Clear(col_AprobarSelect);
+                Refresh(SolicitudesDeViajes);
+                Refresh(Aprobaciones);
+                Refresh(Acting);
+                
+                ClearCollect(col_SolicitudesFiltradas,
+                Filter(AddColumns(SolicitudesDeViajes, "IsActing",
+                    First(Filter(ForAll(Filter(Acting, Mail = User().Email && (MailAprobador = A1Mail || MailAprobador = A2Mail)), If(ThisRecord.FechaInicio <= Today() && ThisRecord.FechaFin >= Today(), "1")), Value = "1")).Value),
+                    A1Mail = User().Email || A2Mail = User().Email || IsActing = "1")
+                );
+                Set(var_AprobarPopUp, false)
+                
+                
+                
+                
+                
+                /*
+                    Patch(Aprobaciones; First(Filter(Aprobaciones; IdSolicitud = _aprobarSelect.Id; MailAprobador = User().Email)); 
+                        {Estado: "Aprobado"; Comentarios: txt_comentariosMasivo.Value; EstadoSolicitud: "Aprobador"}
+                    );;
+                //Collect(var_AprobacionSelec; First(Filter(Aprobaciones; IdSolicitud = _aprobarSelect.Id; Estado = "Pendiente")));;
+                    If(_aprobarSelect.NAprobaciones > _aprobarSelect.NAprobacion;
+                        Patch(SolicitudesDeViajes; _aprobarSelect; {NAprobacion: _aprobarSelect.NAprobacion+1});;
+                //Set(var_Aprobacion2; Last(Filter(Aprobaciones; IdSolicitud = var_SolSelec.Id; Estado = Blank())));;
+                        Patch(Aprobaciones;  Last(Filter(Aprobaciones; IdSolicitud = var_SolSelec.Id; Estado = Blank())); 
+                            {Estado: "Pendiente"; Acting: If(var_IsActing; User().FullName); MailActing: If(var_IsActing; User().Email); EstadoSolicitud: "Aprobador"}
+                        )
+                    ;
+                        Patch(SolicitudesDeViajes; _aprobarSelect; {Estado: If(Text(_aprobarSelect.Provisional) = "Sí"; dd_Cerrada.Selected.Value; dd_Emision.Selected.Value); NAprobacion: 0; FechaCierre: If(Text(_aprobarSelect.Provisional) = "Sí"; Now())});;
+                        //Si provicional
+                        If(Text(_aprobarSelect.Provisional) = "Sí"; 
+                            Refresh(Roles);;
+                            //Set(var_solicitante; First(Filter(Roles; Mail = var_SolSelec.'Created By'.'Primary Email'; Rol = "Solicitante")));;
+                            Patch(Roles;  First(Filter(Roles; Mail = _aprobarSelect.'Created By'.'Primary Email'; Rol = "Solicitante"));
+                                {Tope: First(Filter(Roles; Mail = var_SolSelec.'Created By'.'Primary Email'; Rol = "Solicitante")).Tope + 1}
+                            )
+                        );;    
+                    )*/
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =18
+            Text: ="Continuar"
+            Visible: =var_AprobarPopUp
+            Width: =177.84
+            X: =921
+            Y: =580
+            ZIndex: =91
+
+        lbl_FPMasivo As label:
+            Color: =RGBA(184, 0, 0, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =33
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =18
+            Text: ="* Existen ordenes de viaje con fuera de politica."
+            Visible: =var_AprobarPopUp && var_AprobarFP
+            Width: =733
+            X: =643
+            Y: =371
+            ZIndex: =92
+
+    gp_galAprobadores As group:
+        Height: =5
+        Width: =5
+        X: =60
+        Y: =60
+        ZIndex: =82
+
+        "gal_Aprobador As gallery.'BrowseLayout_Vertical_OneTextVariant_ver5.0'":
+            DelayItemLoading: =true
+            Height: =605
+            Items: |
+                =/*Sort(Filter(AddColumns(SolicitudesDeViajes; "IsActing";First(Filter(ForAll(Filter(Acting; Mail = User().Email && (MailAprobador = A1Mail || MailAprobador = A2Mail)); If(ThisRecord.FechaInicio <= Today() && ThisRecord.FechaFin >= Today(); "1")); Value = "1")).Value);
+                    //Estado = ComboboxCanvas1_2.Selected.Value
+                    A1Mail = User().Email || A2Mail = User().Email || IsActing = "1"
+                    
+                    //;(NAprobacion >= Value(var_userRol.NivelAprobacion) || NAprobacion = 0)
+                ); 'Created On'; SortOrder.Descending)
+                */
+                SortByColumns(Search(Filter(DropColumns(col_SolicitudesFiltradas, "IsActing"), 
+                    (Estado = cbox_Esados2.Selected.Value|| cbox_Esados2.Selected.Value = Blank()) &&
+                    (TipoServicio = cbox_TipoServicios2.Selected.Value|| cbox_TipoServicios2.Selected.Value = Blank()) &&
+                    (FechaPartida = dt_FechaPartida2.SelectedDate|| dt_FechaPartida2.SelectedDate = Blank()) &&
+                    (FechaCierre = dt_FechaCierre.SelectedDate|| dt_FechaCierre.SelectedDate = Blank())
+                     &&(SolAnexa = Value(txt_BuscarID2.Value) || txt_BuscarID2.Value = "")
+                    ), txt_BuscarPasajero2.Value, "cr3e6_pasajeros")
+                , "cr3e6_solanexa", SortOrder.Descending, "createdon", SortOrder.Descending)
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            OnSelect: |-
+                =/*Set(var_SolSelec; ThisItem);;
+                If(1 = ThisItem.NAprobacion; Set(var_EditAprobador; 1); Set(var_EditAprobador; 0));;
+                Navigate(scr_SolicitudAprobador);;
+                */
+            ShowScrollbar: =false
+            TemplatePadding: =0
+            TemplateSize: =68
+            Visible: |-
+                =If(var_userRol.Rol = "Administrador",
+                    If(sw_Aprobadores.Value, true, false)
+                ,
+                    var_userRol.Rol = "Aprobador" || var_ActingSolicitante > 0
+                )
+            Width: =1840
+            X: =44
+            Y: =355
+            ZIndex: =2
+
+            Label2_37 As label:
+                Align: =Align.Center
+                FontWeight: =FontWeight.Semibold
+                Height: =55
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                Size: =16
+                Text: =ThisItem.NAprobacion
+                Visible: =false
+                Width: =44.46
+                ZIndex: =1
+
+            HtmlText2 As htmlViewer:
+                Height: =65
+                HtmlText: |-
+                    ="<div style=""margin: 0px; width: "&(Self.Width-10)&"px; height: "&(Self.Height-5)&"px; background-color: rgba(255,255,255,0.8); box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =12.23
+                Width: =1813
+                X: =16
+                ZIndex: =2
+
+            Label2_27 As label:
+                Align: =Align.Center
+                FontWeight: =FontWeight.Semibold
+                Height: =55
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                Size: =16
+                Text: =ThisItem.Solicitud
+                Width: =84
+                X: =47
+                ZIndex: =3
+
+            Label2_28 As label:
+                Align: =Align.Center
+                Height: =55
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                Size: =16
+                Text: =ThisItem.Estado
+                Width: =157
+                X: =192
+                Y: =2
+                ZIndex: =4
+
+            Label2_29 As label:
+                Align: =Align.Center
+                Height: =55
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                Size: =15
+                Text: =First(Split(ThisItem.Pasajeros, ", ")).Value& If(CountRows(Split(ThisItem.Pasajeros, ", ")) > 1, " +"& CountRows(Split(ThisItem.Pasajeros, ", "))-1)
+                Tooltip: =ThisItem.Pasajeros
+                Width: =228
+                X: =523
+                ZIndex: =5
+
+            Label2_30 As label:
+                Align: =Align.Center
+                Height: =55
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                Size: =16
+                Text: =ThisItem.TipoViaje
+                Width: =208
+                X: =753
+                ZIndex: =6
+
+            Label2_31 As label:
+                Align: =Align.Center
+                Height: =55
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                Size: =16
+                Text: =ThisItem.TipoServicio
+                Width: =152
+                X: =967
+                ZIndex: =7
+
+            Label2_32 As label:
+                Align: =Align.Center
+                Height: =55
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                Size: =16
+                Text: |-
+                    =//First(Filter(Tramos; IdSolicitud = ThisItem.Id)).Moneda&" "&First(Filter(Tramos; IdSolicitud = ThisItem.Id)).Tarifa
+                    ThisItem.MonedaVuelo&" "&ThisItem.TarifaVuelo
+                Width: =114
+                X: =1113
+                ZIndex: =8
+
+            Label2_33 As label:
+                Align: =Align.Center
+                Height: =55
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                Size: =16
+                Text: =ThisItem.RutaVuelo
+                Width: =233
+                X: =1409
+                ZIndex: =9
+
+            Label2_34 As label:
+                Align: =Align.Center
+                Height: =55
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                Size: =16
+                Text: =Text(ThisItem.FechaPartida, "dd/mm/yyyy")
+                Width: =131
+                X: =1643
+                ZIndex: =10
+
+            NextArrow2_1 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                Color: =RGBA(40, 90, 255, 1)
+                Height: =55
+                Icon: |-
+                    =If(Text(ThisItem.Estado) = "Pendiente de aprobación" && (
+                    Upper(First(Filter(Aprobaciones, IdSolicitud = ThisItem.Id, Estado  = "Pendiente")).MailAprobador) = Upper(User().Email) || 
+                    Upper(First(Filter(Aprobaciones, IdSolicitud = ThisItem.Id, Estado  = "Pendiente")).MailAprobador) = Upper(First(Filter(Acting, Mail = User().Email, MailAprobador = ThisItem.A1Mail)).MailAprobador) || 
+                    Upper(First(Filter(Aprobaciones, IdSolicitud = ThisItem.Id, Estado  = "Pendiente")).MailAprobador) = Upper(First(Filter(Acting, Mail = User().Email, MailAprobador = ThisItem.A2Mail)).MailAprobador)) && CountRows(Filter(Pasajeros, IdSolicitud = ThisItem.Id, Mail = User().Email)) = 0, 
+                    Icon.Edit, Icon.View)
+                    
+                    //ThisItem.NAprobacion = Value(var_userRol.NivelAprobacion) && 
+                    //Or(ThisItem.A1Mail = User().Email; ThisItem.A2Mail = User().Email)
+                OnSelect: |-
+                    =Select(Parent);
+                    Set(var_IsActing, (First(Filter(Aprobaciones, IdSolicitud = ThisItem.Id, Estado  = "Pendiente")).MailAprobador = First(Filter(Acting, Mail = User().Email, MailAprobador = ThisItem.A1Mail)).MailAprobador || First(Filter(Aprobaciones, IdSolicitud = ThisItem.Id, Estado  = "Pendiente")).MailAprobador = First(Filter(Acting, Mail = User().Email, MailAprobador = ThisItem.A2Mail)).MailAprobador));
+                    Set(var_FueraPolitica, ThisItem.FueraPoliticaVuelo || CountRows(Filter(Hoteleria, IdSolicitud = ThisItem.Id, FueraPolitica = true)) > 0);
+                    Set(var_MailAprobador, First(Filter(Aprobaciones, IdSolicitud = ThisItem.Id, Estado  = "Pendiente")).MailAprobador);
+                    Set(var_SolSelec, ThisItem);
+                    
+                    If(Label2_28.Text = "Pendiente de aprobación" && (First(Filter(Aprobaciones, IdSolicitud = ThisItem.Id, Estado  = "Pendiente")).MailAprobador = User().Email || 
+                    First(Filter(Aprobaciones, IdSolicitud = ThisItem.Id, Estado  = "Pendiente")).MailAprobador = First(Filter(Acting, Mail = User().Email, MailAprobador = ThisItem.A1Mail)).MailAprobador || 
+                    First(Filter(Aprobaciones, IdSolicitud = ThisItem.Id, Estado  = "Pendiente")).MailAprobador = First(Filter(Acting, Mail = User().Email, MailAprobador = ThisItem.A2Mail)).MailAprobador) && CountRows(Filter(Pasajeros, IdSolicitud = ThisItem.Id, Mail = User().Email)) = 0,
+                        Set(var_EditAprobador, 1), Set(var_EditAprobador, 0)
+                    );
+                    
+                    Navigate(scr_SolicitudAprobador);
+                PaddingBottom: =5
+                PaddingTop: =5.56
+                Tooltip: ="Ver los detalles del elemento"
+                Width: =40
+                X: =1774
+                Y: =2
+                ZIndex: =11
+
+            Label2_35 As label:
+                Align: =Align.Center
+                Height: =55
+                PaddingRight: =5.56
+                PaddingTop: =5.56
+                Size: =16
+                Text: |-
+                    =//First(Filter(Tramos; IdSolicitud = ThisItem.Id)).CompaniaAerea
+                    If(ThisItem.'Created By'.'Primary Email' = "sparep-pwappsflw@service.hubtotal.net",
+                    ThisItem.CreadoPor.'Full Name',
+                    ThisItem.'Created By'.'Full Name')
+                Width: =185
+                X: =347
+                ZIndex: =12
+
+            Icon2_1 As icon.Warning:
+                Color: =RGBA(246, 88, 16, 1)
+                DisplayMode: =DisplayMode.View
+                Height: =30
+                Icon: =Icon.Warning
+                Visible: |-
+                    =//ThisItem.FueraPoliticaVuelo || CountRows(Filter(Hoteleria; IdSolicitud = ThisItem.Id; FueraPolitica = true)) > 0
+                    ThisItem.FueraPoliticaSolicitud
+                Width: =30
+                X: =1225
+                Y: =15
+                ZIndex: =13
+
+            Container1 As groupContainer.horizontalAutoLayoutContainer:
+                DropShadow: =DropShadow.None
+                Height: =57
+                LayoutAlignItems: =LayoutAlignItems.Center
+                LayoutGap: =8
+                LayoutJustifyContent: =LayoutJustifyContent.Center
+                LayoutMode: =LayoutMode.Auto
+                LayoutWrap: =true
+                RadiusBottomLeft: =2
+                RadiusBottomRight: =2
+                RadiusTopLeft: =2
+                RadiusTopRight: =2
+                Width: =145
+                X: =1264
+                ZIndex: =14
+
+                Icon6_10 As icon.Bus:
+                    Height: =30
+                    Icon: =Icon.Airplane
+                    OnSelect: =
+                    Visible: |-
+                        =//CountRows(Filter(Tramos; IdSolicitud = ThisItem.Id))>0
+                        If(Trim(Last(Split(ThisItem.Servicios, ",")).Value) = "Aereo", true, false)
+                    Width: =30
+                    Y: =251
+                    ZIndex: =1
+
+                Icon6_11 As icon.Bus:
+                    Height: =30
+                    Icon: =Icon.OfficeBuilding
+                    Visible: |-
+                        =//CountRows(Filter(Hoteleria; IdSolicitud = ThisItem.Id))>0
+                        If(First(Split(ThisItem.Servicios, ",")).Value = "Hotel", true, false)
+                    Width: =30
+                    Y: =251
+                    ZIndex: =2
+
+                Icon6_12 As icon.Bus:
+                    Height: =30
+                    Icon: =Icon.Train
+                    Visible: |-
+                        =//CountRows(Filter(Transporte; IdSolicitud = ThisItem.Id))>0
+                        If(Trim(Last(FirstN(Split(ThisItem.Servicios, ","), 4)).Value) = "Transporte", true, false)
+                    Width: =30
+                    Y: =47
+                    ZIndex: =3
+
+                Icon6_13 As icon.Bus:
+                    Height: =30
+                    Icon: =Icon.Cars
+                    Visible: |-
+                        =//CountRows(Filter(AlquilerAuto; IdSolicitud = ThisItem.Id))>0 || CountRows(Filter(Taxi; IdSolicitud = ThisItem.Id))>0
+                        If(Trim(Last(FirstN(Split(ThisItem.Servicios, ","), 2)).Value) = "Taxi", true, false) || If(Trim(Last(FirstN(Split(ThisItem.Servicios, ","), 3)).Value) = "Auto", true, false)
+                    Width: =30
+                    Y: =141
+                    ZIndex: =4
+
+            Label2_79 As label:
+                Align: =Align.Center
+                FontWeight: =FontWeight.Semibold
+                Height: =45
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =16
+                Text: =ThisItem.A1Mail
+                Visible: =false
+                Width: =45
+                X: =20
+                ZIndex: =15
+
+            Checkbox1 As checkbox:
+                BorderStyle: =BorderStyle.None
+                CheckboxSize: =25
+                Height: =55
+                OnSelect: =
+                Size: =14.45
+                Text: =""
+                Visible: |-
+                    =Label2_28.Text = "Pendiente de aprobación" && First(Filter(Aprobaciones, IdSolicitud = ThisItem.Id, Estado = "Pendiente")).MailAprobador = User().Email 
+                    //|| First(Filter(Aprobaciones; IdSolicitud = ThisItem.Id; Estado = "Pendiente")).MailAprobador = First(Filter(Acting; Mail = User().Email; MailAprobador = ThisItem.A1Mail)).MailAprobador 
+                    //|| First(Filter(Aprobaciones; IdSolicitud = ThisItem.Id; Estado = "Pendiente")).MailAprobador = First(Filter(Acting; Mail = User().Email; MailAprobador = ThisItem.A2Mail)).MailAprobador) 
+                    && CountRows(Filter(Pasajeros, IdSolicitud = ThisItem.Id, Mail = User().Email)) = 0 && ThisItem.TipoServicio = "Nacional"
+                Width: =33.34
+                X: =20
+                ZIndex: =16
+
+            Icon2 As icon.ChevronDown:
+                Color: =RGBA(233, 79, 76, 1)
+                DisplayMode: =DisplayMode.View
+                Height: =45
+                Icon: =Icon.Flag
+                OnSelect: =Select(Parent)
+                Visible: =ThisItem.Provisional
+                Width: =45
+                X: =129
+                Y: =5
+                ZIndex: =17
+
+        th_fondocabecera As htmlViewer:
+            Height: =75
+            HtmlText: |-
+                ="<div style=""margin: 0px; width: "&(Self.Width-5)&"px; height: "&(Self.Height-5)&"px; background-color: rgba(56,76,178,0.9); box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+            OnSelect: =
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =12.23
+            Width: =1807
+            X: =60
+            Y: =278
+            ZIndex: =3
+
+        lbl_ID3 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =60
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="ID"
+            Width: =63
+            X: =70
+            Y: =278
+            ZIndex: =4
+
+        lbl_Estado3 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =60
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Estado"
+            Width: =131
+            X: =252
+            Y: =278
+            ZIndex: =5
+
+        lbl_Pasajeros2 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =60
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: |-
+                ="Pasajeros
+                "
+            Width: =229
+            X: =542
+            Y: =278
+            ZIndex: =6
+
+        lbl_TipoViaje3 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =60
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Tipo de viaje"
+            Width: =246
+            X: =755
+            Y: =278
+            ZIndex: =7
+
+        lbl_TipoServicio3 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =60
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Tipo de servicio"
+            Width: =155
+            X: =1001
+            Y: =278
+            ZIndex: =8
+
+        lbl_importeVuelo As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =60
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Importe de vuelo"
+            Width: =128
+            X: =1156
+            Y: =278
+            ZIndex: =9
+
+        lbl_Ruta2 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =60
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Ruta"
+            Width: =242
+            X: =1435
+            Y: =278
+            ZIndex: =10
+
+        lbl_FechaServicio2 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =60
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Fecha de servicio"
+            Width: =197
+            X: =1658
+            Y: =278
+            ZIndex: =11
+
+        lbl_Emisor As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =60
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Emisor"
+            Width: =151
+            X: =407
+            Y: =278
+            ZIndex: =26
+
+        lbl_Servicios2 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =60
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Servicios"
+            Width: =140
+            X: =1305
+            Y: =278
+            ZIndex: =27
+
+        lbl_Provisional As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =60
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =15
+            Text: ="Provisional"
+            Width: =124
+            X: =131
+            Y: =278
+            ZIndex: =38
+
+    gp_Info2 As group:
+        Height: =5
+        Width: =5
+        X: =60
+        Y: =17
+        ZIndex: =87
+
+        th_Info2 As htmlViewer:
+            Height: =1080
+            HtmlText: |-
+                ="<div style=""margin: 10px; width: "&(Self.Width-15)&"px; height: "&(Self.Height-25)&"px; background-color: rgba(100,250,255,1); box-shadow: -3px 3px 3px 0 rgba(0,0,0,0.2); border-radius: 0px""></div>"
+            OnSelect: =
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =12.23
+            Visible: =var_verLinks
+            Width: =558
+            X: =1362
+            ZIndex: =93
+
+        "gal_Info2 As gallery.'BrowseLayout_Vertical_TwoTextVariant_ver5.0'":
+            DelayItemLoading: =true
+            Height: =780
+            Items: =Filter(InfoAdicional, Tipo = "Documentación")
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            TemplatePadding: =0
+            TemplateSize: =68
+            Visible: =var_verLinks
+            Width: =540
+            X: =1379
+            Y: =90
+            ZIndex: =94
+
+            HtmlText1_12 As htmlViewer:
+                Height: =65
+                HtmlText: |-
+                    ="<div style=""margin: 0px; width: "&(Self.Width-10)&"px; height: "&(Self.Height-5)&"px; background-color: rgba(255,255,255,0.8); box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =12.23
+                Width: =533
+                X: =1
+                ZIndex: =1
+
+            Title5_2 As label:
+                FontWeight: =FontWeight.Semibold
+                Height: =59
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =15
+                Text: =ThisItem.Titulo
+                Width: =484
+                X: =8
+                ZIndex: =2
+
+            NextArrow4_2 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                Color: =RGBA(40, 90, 255, 1)
+                Height: =30
+                Icon: =Icon.ChevronRight
+                OnSelect: |-
+                    =Select(Parent);
+                    Launch(ThisItem.Link)
+                Tooltip: ="Ver los detalles del elemento"
+                Width: =30
+                X: =492
+                Y: =17
+                ZIndex: =4
+
+        icn_CerrarInfo2 As icon.Save:
+            Color: =RGBA(40, 90, 255, 1)
+            Height: =44
+            Icon: =Icon.Cancel
+            OnSelect: =Set(var_verLinks, false)
+            Visible: =var_verLinks
+            Width: =45
+            X: =1865
+            Y: =11
+            ZIndex: =95
+
+        lbl_TituloInfo2 As label:
+            FontWeight: =FontWeight.Bold
+            Height: =37
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =27
+            Text: ="Links"
+            Visible: =var_verLinks
+            Width: =425
+            X: =1383
+            Y: =26
+            ZIndex: =96
+
+        Separator1_51 As rectangle:
+            Height: =2
+            OnSelect: =
+            Visible: =var_verLinks
+            Width: =222
+            X: =1382
+            Y: =63
+            ZIndex: =97
+
+    gp_Acting1 As group:
+        Height: =5
+        Width: =5
+        X: =80
+        Y: =80
+        ZIndex: =88
+
+        lbl_FondoActng As label:
+            Fill: =RGBA(40, 112, 134, 0.65)
+            Height: =1080
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =14.45
+            Text: =""
+            Visible: =var_ABM_Acting
+            Width: =1920
+            ZIndex: =60
+
+        th_Actng As htmlViewer:
+            Height: =446
+            HtmlText: |-
+                ="<div style=""margin: 0px; width: "&(Self.Width-13)&"px; height: "&(Self.Height-13)&"px; background-color: rgba(100,250,255,1); box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.2); border-radius:5px""></div>"
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =12.23
+            Visible: =var_ABM_Acting
+            Width: =1366
+            X: =272
+            Y: =394
+            ZIndex: =61
+
+        icn_CerrarActng As icon.Save:
+            Color: =RGBA(40, 90, 255, 1)
+            Height: =45
+            Icon: =Icon.Cancel
+            OnSelect: =Set(var_ABM_Acting, false)
+            Visible: =var_ABM_Acting
+            Width: =45
+            X: =1575
+            Y: =407
+            ZIndex: =62
+
+        lbl_Actng As label:
+            Align: =Align.Center
+            FontWeight: =FontWeight.Bold
+            Height: =57
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =28
+            Text: ="Acting"
+            Visible: =var_ABM_Acting
+            Width: =542
+            X: =684
+            Y: =407
+            ZIndex: =63
+
+        "gal_Actng As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+            BorderThickness: =1
+            DelayItemLoading: =true
+            Fill: =RGBA(40, 90, 255, 0.17)
+            Height: =200
+            Items: =Sort(Filter(Acting, MailAprobador = User().Email), Titular = true,SortOrder.Descending)
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            TemplatePadding: =0
+            TemplateSize: =100
+            Visible: =var_ABM_Acting
+            Width: =456
+            X: =426
+            Y: =524
+            ZIndex: =64
+
+            Title1_6 As label:
+                FontWeight: =FontWeight.Bold
+                Height: =27
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =18
+                Text: =ThisItem.NombreApellido
+                VerticalAlign: =VerticalAlign.Top
+                Width: =376
+                X: =80.03
+                Y: =10
+                ZIndex: =1
+
+            NextArrow1_45 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                Color: =RGBA(40, 90, 255, 1)
+                Height: =30
+                Icon: =Icon.Edit
+                OnSelect: |-
+                    =Select(Parent);
+                    Set(var_EditActing, true);
+                    Set(var_ActingSelect, Blank());
+                    Reset(txt_BuscarActng)
+                Tooltip: ="Ver los detalles del elemento"
+                Width: =30
+                X: =385
+                Y: =60
+                ZIndex: =3
+
+            Separator1_6 As rectangle:
+                Height: =2
+                OnSelect: =Select(Parent)
+                Width: =456
+                Y: =Parent.TemplateHeight - Self.Height
+                ZIndex: =4
+
+            Rectangle1_6 As rectangle:
+                Height: =Parent.TemplateHeight - Separator1_6.Height
+                OnSelect: =Select(Parent)
+                Visible: =ThisItem.IsSelected
+                Width: =4.45
+                ZIndex: =5
+
+            NextArrow1_46 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                Color: =RGBA(255, 0, 0, 1)
+                Height: =30
+                Icon: =Icon.Trash
+                OnSelect: |-
+                    =Select(Parent);
+                    Set(var_ActingTitular, ThisItem);
+                    
+                    Set(var_EditActing, false);
+                    Remove(Acting, ThisItem);
+                    Refresh(Acting);
+                    
+                    Set(var_newTitular, First(Filter(gal_Actng.AllItems, Mail <> var_ActingTitular.Mail)));
+                    
+                    If(Text(var_ActingTitular.Titular) = "Sí",
+                        Patch(Acting, var_newTitular, {Titular: true})
+                    );
+                    Refresh(Acting);
+                Tooltip: ="Ver los detalles del elemento"
+                Width: =30
+                X: =424
+                Y: =60
+                ZIndex: =6
+
+            Icon7_3 As icon.Person:
+                Height: =50
+                Icon: =Icon.Person
+                OnSelect: =Select(Parent)
+                Width: =55.57
+                X: =14.45
+                Y: =30
+                ZIndex: =7
+
+            Image1_3 As image:
+                Height: =60
+                Image: |-
+                    =If(CountRows(UsuariosdeOffice365.SearchUser({searchTerm: ThisItem.Mail, top: 1})) > 0,
+                        If(!IsBlank(ThisItem.Mail), UsuariosdeOffice365.UserPhotoV2(ThisItem.Mail))
+                    )
+                OnSelect: =Select(Parent)
+                RadiusBottomLeft: =8
+                RadiusBottomRight: =8
+                RadiusTopLeft: =8
+                RadiusTopRight: =8
+                Width: =66.69
+                X: =8.89
+                Y: =22
+                ZIndex: =8
+
+            Title1_44 As label:
+                FontWeight: =FontWeight.Semibold
+                Height: =11
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =11.11
+                Text: =ThisItem.Mail
+                VerticalAlign: =VerticalAlign.Top
+                Visible: =false
+                Width: =80.03
+                Y: =70
+                ZIndex: =9
+
+            NextArrow1_47 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                Color: =RGBA(224, 86, 6, 1)
+                DisplayMode: =DisplayMode.View
+                Height: =30
+                Icon: =Icon.Diamond
+                OnSelect: =
+                Tooltip: ="Ver los detalles del elemento"
+                Visible: =ThisItem.Titular
+                Width: =30
+                X: =234
+                Y: =49
+                ZIndex: =10
+
+            Title1_7 As label:
+                FontWeight: =FontWeight.Semibold
+                Height: =52
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =16
+                Text: =Text(ThisItem.FechaInicio, "dd/mm/yyyy")&" "&Text(ThisItem.FechaFin, "dd/mm/yyyy")
+                VerticalAlign: =VerticalAlign.Top
+                Width: =155
+                X: =80
+                Y: =38
+                ZIndex: =11
+
+        ht_FondoActng As htmlViewer:
+            Height: =311
+            HtmlText: |-
+                ="<div style=""margin: 0px; width: "&(Self.Width-13)&"px; height: "&(Self.Height-13)&"px; background-color: rgba(150,150,150, 0.2); box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.2); border-radius:5px""></div>"
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =12.23
+            Visible: =var_ABM_Acting
+            Width: =602
+            X: =900
+            Y: =477
+            ZIndex: =65
+
+        icn_AgregarActng As icon.Add:
+            Color: =RGBA(40, 90, 255, 1)
+            DisplayMode: =If((!IsBlank(var_ActingSelect) || var_EditActing) && !IsBlank(dt_FechaInicioActng.SelectedDate) && !IsBlank(dt_FechaFinActng.SelectedDate), DisplayMode.Edit, DisplayMode.Disabled)
+            Height: =45
+            Icon: =If(var_EditActing, Icon.Save ,Icon.Add)
+            OnSelect: |
+                =Patch(Acting, If(var_EditActing, gal_Actng.Selected, Defaults(Acting)), 
+                {NombreApellido: txt_NombreActng.Value, Mail: txt_MailActng.Value, MailAprobador: User().Email, Titular: If(CountRows(gal_Actng.AllItems)=0 || (gal_Actng.Selected.Titular && var_EditActing), true, false), FechaInicio: dt_FechaInicioActng.SelectedDate, FechaFin: dt_FechaFinActng.SelectedDate});
+                
+                If(!var_EditActing,
+                    Agregarusuario.Run(txt_MailActng.Value)
+                );
+                
+                Set(var_ActingSelect, Blank());
+                Reset(txt_NombreActng); Reset(txt_MailActng); Reset(dt_FechaInicioActng); Reset(dt_FechaFinActng);
+                Set(var_EditActing, false);
+            Visible: =var_ABM_Acting && txt_BuscarActng.Visible || var_EditActing && var_ABM_Acting
+            Width: =45
+            X: =1414
+            Y: =505
+            ZIndex: =66
+
+        "txt_NombreActng As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =RGBA(255, 255, 255, 1)
+            DisplayMode: =If(chk_EmpleadoPasajero.Value || var_EditSol > 1, DisplayMode.View, DisplayMode.Edit)
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            ValidationState: ="None"
+            Value: |-
+                =If(var_EditActing,
+                gal_Actng.Selected.NombreApellido
+                ,
+                var_ActingSelect.DisplayName
+                )
+            Visible: =!var_EditActing && var_ABM_Acting && CountRows(gal_Actng.AllItems) < 2 || (var_EditActing && var_ABM_Acting)
+            Width: =300
+            X: =952
+            Y: =615
+            ZIndex: =67
+
+        lbl_NombreActng As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Nombre"
+            Visible: =!var_EditActing && var_ABM_Acting && CountRows(gal_Actng.AllItems) < 2 ||  (var_EditActing && var_ABM_Acting)
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =300
+            X: =952
+            Y: =577
+            ZIndex: =68
+
+        "txt_MailActng As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: =If(chk_EmpleadoPasajero.Value|| var_EditSol > 1, DisplayMode.View, DisplayMode.Edit)
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            ValidationState: ="None"
+            Value: |-
+                =If(var_EditActing,
+                gal_Actng.Selected.Mail
+                ,
+                var_ActingSelect.Mail
+                )
+            Visible: =!var_EditActing && var_ABM_Acting && CountRows(gal_Actng.AllItems) < 2 || (var_EditActing && var_ABM_Acting)
+            Width: =300
+            X: =952
+            Y: =696
+            ZIndex: =69
+
+        lbl_MailActng As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Mail"
+            Visible: =!var_EditActing && var_ABM_Acting && CountRows(gal_Actng.AllItems) < 2 ||  (var_EditActing && var_ABM_Acting)
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =300
+            X: =952
+            Y: =658
+            ZIndex: =70
+
+        "txt_BuscarActng As 'Entrada de texto'":
+            AccessibleLabel: =""
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: =If(!IsBlank(var_ActingSelect) || var_EditActing , DisplayMode.View, DisplayMode.Edit)
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =0
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =40
+            Placeholder: ="Buscar pasajero"
+            Type: ='TextInputCanvas.Type'.Text
+            ValidationState: ="None"
+            Value: =var_ActingSelect.GivenName&" "&var_ActingSelect.Surname
+            Visible: =!var_EditActing && var_ABM_Acting && CountRows(gal_Actng.AllItems) < 2
+            Width: =300
+            X: =952
+            Y: =535
+            ZIndex: =71
+
+        icn_BorrarActng As icon.Cancel:
+            DisplayMode: =If(var_EditPasajero, DisplayMode.View, DisplayMode.Edit)
+            Height: =40
+            Icon: =Icon.Cancel
+            OnSelect: |-
+                =Set(var_ActingSelect, Blank());
+                Reset(txt_BuscarActng)
+            PaddingBottom: =5
+            PaddingTop: =5.56
+            Visible: =!IsBlank(var_ActingSelect)  && var_ABM_Acting
+            Width: =40
+            X: =1212
+            Y: =535
+            ZIndex: =72
+
+        lbl_FechaInicioActng As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Fecha inicio"
+            Visible: =!var_EditActing && var_ABM_Acting && CountRows(gal_Actng.AllItems) < 2 ||  (var_EditActing && var_ABM_Acting)
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =174
+            X: =1287
+            Y: =577
+            ZIndex: =73
+
+        lbl_FechaFinActng As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =35
+            Size: =18
+            Text: ="Fecha fin"
+            Visible: =!var_EditActing && var_ABM_Acting && CountRows(gal_Actng.AllItems) < 2 ||  (var_EditActing && var_ABM_Acting)
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =174
+            X: =1287
+            Y: =658
+            ZIndex: =76
+
+        lbl_MensajeActng2 As label:
+            Color: =RGBA(184, 0, 0, 1)
+            FontWeight: =FontWeight.Semibold
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =16
+            Text: ="* Únicamente pueden cargarse 2 Actings."
+            Visible: =var_ABM_Acting
+            Width: =450
+            X: =952
+            Y: =485
+            ZIndex: =78
+
+        Label9_6 As label:
+            Color: =RGBA(184, 0, 0, 1)
+            Height: =35
+            PaddingLeft: =0
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =18
+            Text: ="*"
+            Visible: =!var_EditActing && var_ABM_Acting && CountRows(gal_Actng.AllItems) < 2
+            Width: =15
+            X: =1270
+            Y: =576
+            ZIndex: =79
+
+        Label9_7 As label:
+            Color: =RGBA(184, 0, 0, 1)
+            Height: =35
+            PaddingLeft: =0
+            PaddingRight: =5.56
+            PaddingTop: =5.56
+            Size: =18
+            Text: ="*"
+            Visible: =!var_EditActing && var_ABM_Acting && CountRows(gal_Actng.AllItems) < 2
+            Width: =15
+            X: =1272
+            Y: =661
+            ZIndex: =80
+
+        "gal_BuscarActng As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+            BorderThickness: =1
+            DelayItemLoading: =true
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =191
+            Items: |-
+                =If(!IsBlank(Trim(txt_BuscarActng.Value)), UsuariosdeOffice365.SearchUser({searchTerm: Trim(txt_BuscarActng.Value), top: 15}))
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            OnSelect: =Set(var_ActingSelect, ThisItem)
+            ShowScrollbar: =false
+            TemplatePadding: =0
+            TemplateSize: =65
+            Visible: =Len(txt_BuscarActng.Value) > 3 && IsBlank(var_ActingSelect) && var_ABM_Acting
+            Width: =377
+            X: =915
+            Y: =584
+            ZIndex: =81
+
+            Icon3_1 As icon.Person:
+                Height: =50
+                Icon: =Icon.Person
+                OnSelect: =Select(Parent)
+                Width: =55.57
+                X: =10
+                Y: =6
+                ZIndex: =1
+
+            Image1_1 As image:
+                Height: =50
+                Image: |-
+                    =//UsuariosdeOffice365.UserPhoto(ThisItem.Mail)
+                    If(CountRows(UsuariosdeOffice365.SearchUser({searchTerm: Trim(txt_BuscarActng.Value), top: 15})) > 0,
+                        If(!IsBlank(ThisItem.Mail), UsuariosdeOffice365.UserPhotoV2(ThisItem.Mail))
+                    )
+                OnSelect: =Select(Parent)
+                RadiusBottomLeft: =8
+                RadiusBottomRight: =8
+                RadiusTopLeft: =8
+                RadiusTopRight: =8
+                Width: =55.57
+                X: =10
+                Y: =7
+                ZIndex: =2
+
+            Title1_2 As label:
+                FontWeight: =FontWeight.Semibold
+                Height: =20
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =12.23
+                Text: =ThisItem.DisplayName
+                VerticalAlign: =VerticalAlign.Top
+                Width: =262
+                X: =72.25
+                Y: =5
+                ZIndex: =3
+
+            Subtitle1_1 As label:
+                FontWeight: =FontWeight.Semibold
+                Height: =31
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =10
+                Text: =ThisItem.Mail
+                Width: =305
+                X: =72.25
+                Y: =25
+                ZIndex: =4
+
+            Separator1_2 As rectangle:
+                Fill: =RGBA(0, 0, 0, 0.55)
+                Height: =2
+                OnSelect: =Select(Parent)
+                Width: =334.55
+                Y: =62
+                ZIndex: =5
+
+            Rectangle1_2 As rectangle:
+                Height: =Parent.TemplateHeight - Separator1_2.Height
+                OnSelect: =Select(Parent)
+                Visible: =ThisItem.IsSelected
+                Width: =4.45
+                ZIndex: =6
+
+        lbl_AgregarActng As label:
+            Align: =Align.Center
+            Color: =RGBA(40, 90, 255, 1)
+            DisplayMode: =If((!IsBlank(var_ActingSelect) || var_EditActing) && !IsBlank(dt_FechaInicioActng.SelectedDate) && !IsBlank(dt_FechaFinActng.SelectedDate), DisplayMode.Edit, DisplayMode.Disabled)
+            FontWeight: =FontWeight.Semibold
+            Height: =25
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =15
+            Text: =If(var_EditActing, "Guardar", "Agregar")
+            Visible: =var_ABM_Acting && txt_BuscarActng.Visible || var_EditActing && var_ABM_Acting
+            Width: =100
+            X: =1387
+            Y: =545
+            ZIndex: =82
+
+        lbl_MensajeActng As label:
+            Align: =Align.Center
+            FontWeight: =FontWeight.Semibold
+            Height: =157
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =24
+            Text: ="Límite de Actings alcanzado."
+            Visible: =var_ABM_Acting && !(txt_BuscarActng.Visible || var_EditActing && var_ABM_Acting)
+            Width: =327
+            X: =1038
+            Y: =554
+            ZIndex: =83
+
+    Filtros As group:
+        Height: =5
+        Width: =5
+        X: =60
+        Y: =60
+        ZIndex: =90
+
+        "txt_BuscarID2 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =45
+            Placeholder: ="ID"
+            ValidationState: ="None"
+            Value: =If(IsBlank(var_ParamID), "", var_ParamID)
+            Width: =121.15
+            X: =89
+            Y: =143
+            ZIndex: =13
+
+        "txt_BuscarPasajero2 As 'Entrada de texto'":
+            Align: ="Start"
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =45
+            Placeholder: ="Pasajero"
+            ValidationState: ="None"
+            Value: =""
+            Width: =195.62
+            X: =544
+            Y: =143
+            ZIndex: =14
+
+        "cbox_TipoServicios2 As 'Cuadro combinado'.pcfdataset":
+            AccessibleLabel: =""
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =45
+            InputTextPlaceholder: ="Tipo de servicio"
+            Items: =["Nacional", "Internacional"]
+            Width: =193
+            X: =768
+            Y: =143
+            ZIndex: =15
+
+        "cbox_Esados2 As 'Cuadro combinado'.pcfdataset":
+            DefaultSelectedItems: |-
+                =/*If(var_borrarFiltro = false;
+                If(IsBlank(DatePickerCanvas1_3.SelectedDate);
+                    If(var_userRol.Rol = "Administrador";
+                        If(Toggle1;  dd_PendienteAprobacion.Selected; dd_Emision.Selected)
+                    ;
+                        If(var_userRol.Rol = "Aprobador"; dd_PendienteAprobacion.Selected; dd_Emision.Selected)
+                    )
+                ;
+                    dd_Cerrada.Selected
+                ))*/
+                If(var_borrarFiltro = false,
+                If(var_userRol.Rol = "Administrador",
+                    If(sw_Aprobadores.Value,  ddl_PendienteAprobacion.Selected, dd_Emision.Selected)
+                ,
+                    If(var_userRol.Rol = "Aprobador", ddl_PendienteAprobacion.Selected, dd_Emision.Selected)
+                ))
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =45
+            InputTextPlaceholder: ="Estado"
+            Items: =Choices('Estado (SolicitudesDeViajes)')
+            OnChange: =Set(var_borrarFiltro, false)
+            Width: =283
+            X: =236
+            Y: =143
+            ZIndex: =16
+
+        "dt_FechaPartida2 As 'Selector de fecha'":
+            BasePaletteColor: =
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontSize: =20
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =45
+            Placeholder: ="Seleccionar fecha"
+            ValidationState: ="None"
+            Width: =166
+            X: =89
+            Y: =225
+            ZIndex: =17
+
+        lbl_ID2 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =30
+            Size: =18
+            Text: |-
+                ="ID:"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =106.7
+            X: =91
+            Y: =111
+            ZIndex: =18
+
+        lbl_Estado2 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =30
+            Size: =18
+            Text: |-
+                ="Estado:"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =106.7
+            X: =236
+            Y: =111
+            ZIndex: =19
+
+        lbl_Pasajero2 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =30
+            Size: =18
+            Text: |-
+                ="Pasajero:"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =106.7
+            X: =544
+            Y: =111
+            ZIndex: =20
+
+        lbl_TipoServicio2 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =30
+            Size: =18
+            Text: |-
+                ="Tipo de servicio:"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =193
+            X: =768
+            Y: =111
+            ZIndex: =21
+
+        lbl_FechaPartida2 As Texto:
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontColor: =
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =30
+            Size: =18
+            Text: |-
+                ="Fecha de partida:"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =211
+            X: =89
+            Y: =193
+            ZIndex: =22
+
+        icn_borrarFiltros2 As icon.AddDocument:
+            Color: =RGBA(2, 45, 186, 1)
+            Height: =40
+            Icon: =Icon.Erase
+            OnSelect: |-
+                =Reset(cbox_Esados2);Reset(txt_BuscarID2);Reset(txt_BuscarPasajero2);Reset(cbox_TipoServicios2);Reset(dt_FechaPartida2);Reset(dt_FechaCierre)
+                ;Reset(dt_FechaDesde);Reset(dt_FechaHasta);
+                Set(var_borrarFiltro, true);Set(var_ParamID, Blank())
+            Width: =40
+            X: =1037
+            Y: =121
+            ZIndex: =23
+
+        icn_borrarPasajero2 As icon.AddDocument:
+            Height: =45
+            Icon: =Icon.Cancel
+            OnSelect: =Reset(txt_BuscarPasajero2)
+            Width: =20
+            X: =714
+            Y: =142
+            ZIndex: =24
+
+        icn_borrarID2 As icon.AddDocument:
+            Height: =45
+            Icon: =Icon.Cancel
+            OnSelect: =Reset(txt_BuscarID2);Set(var_ParamID, Blank())
+            Width: =20
+            X: =183
+            Y: =142
+            ZIndex: =25
+
+        icn_Refrescar2 As icon.AddDocument:
+            Color: =RGBA(2, 45, 186, 1)
+            Height: =40
+            Icon: =Icon.Reload
+            OnSelect: |-
+                =Refresh(SolicitudesDeViajes);
+                Refresh(Aprobaciones);
+                Refresh(Acting);
+                
+                ClearCollect(col_SolicitudesFiltradas,
+                Filter(AddColumns(SolicitudesDeViajes, "IsActing",First(Filter(ForAll(Filter(Acting, Mail = User().Email && (MailAprobador = A1Mail || MailAprobador = A2Mail)), If(ThisRecord.FechaInicio <= Today() && ThisRecord.FechaFin >= Today(), "1")), Value = "1")).Value),
+                    A1Mail = User().Email || A2Mail = User().Email || IsActing = "1")
+                )
+            Width: =40
+            X: =1173
+            Y: =121
+            ZIndex: =29
+
+        icn_Acting As icon.AddDocument:
+            Color: =RGBA(2, 45, 186, 1)
+            Height: =40
+            Icon: =Icon.People
+            OnSelect: |-
+                =Refresh(Acting);
+                Set(var_ABM_Acting, true)
+            Visible: =var_userRol.Rol = "Administrador" || var_userRol.Rol = "Aprobador"
+            Width: =40
+            X: =1285
+            Y: =121
+            ZIndex: =30
+
+        lbl_Acting As label:
+            Align: =Align.Center
+            Color: =RGBA(2, 45, 186, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =25
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =14
+            Text: ="Acting"
+            Visible: =var_userRol.Rol = "Administrador" || var_userRol.Rol = "Aprobador"
+            Width: =65
+            X: =1272
+            Y: =161
+            ZIndex: =33
+
+        lbl_refrescar2 As label:
+            Align: =Align.Center
+            Color: =RGBA(2, 45, 186, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =25
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =14
+            Text: ="Refrescar"
+            Width: =95
+            X: =1145
+            Y: =161
+            ZIndex: =34
+
+        lbl_borrarFiltro2 As label:
+            Align: =Align.Center
+            Color: =RGBA(2, 45, 186, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =25
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =14
+            Text: ="Borrar filtros"
+            Width: =134
+            X: =990
+            Y: =161
+            ZIndex: =35
+
+    FondoFecha_13 As label:
+        Fill: =RGBA(245, 245, 245, 1)
+        Text: =""
+        Visible: =!var_EditActing && var_ABM_Acting && CountRows(gal_Actng.AllItems) < 2 || (var_EditActing && var_ABM_Acting)
+        Width: =172
+        X: =1287
+        Y: =616
+        ZIndex: =98
+
+    "dt_FechaInicioActng As 'Selector de fecha'":
+        BasePaletteColor: =RGBA(245, 245, 245, 1)
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontColor: =
+        FontItalic: =false
+        FontSize: =20
+        FontStrikethrough: =false
+        FontUnderline: =false
+        FontWeight: =""
+        Format: ='DatePickerCanvas.Format'.Short
+        Height: =35
+        OnChange: =
+        Placeholder: ="Fecha"
+        SelectedDate: |-
+            =If(var_EditActing,
+            gal_Actng.Selected.FechaInicio)
+        ValidationState: ="None"
+        Visible: =!var_EditActing && var_ABM_Acting && CountRows(gal_Actng.AllItems) < 2 || (var_EditActing && var_ABM_Acting)
+        Width: =172
+        X: =1287
+        Y: =620
+        ZIndex: =99
+
+    FondoFecha_14 As label:
+        Fill: =RGBA(245, 245, 245, 1)
+        Text: =""
+        Visible: =!var_EditActing && var_ABM_Acting && CountRows(gal_Actng.AllItems) < 2 || (var_EditActing && var_ABM_Acting)
+        Width: =174
+        X: =1285
+        Y: =696
+        ZIndex: =100
+
+    "dt_FechaFinActng As 'Selector de fecha'":
+        BasePaletteColor: =RGBA(245, 245, 245, 1)
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontColor: =
+        FontItalic: =false
+        FontSize: =20
+        FontStrikethrough: =false
+        FontUnderline: =false
+        FontWeight: =""
+        Format: ='DatePickerCanvas.Format'.Short
+        Height: =35
+        OnChange: =
+        Placeholder: ="Fecha"
+        SelectedDate: |-
+            =If(var_EditActing,
+            gal_Actng.Selected.FechaFin)
+        ValidationState: ="None"
+        Visible: =!var_EditActing && var_ABM_Acting && CountRows(gal_Actng.AllItems) < 2 || (var_EditActing && var_ABM_Acting)
+        Width: =174
+        X: =1285
+        Y: =700
+        ZIndex: =101
+

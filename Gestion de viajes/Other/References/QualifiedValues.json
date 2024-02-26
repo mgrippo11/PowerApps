@@ -1,0 +1,445 @@
+{
+  "QualifiedValues": [
+    {
+      "Kind": "default.cds_systemuser_forms",
+      "Namespace": "Users (Formularios)",
+      "Values": {
+        "Application User": "d26924ef-4d80-46f7-ab1d-e6ae80a54ce8",
+        "Information": "094fb08a-77bb-49e0-b7ea-8dbddfd01294",
+        "User": "c2cd9e55-d4b4-4b55-9951-16ead79643e5",
+        "User form – Business": "c2413504-7eb2-4c59-a087-95d819866114",
+        "User Hierarchy Tile Form": "c68d6c09-d7a7-4959-8d0f-44b8cff9b452"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_transporte_forms",
+      "Namespace": "Transporte (Formularios)",
+      "Values": {
+        "Information": "94b2f9d2-2ae3-4a43-be5c-160538ad5790"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_tramos_forms",
+      "Namespace": "Tramos (Formularios)",
+      "Values": {
+        "Information": "8a43bd52-7420-4e41-b484-a1aefb2d7af1"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_tiposviaje_forms",
+      "Namespace": "TiposViaje (Formularios)",
+      "Values": {
+        "Information": "bc525237-34eb-470c-9dfe-a2160d4f97bf"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_alquilerauto_forms",
+      "Namespace": "AlquilerAuto (Formularios)",
+      "Values": {
+        "Information": "4e92dce5-dead-4270-a3d6-e63e6d1ce463"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_taxi_forms",
+      "Namespace": "Taxi (Formularios)",
+      "Values": {
+        "Information": "5f685dc4-ec58-4877-9968-ae8cb5ca9653"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_pasajeros_forms",
+      "Namespace": "Pasajeros (Formularios)",
+      "Values": {
+        "Information": "26685d70-049c-4bfb-9603-b96e22862ddc"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_acting_forms",
+      "Namespace": "Acting (Formularios)",
+      "Values": {
+        "Information": "775ffb85-cc4d-4145-bff4-d25c1327ee66"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_hoteleria_forms",
+      "Namespace": "Hoteleria (Formularios)",
+      "Values": {
+        "Information": "294a99a6-209b-4f63-b069-c7b6df9b1359"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_dnis_forms",
+      "Namespace": "DNIs (Formularios)",
+      "Values": {
+        "Information": "d55fb069-0c47-40f2-b1ad-e8f2395375d3"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_archivosadjuntos_forms",
+      "Namespace": "ArchivosAdjuntos (Formularios)",
+      "Values": {
+        "Information": "4d6239ff-5f99-4d62-9953-bc43acfd84e5"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_aprobaciones_forms",
+      "Namespace": "Aprobaciones (Formularios)",
+      "Values": {
+        "Information": "4827bc76-eef5-47a2-8d41-9e8491be4103"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_solicitudesdeviajes_forms",
+      "Namespace": "SolicitudesDeViajes (Formularios)",
+      "Values": {
+        "Information": "a983db59-5071-47ba-9a59-b7d3f92980e2"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_alternativas_forms",
+      "Namespace": "Alternativas (Formularios)",
+      "Values": {
+        "Information": "ecc8ab48-fbb3-44d1-a6ef-b3e0dabbfb72"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_codigosiata_forms",
+      "Namespace": "CodigosIATA (Formularios)",
+      "Values": {
+        "Information": "c555e605-3ea1-42ad-9803-8ec84e7a6595"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_fuerapolitica_forms",
+      "Namespace": "FueraPolitica (Formularios)",
+      "Values": {
+        "Information": "30ad86cd-fe66-4fae-9638-87f04983dc13"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_centroscostos_forms",
+      "Namespace": "CentrosCostos (Formularios)",
+      "Values": {
+        "Information": "90728158-ed53-438c-83d0-fc2dd9122221"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_infoadicional_forms",
+      "Namespace": "InfoAdicional (Formularios)",
+      "Values": {
+        "Information": "1a758cba-7649-4697-a5cc-f83bdd1fbb06"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_roles_forms",
+      "Namespace": "Roles (Formularios)",
+      "Values": {
+        "Information": "05b2ebc9-44ae-419b-9941-94d1301f93b2"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e0_tickets_forms",
+      "Namespace": "Tickets (Formularios)",
+      "Values": {
+        "Information": "f2c29618-12e9-43bf-a76e-c92e9addc2db"
+      }
+    },
+    {
+      "Kind": "default.cds_cr4d6_solicitudesdeviajes_forms",
+      "Namespace": "SolicitudesDeViajes (Formularios)1",
+      "Values": {
+        "Information": "a9f0fc56-6b3b-4974-9a4f-bf124541befd"
+      }
+    },
+    {
+      "Kind": "default.cds_cr4d6_archivosadjuntos_forms",
+      "Namespace": "ArchivosAdjuntos (Formularios)1",
+      "Values": {
+        "Information": "1f96d83d-6670-420e-a867-a72b0dfeb5c1"
+      }
+    },
+    {
+      "Kind": "default.cds_cr4d6_centroscostos_forms",
+      "Namespace": "CentrosCostos (Formularios)1",
+      "Values": {
+        "Information": "1b4a0ba6-06ba-40a4-a033-7e936a76be3f"
+      }
+    },
+    {
+      "Kind": "default.cds_cr4d6_pasajeros_forms",
+      "Namespace": "Pasajeros (Formularios)1",
+      "Values": {
+        "Information": "b211c9fe-9fc6-4009-a247-c6f3ba000ea8"
+      }
+    },
+    {
+      "Kind": "default.cds_cr4d6_infoadicional_forms",
+      "Namespace": "InfoAdicional (Formularios)1",
+      "Values": {
+        "Information": "2ea8a084-db6a-4265-b7c8-e3fc831a6177"
+      }
+    },
+    {
+      "Kind": "default.cds_cr4d6_taxi_forms",
+      "Namespace": "Taxi (Formularios)1",
+      "Values": {
+        "Information": "07a30cfb-8088-49e5-b166-f11f87aeb239"
+      }
+    },
+    {
+      "Kind": "default.cds_cr4d6_hoteleria_forms",
+      "Namespace": "Hoteleria (Formularios)1",
+      "Values": {
+        "Information": "19c34537-6677-4328-80cd-a9e3032e2883"
+      }
+    },
+    {
+      "Kind": "default.cds_cr4d6_tramos_forms",
+      "Namespace": "Tramos (Formularios)1",
+      "Values": {
+        "Information": "f4dafc6a-3f99-492d-b8dd-ed9949097012"
+      }
+    },
+    {
+      "Kind": "default.cds_cr4d6_alternativas_forms",
+      "Namespace": "Alternativas (Formularios)1",
+      "Values": {
+        "Information": "0bf2dc51-1dc1-4cd0-b306-f61386118e43"
+      }
+    },
+    {
+      "Kind": "default.cds_cr4d6_alquilerauto_forms",
+      "Namespace": "AlquilerAuto (Formularios)1",
+      "Values": {
+        "Information": "17a8ffc2-724b-4687-bae9-887a70d6b2e8"
+      }
+    },
+    {
+      "Kind": "default.cds_cr4d6_transporte_forms",
+      "Namespace": "Transporte (Formularios)1",
+      "Values": {
+        "Information": "0594f7a9-0d4d-4f8a-a358-f7e27ac2c2c8"
+      }
+    },
+    {
+      "Kind": "default.cds_bulkdeletefailure_forms",
+      "Namespace": "Bulk Delete Failures (Formularios)",
+      "Values": {}
+    },
+    {
+      "Kind": "default.cds_cr4d6_codigosiata_forms",
+      "Namespace": "CodigosIATA (Formularios)1",
+      "Values": {
+        "Information": "4d93ff68-b2d3-4357-9d4d-bdd8346efcc0"
+      }
+    },
+    {
+      "Kind": "default.cds_fileattachment_forms",
+      "Namespace": "FileAttachments (Formularios)",
+      "Values": {}
+    },
+    {
+      "Kind": "default.cds_cr4d6_roles_forms",
+      "Namespace": "Roles (Formularios)1",
+      "Values": {
+        "Information": "676cb85e-4e4a-4d1c-aed8-f8b62fa2d038"
+      }
+    },
+    {
+      "Kind": "default.cds_cr4d6_tipoviaje_forms",
+      "Namespace": "TiposViaje (Formularios)1",
+      "Values": {
+        "Information": "9598cd1f-3d4a-4c5d-9062-fe18a08c6eb0"
+      }
+    },
+    {
+      "Kind": "default.cds_cr4d6_aprobaciones_forms",
+      "Namespace": "Aprobaciones (Formularios)1",
+      "Values": {
+        "Information": "e0a2ff80-ace7-4ccf-aa30-62d481e5db96"
+      }
+    },
+    {
+      "Kind": "default.cds_cr4d6_fuerapolitica_forms",
+      "Namespace": "FueraPolitica (Formularios)1",
+      "Values": {
+        "Information": "3f85d8a3-3e82-420d-a12b-8f59625d9ed5"
+      }
+    },
+    {
+      "Kind": "default.cds_cr4d6_acting_forms",
+      "Namespace": "Acting (Formularios)1",
+      "Values": {
+        "Information": "c0a338ab-f91b-4cf9-af95-cd8379157095"
+      }
+    },
+    {
+      "Kind": "default.cds_mailbox_forms",
+      "Namespace": "Mailboxes (Formularios)",
+      "Values": {
+        "Information": "d08328e6-d988-44df-8d76-d4e83674f85c"
+      }
+    },
+    {
+      "Kind": "default.cds_cr4d6_dnis_forms",
+      "Namespace": "DNIs (Formularios)1",
+      "Values": {
+        "Information": "d7968f8e-af1e-450a-9581-aa7f0bc3fbf3"
+      }
+    },
+    {
+      "Kind": "default.cds_cr4d6_export_forms",
+      "Namespace": "Export (Formularios)",
+      "Values": {
+        "Information": "ef466108-1150-476e-8782-c0fa5ae80b5a"
+      }
+    },
+    {
+      "Kind": "default.cds_cr4d6_tipoviaje_forms",
+      "Namespace": "TipoViaje (Formularios)",
+      "Values": {
+        "Information": "9598cd1f-3d4a-4c5d-9062-fe18a08c6eb0"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_solicitudesdeviajes_forms",
+      "Namespace": "SolicitudesDeViajes (Formularios)11",
+      "Values": {
+        "Information": "f3752d7e-b64c-4165-85a3-fae690ebad3a"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_roles_forms",
+      "Namespace": "Roles (Formularios)11",
+      "Values": {}
+    },
+    {
+      "Kind": "default.cds_cr3e6_centroscostos_forms",
+      "Namespace": "CentrosCostos (Formularios)11",
+      "Values": {
+        "Information": "90728158-ed53-438c-83d0-fc2dd9122221"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_codigosiata_forms",
+      "Namespace": "CodigosIATA (Formularios)11",
+      "Values": {
+        "Information": "c555e605-3ea1-42ad-9803-8ec84e7a6595"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_infoadicional_forms",
+      "Namespace": "InfoAdicional (Formularios)11",
+      "Values": {
+        "Information": "1a758cba-7649-4697-a5cc-f83bdd1fbb06"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_fuerapolitica_forms",
+      "Namespace": "FueraPolitica (Formularios)11",
+      "Values": {}
+    },
+    {
+      "Kind": "default.cds_cr3e6_roles_forms",
+      "Namespace": "Roles (Formularios)2",
+      "Values": {
+        "Information": "05b2ebc9-44ae-419b-9941-94d1301f93b2"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_acting_forms",
+      "Namespace": "Acting (Formularios)11",
+      "Values": {
+        "Information": "775ffb85-cc4d-4145-bff4-d25c1327ee66"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_alquilerauto_forms",
+      "Namespace": "AlquilerAuto (Formularios)11",
+      "Values": {
+        "Information": "4e92dce5-dead-4270-a3d6-e63e6d1ce463"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_alternativas_forms",
+      "Namespace": "Alternativas (Formularios)11",
+      "Values": {
+        "Information": "ecc8ab48-fbb3-44d1-a6ef-b3e0dabbfb72"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_aprobaciones_forms",
+      "Namespace": "Aprobaciones (Formularios)11",
+      "Values": {
+        "Information": "4827bc76-eef5-47a2-8d41-9e8491be4103"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_archivosadjuntos_forms",
+      "Namespace": "ArchivosAdjuntos (Formularios)11",
+      "Values": {
+        "Information": "4d6239ff-5f99-4d62-9953-bc43acfd84e5"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_dnis_forms",
+      "Namespace": "DNIs (Formularios)11",
+      "Values": {
+        "Information": "d55fb069-0c47-40f2-b1ad-e8f2395375d3"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_hoteleria_forms",
+      "Namespace": "Hoteleria (Formularios)11",
+      "Values": {
+        "Information": "294a99a6-209b-4f63-b069-c7b6df9b1359"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_pasajeros_forms",
+      "Namespace": "Pasajeros (Formularios)11",
+      "Values": {
+        "Information": "26685d70-049c-4bfb-9603-b96e22862ddc"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_taxi_forms",
+      "Namespace": "Taxi (Formularios)11",
+      "Values": {
+        "Information": "5f685dc4-ec58-4877-9968-ae8cb5ca9653"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_tiposviaje_forms",
+      "Namespace": "TiposViaje (Formularios)11",
+      "Values": {
+        "Information": "bc525237-34eb-470c-9dfe-a2160d4f97bf"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_tramos_forms",
+      "Namespace": "Tramos (Formularios)11",
+      "Values": {
+        "Information": "8a43bd52-7420-4e41-b484-a1aefb2d7af1"
+      }
+    },
+    {
+      "Kind": "default.cds_cr3e6_transporte_forms",
+      "Namespace": "Transporte (Formularios)11",
+      "Values": {
+        "Information": "94b2f9d2-2ae3-4a43-be5c-160538ad5790"
+      }
+    },
+    {
+      "Kind": "default.cds_systemuser_forms",
+      "Namespace": "Usuarios (Formularios)",
+      "Values": {
+        "Formulario de usuario – Business": "c2413504-7eb2-4c59-a087-95d819866114",
+        "Formulario de ventana de jerarquía de usuario": "c68d6c09-d7a7-4959-8d0f-44b8cff9b452",
+        "Información": "094fb08a-77bb-49e0-b7ea-8dbddfd01294",
+        "Usuario": "c2cd9e55-d4b4-4b55-9951-16ead79643e5",
+        "Usuario de la aplicación": "d26924ef-4d80-46f7-ab1d-e6ae80a54ce8"
+      }
+    }
+  ]
+}

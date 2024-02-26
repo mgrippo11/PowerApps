@@ -1,0 +1,47 @@
+scr_Loading As screen:
+    BackgroundImage: =
+    OnVisible: |-
+        =//Reset(Timer1);;
+        
+        Set(var_startTimer, true)
+
+    img_App As image:
+        Height: =1080
+        Image: =Viajes3
+        Visible: =var_StartLoading
+        Width: =1920
+        ZIndex: =1
+
+    tmr_Roles As timer:
+        AutoStart: =true
+        Duration: =2500
+        OnTimerEnd: |-
+            =Switch(Text(var_userRol.Rol),
+            "Solicitante",
+                Set(var_Pantalla, 1);
+                Navigate(scr_MisSolicitudes,ScreenTransition.Fade),
+            "Aprobador",
+                Set(var_Pantalla, 3);
+                Navigate(scr_MisAprobaciones,ScreenTransition.Fade),
+            "Agencia",
+                Set(var_Pantalla, 3);
+                Navigate(scr_MisAprobaciones,ScreenTransition.Fade),
+            "Administrador",
+                Set(var_Pantalla, 4);
+                Navigate(scr_Admin,ScreenTransition.Fade)
+            ,
+                If(var_ActingSolicitante > 0,
+                    Set(var_Pantalla, 3);
+                    Navigate(scr_MisAprobaciones,ScreenTransition.Fade)
+                )
+            )
+        PaddingRight: =5.56
+        PaddingTop: =5.56
+        Size: =14.45
+        Start: =var_StartTimer
+        Visible: =false
+        Width: =177.84
+        X: =133.38
+        Y: =84
+        ZIndex: =3
+
