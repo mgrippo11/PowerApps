@@ -1,0 +1,3580 @@
+scr_Contactos As screen:
+    Fill: =RGBA(0, 0, 0, 0)
+    Height: =768
+    LoadingSpinnerColor: =RGBA(0, 120, 212, 1)
+    Width: =1366
+
+    img_fondo As image:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledFill: =RGBA(0, 0, 0, 0)
+        FocusedBorderThickness: =4
+        Height: =688
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =RGBA(0, 0, 0, 0)
+        Image: ='liquid-cheese'
+        ImagePosition: =ImagePosition.Fill
+        PressedBorderColor: =RGBA(0, 0, 0, 0)
+        PressedFill: =RGBA(0, 0, 0, 0)
+        Transparency: =0.2
+        Width: =1283
+        X: =83
+        Y: =80
+        ZIndex: =1
+
+    fm_lineaDivisoria As rectangle:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        Fill: =RGBA(33, 97, 140, 0.73)
+        Height: =600
+        OnSelect: =
+        Width: =2
+        X: =620
+        Y: =132
+        ZIndex: =17
+
+    cvs_detalleContacto As fluidGrid.fluidGridWithBlankCard:
+        BorderThickness: =0
+        Height: =623
+        Visible: =CountRows(gal_contactos.AllItems)<>0
+        Width: =716
+        X: =635
+        Y: =125
+        ZIndex: =19
+
+        dc_datosContacto As dataCard:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            BorderStyle: =BorderStyle.Solid
+            BorderThickness: =0
+            DisplayMode: =DisplayMode.Edit
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =If(setContacto, 242, 50)
+            Width: =716
+            X: =0
+            Y: =0
+            ZIndex: =1
+
+            th_bgContacto As htmlViewer:
+                Height: =If(setContacto, 300, 50)
+                HtmlText: |-
+                    ="<div style=""margin: 0px; width: "&(Self.Width-13)&"px; height: "&(Self.Height-13)&"px; background-color: "&If(gal_contactos.Selected.Estado="Activo","rgba(0,150,255,0.5)", "rgba(100,100,100,0.4)")&"; box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+                OnSelect: =
+                Width: =690
+                ZIndex: =1
+
+            th_bgContacto2 As htmlViewer:
+                Height: =If(setContacto, 250, 0)
+                HtmlText: |-
+                    ="<div style=""margin: 0px; width: "&(Self.Width-5)&"px; height: "&(Self.Height-5)&"px; background-color: rgba(255,255,255,0.8); box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+                OnSelect: =
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Width: =637
+                X: =22
+                Y: =38
+                ZIndex: =2
+
+            icn_desplagableContacto As icon.ChevronDown:
+                AutoDisableOnSelect: =false
+                BorderColor: =RGBA(166, 166, 166, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(220, 220, 220, 1)
+                DisabledFill: =RGBA(0, 0, 0, 0)
+                FocusedBorderThickness: =4
+                Height: =30
+                HoverBorderColor: =RGBA(0, 0, 0, 0)
+                HoverColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+                HoverFill: =RGBA(0, 0, 0, 0)
+                Icon: =Icon.ChevronDown
+                OnSelect: =Set(setContacto, !setContacto)
+                PressedBorderColor: =RGBA(0, 0, 0, 0)
+                PressedColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+                PressedFill: =RGBA(0, 0, 0, 0)
+                Width: =30
+                X: =648
+                Y: =7
+                ZIndex: =3
+
+            lbl_tituloContacto As label:
+                Align: =Align.Right
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Bold
+                Height: =30
+                Size: =16
+                Text: ="DATOS DE CONTACTO"
+                Width: =486
+                X: =162
+                Y: =7
+                ZIndex: =4
+
+            btn_tituloContacto As button:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                Fill: =RGBA(0, 0, 0, 0)
+                FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                HoverBorderColor: =RGBA(0, 0, 0, 0)
+                HoverColor: =RGBA(255, 255, 255, 1)
+                HoverFill: =
+                OnSelect: =Set(setContacto, !setContacto)
+                PressedBorderColor: =
+                PressedColor: =RGBA(255, 255, 255, 1)
+                PressedFill: =
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =15
+                Text: =""
+                Width: =678
+                Y: =10
+                ZIndex: =25
+
+            gp_datosContacto As group:
+                Height: =5
+                Width: =5
+                X: =40
+                Y: =40
+                ZIndex: =28
+
+                lbl_Apellido As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =If(setContacto, 30, 0)
+                    PaddingLeft: =0
+                    Size: =13
+                    Text: ="Apellido"
+                    Width: =160
+                    Wrap: =false
+                    X: =34
+                    Y: =If(setContacto, 37, 7)
+                    ZIndex: =5
+
+                lbl_datoApellido As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =If(setContacto, 30, 0)
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =13
+                    Text: =gal_contactos.Selected.Apellido
+                    Width: =If(setContacto, 160, 0)
+                    X: =34
+                    Y: =If(setContacto, 62, 7)
+                    ZIndex: =6
+
+                lbl_Nombre As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =If(setContacto, 30, 0)
+                    PaddingLeft: =0
+                    Size: =13
+                    Text: ="Nombre"
+                    Width: =160
+                    Wrap: =false
+                    X: =202
+                    Y: =If(setContacto, 37, 7)
+                    ZIndex: =7
+
+                lbl_datoNombre As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =If(setContacto, 30, 0)
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =13
+                    Text: =gal_contactos.Selected.'Nombre (field_1)'
+                    Width: =140
+                    X: =202
+                    Y: =If(setContacto, 62, 7)
+                    ZIndex: =8
+
+                lbl_Email As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =If(setContacto, 30, 0)
+                    PaddingLeft: =0
+                    Size: =13
+                    Text: ="Email"
+                    Width: =270
+                    Wrap: =false
+                    X: =370
+                    Y: =If(setContacto, 37, 7)
+                    ZIndex: =9
+
+                lbl_datoEmail As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =If(setContacto, 30, 0)
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =12
+                    Text: =gal_contactos.Selected.Email
+                    Width: =317
+                    X: =342
+                    Y: =If(setContacto, 62, 7)
+                    ZIndex: =10
+
+                lbl_Genero As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =If(setContacto, 30, 0)
+                    PaddingLeft: =0
+                    Size: =13
+                    Text: ="Genero"
+                    Width: =160
+                    Wrap: =false
+                    X: =34
+                    Y: =If(setContacto, 100, 7)
+                    ZIndex: =11
+
+                lbl_datoGenero As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =If(setContacto, 30, 0)
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =13
+                    Text: =gal_contactos.Selected.Genero
+                    Width: =If(setContacto, 160, 0)
+                    X: =34
+                    Y: =If(setContacto, 125, 7)
+                    ZIndex: =12
+
+                lbl_Hijos As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =If(setContacto, 30, 0)
+                    PaddingLeft: =0
+                    Size: =13
+                    Text: ="Hijos/as"
+                    Width: =160
+                    Wrap: =false
+                    X: =202
+                    Y: =If(setContacto, 100, 7)
+                    ZIndex: =13
+
+                lbl_datoHijos As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =If(setContacto, 30, 0)
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =13
+                    Text: =gal_contactos.Selected.Hijos
+                    Width: =If(setContacto, 160, 0)
+                    X: =202
+                    Y: =If(setContacto, 125, 7)
+                    ZIndex: =14
+
+                lbl_FechaN As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =If(setContacto, 30, 0)
+                    PaddingLeft: =0
+                    Size: =13
+                    Text: ="Fecha de Nacimiento"
+                    Width: =270
+                    Wrap: =false
+                    X: =370
+                    Y: =If(setContacto, 100, 7)
+                    ZIndex: =15
+
+                lbl_datoFechaN As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =If(setContacto, 30, 0)
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =13
+                    Text: =Last(Split(Text(gal_contactos.Selected.FechaDeNacimiento, DateTimeFormat.LongDate),",")).Value
+                    Width: =If(setContacto, 270, 0)
+                    X: =370
+                    Y: =If(setContacto, 125, 7)
+                    ZIndex: =16
+
+                lbl_Cluster As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =If(setContacto, 30, 0)
+                    PaddingLeft: =0
+                    Size: =13
+                    Text: ="Cluster"
+                    Width: =260
+                    Wrap: =false
+                    X: =34
+                    Y: =If(setContacto, 163, 7)
+                    ZIndex: =17
+
+                lbl_datoCluster As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =If(setContacto, 40, 0)
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =12
+                    Text: =gal_contactos.Selected.Cluster&" - "&Substitute(Substitute(First(Filter(gal_Clusters.AllItems, Value = gal_contactos.Selected.Cluster)).lbl_tipoCluster.Text,"(",""),")","")
+                    Width: =If(setContacto, 260, 0)
+                    X: =34
+                    Y: =If(setContacto, 188, 7)
+                    ZIndex: =18
+
+                lbl_Tier As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =If(setContacto, 30, 0)
+                    PaddingLeft: =0
+                    Size: =13
+                    Text: ="Tier"
+                    Width: =160
+                    Wrap: =false
+                    X: =300
+                    Y: =If(setContacto, 163, 7)
+                    ZIndex: =19
+
+                lbl_datoTier As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =If(setContacto, 40, 0)
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =12
+                    Text: |-
+                        =gal_contactos.Selected.Tier&" - "&First(Filter(ProgramaRelacionamiento, Cluster = gal_contactos.Selected.Cluster, Tier = gal_contactos.Selected.Tier)).Detalle
+                        
+                        
+                        //Filter(Gallery7.AllItems; Value = Gallery1.Selected.Cluster
+                    Width: =If(setContacto, 350, 0)
+                    X: =300
+                    Y: =If(setContacto, 188, 7)
+                    ZIndex: =20
+
+                lbl_Telefono As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =If(setContacto, 30, 0)
+                    PaddingLeft: =0
+                    Size: =13
+                    Text: ="Telefono"
+                    Width: =160
+                    Wrap: =false
+                    X: =34
+                    Y: =If(setContacto, 225, 7)
+                    ZIndex: =21
+
+                lbl_datoTelefono As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =If(setContacto, 30, 0)
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =13
+                    Text: =gal_contactos.Selected.Telefono
+                    Width: =160
+                    X: =34
+                    Y: =If(setContacto, 250, 7)
+                    ZIndex: =22
+
+                lbl_Telefono2 As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =If(setContacto, 30, 0)
+                    PaddingLeft: =0
+                    Size: =13
+                    Text: ="Otro Telefono"
+                    Width: =160
+                    Wrap: =false
+                    X: =202
+                    Y: =If(setContacto, 225, 7)
+                    ZIndex: =23
+
+                lbl_datoTelefono2 As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =If(setContacto, 30, 0)
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =13
+                    Text: =gal_contactos.Selected.Telefono2
+                    Width: =160
+                    X: =202
+                    Y: =If(setContacto, 250, 7)
+                    ZIndex: =24
+
+                lbl_FechaA As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =If(setContacto, 30, 0)
+                    PaddingLeft: =0
+                    Size: =13
+                    Text: ="Fecha de Alta"
+                    Width: =270
+                    Wrap: =false
+                    X: =370
+                    Y: =If(setContacto, 225, 7)
+                    ZIndex: =26
+
+                lbl_datoFechaA As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =If(setContacto, 30, 0)
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =13
+                    Text: =Last(Split(Text(gal_contactos.Selected.FechaAlta, DateTimeFormat.LongDate),",")).Value
+                    Width: =If(setContacto, 270, 0)
+                    X: =370
+                    Y: =If(setContacto, 250, 7)
+                    ZIndex: =27
+
+        dc_datosDomicilio As dataCard.blankCard:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            BorderStyle: =BorderStyle.Solid
+            DisplayMode: =DisplayMode.Edit
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =If(setDomicilio, 242, 50)
+            Width: =716
+            X: =0
+            Y: =1
+            ZIndex: =2
+
+            th_bgDomicilio As htmlViewer:
+                Height: =If(setDomicilio, 242, 50)
+                HtmlText: |-
+                    ="<div style=""margin: 0px; width: "&(Self.Width-13)&"px; height: "&(Self.Height-13)&"px; background-color: "&If(gal_contactos.Selected.Estado="Activo","rgba(0,150,255,0.5)", "rgba(100,100,100,0.4)")&"; box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+                OnSelect: =
+                Width: =690
+                ZIndex: =1
+
+            th_bgDomicilio2 As htmlViewer:
+                Height: =If(setDomicilio, 190, 0)
+                HtmlText: |-
+                    ="<div style=""margin: 0px; width: "&(Self.Width-5)&"px; height: "&(Self.Height-5)&"px; background-color: rgba(255,255,255,0.8); box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+                OnSelect: =
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Width: =637
+                X: =16
+                Y: =37
+                ZIndex: =2
+
+            icn_desplegableDomicilio As icon.ChevronDown:
+                AutoDisableOnSelect: =false
+                BorderColor: =RGBA(166, 166, 166, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(220, 220, 220, 1)
+                DisabledFill: =RGBA(0, 0, 0, 0)
+                FocusedBorderThickness: =4
+                Height: =30
+                HoverBorderColor: =RGBA(0, 0, 0, 0)
+                HoverColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+                HoverFill: =RGBA(0, 0, 0, 0)
+                Icon: =Icon.ChevronDown
+                OnSelect: =Set(setDomicilio, !setDomicilio)
+                PressedBorderColor: =RGBA(0, 0, 0, 0)
+                PressedColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+                PressedFill: =RGBA(0, 0, 0, 0)
+                Width: =30
+                X: =648
+                Y: =7
+                ZIndex: =3
+
+            lbl_tituloDomicilio As label:
+                Align: =Align.Right
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Bold
+                Height: =30
+                Size: =16
+                Text: ="DATOS DE DOMICILIO Y LABORALES"
+                Width: =486
+                X: =162
+                Y: =7
+                ZIndex: =4
+
+            btn_tituloDomicilio As button:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                Fill: =RGBA(0, 0, 0, 0)
+                FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =30
+                HoverBorderColor: =RGBA(0, 0, 0, 0)
+                HoverColor: =RGBA(255, 255, 255, 1)
+                HoverFill: =
+                OnSelect: =Set(setDomicilio, !setDomicilio)
+                PressedBorderColor: =
+                PressedColor: =RGBA(255, 255, 255, 1)
+                PressedFill: =
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =15
+                Text: =""
+                Width: =640
+                X: =8
+                Y: =7
+                ZIndex: =23
+
+            gp_datosDomicilio As group:
+                Height: =5
+                Width: =5
+                X: =40
+                Y: =40
+                ZIndex: =26
+
+                lbl_Pais As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =If(setDomicilio, 30, 0)
+                    PaddingLeft: =0
+                    Size: =13
+                    Text: ="Pais"
+                    Width: =160
+                    Wrap: =false
+                    X: =32
+                    Y: =If(setDomicilio, 37, 7)
+                    ZIndex: =5
+
+                lbl_datoPais As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =If(setDomicilio, 30, 0)
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =13
+                    Text: =gal_contactos.Selected.Pais
+                    Width: =If(setDomicilio, 160, 0)
+                    X: =32
+                    Y: =If(setDomicilio, 62, 7)
+                    ZIndex: =6
+
+                lbl_Provincia As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =If(setDomicilio, 30, 0)
+                    PaddingLeft: =0
+                    Size: =13
+                    Text: ="Provincia"
+                    Width: =160
+                    Wrap: =false
+                    X: =200
+                    Y: =If(setDomicilio, 37, 7)
+                    ZIndex: =7
+
+                lbl_datoProvincia As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =If(setDomicilio, 30, 0)
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =13
+                    Text: =gal_contactos.Selected.Provincia
+                    Width: =If(setDomicilio, 160, 0)
+                    X: =200
+                    Y: =If(setDomicilio, 62, 7)
+                    ZIndex: =8
+
+                lbl_Localidad As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =If(setDomicilio, 30, 0)
+                    PaddingLeft: =0
+                    Size: =13
+                    Text: ="Localidad"
+                    Width: =120
+                    Wrap: =false
+                    X: =368
+                    Y: =If(setDomicilio, 37, 7)
+                    ZIndex: =9
+
+                lbl_datoLocalidad As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =If(setDomicilio, 30, 0)
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =13
+                    Text: =gal_contactos.Selected.Localidad
+                    Width: =160
+                    X: =368
+                    Y: =If(setDomicilio, 62, 7)
+                    ZIndex: =10
+
+                lbl_Calle As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =If(setDomicilio, 30, 0)
+                    PaddingLeft: =0
+                    Size: =13
+                    Text: ="Calle"
+                    Width: =260
+                    Wrap: =false
+                    X: =32
+                    Y: =If(setDomicilio, 100, 7)
+                    ZIndex: =11
+
+                lbl_datoCalle As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =If(setDomicilio, 40, 0)
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =13
+                    Text: =gal_contactos.Selected.Calle
+                    VerticalAlign: =VerticalAlign.Top
+                    Width: =If(setDomicilio, 260, 0)
+                    X: =32
+                    Y: =If(setDomicilio, 125, 7)
+                    ZIndex: =12
+
+                lbl_ECalle As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =If(setDomicilio, 30, 0)
+                    PaddingLeft: =0
+                    Size: =13
+                    Text: ="Entre calles"
+                    Width: =160
+                    Wrap: =false
+                    X: =300
+                    Y: =If(setDomicilio, 100, 7)
+                    ZIndex: =13
+
+                lbl_datoECalle As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =If(setDomicilio, 40, 0)
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =13
+                    Text: =gal_contactos.Selected.EntreCalles
+                    VerticalAlign: =VerticalAlign.Top
+                    Width: =If(setDomicilio, 220, 0)
+                    X: =300
+                    Y: =If(setDomicilio, 125, 7)
+                    ZIndex: =14
+
+                lbl_Piso As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =If(setDomicilio, 30, 0)
+                    PaddingLeft: =0
+                    Size: =13
+                    Text: ="Piso"
+                    Width: =100
+                    Wrap: =false
+                    X: =528
+                    Y: =If(setDomicilio, 100, 7)
+                    ZIndex: =15
+
+                lbl_datoPiso As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =If(setDomicilio, 30, 0)
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =13
+                    Text: =gal_contactos.Selected.Piso
+                    Width: =If(setDomicilio, 100, 0)
+                    X: =528
+                    Y: =If(setDomicilio, 125, 7)
+                    ZIndex: =16
+
+                lbl_Dpto As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =If(setDomicilio, 30, 0)
+                    PaddingLeft: =0
+                    Size: =13
+                    Text: ="Departamento"
+                    Width: =160
+                    Wrap: =false
+                    X: =32
+                    Y: =If(setDomicilio, 163, 7)
+                    ZIndex: =17
+
+                lbl_datoDpto As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =If(setDomicilio, 30, 0)
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =13
+                    Text: =gal_contactos.Selected.Departamento
+                    Width: =If(setDomicilio, 160, 0)
+                    X: =32
+                    Y: =If(setDomicilio, 188, 7)
+                    ZIndex: =18
+
+                lbl_Empresa As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =If(setDomicilio, 30, 0)
+                    PaddingLeft: =0
+                    Size: =13
+                    Text: ="Empresa"
+                    Width: =200
+                    Wrap: =false
+                    X: =200
+                    Y: =If(setDomicilio, 163, 7)
+                    ZIndex: =19
+
+                lbl_datoEmpresa As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =If(setDomicilio, 30, 0)
+                    Overflow: =Overflow.Scroll
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =13
+                    Text: =gal_contactos.Selected.Empresa
+                    Width: =If(setDomicilio, 200, 0)
+                    X: =200
+                    Y: =If(setDomicilio, 188, 7)
+                    ZIndex: =20
+
+                lbl_Cargo As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =If(setDomicilio, 30, 0)
+                    PaddingLeft: =0
+                    Size: =13
+                    Text: ="Cargo"
+                    Width: =220
+                    Wrap: =false
+                    X: =410
+                    Y: =If(setDomicilio, 163, 7)
+                    ZIndex: =21
+
+                lbl_datoCargo As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =If(setDomicilio, 30, 0)
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =13
+                    Text: =gal_contactos.Selected.Cargo
+                    Width: =If(setDomicilio, 220, 0)
+                    X: =410
+                    Y: =If(setDomicilio, 188, 7)
+                    ZIndex: =22
+
+                lbl_CP As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =If(setDomicilio, 30, 0)
+                    PaddingLeft: =0
+                    Size: =13
+                    Text: ="Código Postal"
+                    Width: =120
+                    Wrap: =false
+                    X: =528
+                    Y: =If(setDomicilio, 37, 7)
+                    ZIndex: =24
+
+                lbl_datoCP As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =If(setDomicilio, 30, 0)
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =13
+                    Text: =gal_contactos.Selected.CodigoPostal
+                    Width: =120
+                    X: =528
+                    Y: =If(setDomicilio, 62, 7)
+                    ZIndex: =25
+
+        dc_referentes As dataCard.blankCard:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            BorderStyle: =BorderStyle.Solid
+            DisplayMode: =DisplayMode.Edit
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =If(setReferente, If(CountRows(Filter(Referentes, Email = gal_contactos.Selected.Email))>3, 250,85 + (CountRows(Filter(Referentes, Email = gal_contactos.Selected.Email)) * 70)), 50)
+            Width: =716
+            X: =0
+            Y: =2
+            ZIndex: =3
+
+            th_bgReferente As htmlViewer:
+                Height: |-
+                    =//If(setReferente; 95 + (CountRows(Filter(Referentes; Email = Gallery1.Selected.Email)) * 70); 50)
+                    If(setReferente, 
+                    If(CountRows(Filter(Referentes, Email = gal_contactos.Selected.Email)) = 0, 95,
+                    If(CountRows(Filter(Referentes, Email = gal_contactos.Selected.Email)) > 3, 315,
+                    85 + (CountRows(Filter(Referentes, Email = gal_contactos.Selected.Email)) * 70))), 50)
+                HtmlText: |-
+                    ="<div style=""margin: 0px; width: "&(Self.Width-13)&"px; height: "&(Self.Height-13)&"px; background-color: "&If(gal_contactos.Selected.Estado="Activo","rgba(0,150,255,0.5)", "rgba(100,100,100,0.4)")&"; box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+                OnSelect: =
+                Width: =690
+                ZIndex: =1
+
+            icn_desplegableReferente As icon.ChevronDown:
+                AutoDisableOnSelect: =false
+                BorderColor: =RGBA(166, 166, 166, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(220, 220, 220, 1)
+                DisabledFill: =RGBA(0, 0, 0, 0)
+                FocusedBorderThickness: =4
+                Height: =30
+                HoverBorderColor: =RGBA(0, 0, 0, 0)
+                HoverColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+                HoverFill: =RGBA(0, 0, 0, 0)
+                Icon: =Icon.ChevronDown
+                OnSelect: =Set(setReferente, !setReferente)
+                PressedBorderColor: =RGBA(0, 0, 0, 0)
+                PressedColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+                PressedFill: =RGBA(0, 0, 0, 0)
+                Width: =30
+                X: =648
+                Y: =7
+                ZIndex: =2
+
+            lbl_tituloReferente As label:
+                Align: =Align.Right
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Bold
+                Height: =30
+                Size: =16
+                Text: ="REFERENTES DE CONTACTO"
+                Width: =486
+                X: =162
+                Y: =7
+                ZIndex: =3
+
+            "gal_Referentes As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+                BorderColor: =RGBA(166, 166, 166, 1)
+                DelayItemLoading: =true
+                Height: =If(setReferente,If(CountRows(Filter(Referentes, Email = gal_contactos.Selected.Email))>3, 225, CountRows(Filter(Referentes, Email = gal_contactos.Selected.Email))*71),0)
+                Items: =Filter(Referentes, Email = gal_contactos.Selected.Email)
+                Layout: =Layout.Vertical
+                LoadingSpinner: =LoadingSpinner.Data
+                TemplatePadding: =0
+                TemplateSize: =71
+                X: =28
+                Y: =If(setReferente, 67, 7)
+                ZIndex: =4
+
+                HtmlText1_1 As htmlViewer:
+                    Height: =71
+                    HtmlText: |-
+                        ="<div style=""margin: 0px; width: "&(Self.Width-5)&"px; height: "&(Self.Height-5)&"px; background-color: rgba(255,255,255,0.8); box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+                    OnSelect: =Select(Parent)
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Width: =505
+                    X: =69
+                    ZIndex: =1
+
+                lbl_NombreReferente As label:
+                    Color: =RGBA(50, 49, 48, 1)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                    Height: =25
+                    OnSelect: =Select(Parent)
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Text: =ThisItem.ReferenteInterno
+                    VerticalAlign: =VerticalAlign.Top
+                    Width: =387
+                    X: =157
+                    Y: =3
+                    ZIndex: =2
+
+                lbl_EmailReferente As label:
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                    Height: =20
+                    OnSelect: =Select(Parent)
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =12
+                    Text: =ThisItem.EmailReferenteInterno
+                    VerticalAlign: =VerticalAlign.Top
+                    Width: =387
+                    X: =157
+                    Y: =24
+                    ZIndex: =3
+
+                lbl_AreaReferente As label:
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                    Height: =20
+                    OnSelect: =Select(Parent)
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =12
+                    Text: =ThisItem.AreaReferente
+                    VerticalAlign: =VerticalAlign.Top
+                    Width: =387
+                    X: =157
+                    Y: =44
+                    ZIndex: =4
+
+                icn_sinImg As icon.Person:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    Color: =RGBA(255, 255, 255, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(220, 220, 220, 1)
+                    Fill: =
+                    FocusedBorderThickness: =5
+                    Height: =55
+                    Icon: =Icon.Person
+                    OnSelect: =
+                    PaddingBottom: =12
+                    PaddingLeft: =12
+                    PaddingRight: =12
+                    PaddingTop: =12
+                    PressedFill: =RGBA(0, 0, 0, 0)
+                    Width: =55
+                    X: =82
+                    Y: =6
+                    ZIndex: =5
+
+                img_Referente As image:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledFill: =RGBA(0, 0, 0, 0)
+                    FocusedBorderThickness: =4
+                    Height: =55
+                    HoverBorderColor: =RGBA(0, 0, 0, 0)
+                    HoverFill: =RGBA(0, 0, 0, 0)
+                    Image: =If(!IsBlank(ThisItem.EmailReferenteInterno), UsuariosdeOffice365.UserPhoto(ThisItem.EmailReferenteInterno))
+                    OnSelect: =Select(Parent)
+                    PressedBorderColor: =RGBA(0, 0, 0, 0)
+                    PressedFill: =RGBA(0, 0, 0, 0)
+                    RadiusBottomLeft: =5
+                    RadiusBottomRight: =5
+                    RadiusTopLeft: =5
+                    RadiusTopRight: =5
+                    Width: =55
+                    X: =82
+                    Y: =6
+                    ZIndex: =6
+
+            lbl_VPReferente As label:
+                Align: =Align.Center
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(0, 60, 106, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Bold
+                Height: =If(setReferente, 30, 0)
+                PaddingLeft: =0
+                Size: =13
+                Text: ="VP | "&gal_contactos.Selected.VP
+                Visible: =If(setReferente, true, false)
+                Width: =270
+                Wrap: =false
+                X: =210
+                Y: =If(setReferente, 33, 7)
+                ZIndex: =5
+
+            lbl_SinReferente As label:
+                Align: =Align.Center
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(255, 255, 255, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Bold
+                Height: =If(setReferente,43,0)
+                Size: =13
+                Text: ="SIN REFERENTES"
+                Visible: =If(CountRows(Filter(Referentes, Email = gal_contactos.Selected.Email)) = 0, true, false)
+                Width: =306
+                X: =195
+                Y: =If(setReferente,52,0)
+                ZIndex: =6
+
+            btn_tituloReferente As button:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                Fill: =RGBA(0, 0, 0, 0)
+                FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =30
+                HoverBorderColor: =RGBA(0, 0, 0, 0)
+                HoverColor: =RGBA(255, 255, 255, 1)
+                HoverFill: =
+                OnSelect: =Set(setReferente, !setReferente)
+                PressedBorderColor: =
+                PressedColor: =RGBA(255, 255, 255, 1)
+                PressedFill: =
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =15
+                Text: =""
+                Width: =640
+                X: =8
+                Y: =7
+                ZIndex: =7
+
+        dc_eventos As dataCard.blankCard:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            BorderStyle: =BorderStyle.Solid
+            DisplayMode: =DisplayMode.Edit
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: |-
+                =If(setEvento, 
+                If(CountRows(Filter(Eventos, EmailDestinatario = gal_contactos.Selected.Email)) = 0, 95,
+                If(CountRows(Filter(Eventos, EmailDestinatario = gal_contactos.Selected.Email))>4, 350,
+                65 + (CountRows(Filter(Eventos, EmailDestinatario = gal_contactos.Selected.Email)) * 65))), 50)
+            Width: =716
+            X: =0
+            Y: =3
+            ZIndex: =4
+
+            th_bgEventos As htmlViewer:
+                Height: |-
+                    =If(setEvento, 
+                    If(CountRows(Filter(Eventos, EmailDestinatario = gal_contactos.Selected.Email)) = 0, 95,
+                    If(CountRows(Filter(Eventos, EmailDestinatario = gal_contactos.Selected.Email))>4, 345,
+                    60 + (CountRows(Filter(Eventos, EmailDestinatario = gal_contactos.Selected.Email)) * 65))), 50)
+                HtmlText: |-
+                    ="<div style=""margin: 0px; width: "&(Self.Width-13)&"px; height: "&(Self.Height-13)&"px; background-color: "&If(gal_contactos.Selected.Estado="Activo","rgba(0,150,255,0.5)", "rgba(100,100,100,0.4)")&"; box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+                OnSelect: =
+                Width: =690
+                ZIndex: =1
+
+            icn_desplegableEventos As icon.ChevronDown:
+                AutoDisableOnSelect: =false
+                BorderColor: =RGBA(166, 166, 166, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(220, 220, 220, 1)
+                DisabledFill: =RGBA(0, 0, 0, 0)
+                FocusedBorderThickness: =4
+                Height: =30
+                HoverBorderColor: =RGBA(0, 0, 0, 0)
+                HoverColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+                HoverFill: =RGBA(0, 0, 0, 0)
+                Icon: =Icon.ChevronDown
+                OnSelect: =Set(setEvento, !setEvento)
+                PressedBorderColor: =RGBA(0, 0, 0, 0)
+                PressedColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+                PressedFill: =RGBA(0, 0, 0, 0)
+                Width: =30
+                X: =648
+                Y: =7
+                ZIndex: =2
+
+            lbl_tituloEvento As label:
+                Align: =Align.Right
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Bold
+                Height: =30
+                Size: =16
+                Text: ="EVENTOS DE CONTACTO"
+                Width: =486
+                X: =162
+                Y: =7
+                ZIndex: =3
+
+            "gal_Eventos As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+                BorderColor: =RGBA(166, 166, 166, 1)
+                DelayItemLoading: =true
+                Height: =If(setEvento,If(CountRows(Filter(Eventos, EmailDestinatario = gal_contactos.Selected.Email))>4, 260, CountRows(Filter(Eventos, EmailDestinatario = gal_contactos.Selected.Email))*65),0)
+                Items: =Sort(Filter(Eventos, EmailDestinatario = gal_contactos.Selected.Email), Fecha,SortOrder.Descending)
+                Layout: =Layout.Vertical
+                LoadingSpinner: =LoadingSpinner.Data
+                OnSelect: =Set(setEventoDetalle, !setEventoDetalle)
+                TemplatePadding: =0
+                TemplateSize: =61
+                X: =28
+                Y: =50
+                ZIndex: =4
+
+                th_bgEvento As htmlViewer:
+                    Height: =61
+                    HtmlText: |-
+                        ="<div style=""margin: 0px; width: "&(Self.Width-5)&"px; height: "&(Self.Height-5)&"px; background-color: rgba(255,255,255,0.8); box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+                    OnSelect: =Select(Parent)
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Width: =505
+                    X: =69
+                    ZIndex: =1
+
+                lbl_tipoEvento As label:
+                    Color: =RGBA(50, 49, 48, 1)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                    Height: =25
+                    OnSelect: =Select(Parent)
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Text: |-
+                        ="Tipo de Evento: "&ThisItem.TipoEvento
+                    VerticalAlign: =VerticalAlign.Top
+                    Width: =387
+                    X: =90
+                    Y: =4
+                    ZIndex: =3
+
+                lbl_fechaEvento As label:
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                    Height: =20
+                    OnSelect: =Select(Parent)
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =12
+                    Text: |-
+                        ="Fecha: "&First(Split(ThisItem.Fecha, ".")).Value
+                        //&Last(Split(Text(ThisItem.Fecha; DateTimeFormat.LongDate);",")).Value&" "&Last(FirstN(Split(Text(ThisItem.Fecha; DateTimeFormat.LongTime24); ":"); 1)).Value&":"&Last(FirstN(Split(Text(ThisItem.Fecha; DateTimeFormat.LongTime24); ":"); 2)).Value
+                        //First(Split(ThisItem.Fecha; " ")).Value
+                        //Last(Split(Text(ThisItem.Fecha; DateTimeFormat.LongDate);",")).Value
+                    VerticalAlign: =VerticalAlign.Top
+                    Width: =387
+                    X: =90
+                    Y: =29
+                    ZIndex: =5
+
+            lbl_sinEventos As label:
+                Align: =Align.Center
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(255, 255, 255, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Bold
+                Height: =If(setEvento,43,0)
+                Size: =13
+                Text: ="SIN EVENTOS"
+                Visible: =If(CountRows(Filter(Eventos, EmailDestinatario = gal_contactos.Selected.Email)) = 0, true, false)
+                Width: =306
+                X: =192
+                Y: =36
+                ZIndex: =5
+
+            btn_eventos As button:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                Fill: =RGBA(0, 0, 0, 0)
+                FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =30
+                HoverBorderColor: =RGBA(0, 0, 0, 0)
+                HoverColor: =RGBA(255, 255, 255, 1)
+                HoverFill: =
+                OnSelect: =Set(setEvento, !setEvento)
+                PressedBorderColor: =
+                PressedColor: =RGBA(255, 255, 255, 1)
+                PressedFill: =
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =15
+                Text: =""
+                Width: =640
+                X: =8
+                Y: =7
+                ZIndex: =6
+
+    gp_BarraSuperior As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =31
+
+        th_barraSuperior As htmlViewer:
+            Height: =85
+            HtmlText: |-
+                ="<div style=""margin: 0px; width: 1366px; height: 80px; background-color: RGBA(0, 33, 133, 1); box-shadow: 0 2px 4px 0 rgba(0,0,0,0.5); border-radius:0px 0px 5px 5px""></div>"
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Width: =1366
+            ZIndex: =40
+
+        cnt_logo As groupContainer.manualLayoutContainer:
+            Height: =76
+            LayoutMode: ="manual"
+            Width: =267
+            X: =9
+            Y: =4
+            ZIndex: =41
+
+            lbl_logo As label:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                Color: =RGBA(244, 244, 244, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Height: =65
+                LineHeight: =1.210227
+                PaddingBottom: =9
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =8
+                Size: =35
+                Text: ="Mirgor  plus"
+                Width: =269
+                ZIndex: =5
+
+            "'img_+' As image":
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledFill: =RGBA(0, 0, 0, 0)
+                FocusedBorderThickness: =4
+                Height: =29
+                HoverBorderColor: =RGBA(0, 0, 0, 0)
+                HoverFill: =RGBA(0, 0, 0, 0)
+                Image: =image28083229
+                PressedBorderColor: =RGBA(0, 0, 0, 0)
+                PressedFill: =RGBA(0, 0, 0, 0)
+                Width: =29
+                X: =146
+                ZIndex: =6
+
+        lbl_titulo As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =37
+            Size: =18
+            Text: ="CONTACTOS"
+            Width: =449
+            X: =304
+            Y: =22
+            ZIndex: =42
+
+        icn_lineaTitulo As icon.VerticalLine:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            Color: =RGBA(0, 78, 212, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            DisplayMode: =DisplayMode.View
+            FocusedBorderThickness: =4
+            Height: =50
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.VerticalLine
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Width: =50
+            X: =264
+            Y: =16
+            ZIndex: =43
+
+    gp_BarraLateral As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =44
+
+        fm_barraLateral As rectangle:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            DisabledFill: =RGBA(166, 166, 166, 1)
+            Fill: =RGBA(0, 33, 133, 1)
+            FocusedBorderThickness: =4
+            Height: =768
+            HoverFill: =RGBA(0, 33, 133, 1)
+            PressedFill: =RGBA(0, 64, 255, 1)
+            Width: =83
+            ZIndex: =2
+
+        img_usuarioLog As image:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Height: =65
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Image: =User().Image
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            RadiusBottomLeft: =50
+            RadiusBottomRight: =50
+            RadiusTopLeft: =50
+            RadiusTopRight: =50
+            Width: =65
+            X: =9
+            Y: =678
+            ZIndex: =3
+
+        icn_crearContacto As icon.AddUser:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Height: =40
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.AddUser
+            OnSelect: |-
+                =Refresh(Contactos);
+                Set(varEditContacto, 1);
+                ResetForm(frm_nuevoContacto_1);
+                ResetForm(frm_Areas_1);
+                NewForm(frm_nuevoContacto_1);
+                NewForm(frm_Areas_1);
+                Navigate(scr_NuevoContacto);
+                Set(setEventoDetalle, false)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Width: =40
+            X: =23
+            Y: =229
+            ZIndex: =4
+
+        lbl_crearContacto As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            Height: =41
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =12
+            Text: ="Crear Contacto"
+            Width: =83
+            X: =1
+            Y: =268
+            ZIndex: =5
+
+        icn_contactos As icon.Notebook:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Height: =40
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.Notebook
+            OnSelect: |-
+                =Refresh(Contactos);
+                Navigate(scr_Contactos);
+                Set(setEventoDetalle, false)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Width: =40
+            X: =23
+            Y: =96
+            ZIndex: =8
+
+        lbl_contactos As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            Height: =31
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =12
+            Text: ="Contactos"
+            Width: =83
+            X: =1
+            Y: =136
+            ZIndex: =9
+
+        icn_lineaBarraLat As icon.VerticalLine:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            Color: =RGBA(0, 78, 212, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Height: =40
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.VerticalLine
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Width: =23
+            X: =1
+            Y: =96
+            ZIndex: =12
+
+        btn_contactos As button:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =0
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =75
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =
+            OnSelect: |-
+                =Refresh(Contactos);
+                Refresh(Areas);
+                Refresh(VPs);
+                Refresh(Referentes);
+                Navigate(scr_Contactos);
+                Set(setEventoDetalle, false)
+            PressedBorderColor: =
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =15
+            Text: =""
+            Width: =83
+            Y: =92
+            ZIndex: =23
+
+        lbl_appVersion As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =20
+            Size: =10
+            Text: =varVersion
+            Width: =84
+            Y: =744
+            ZIndex: =25
+
+        btn_crearContacto As button:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =0
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =84
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =
+            OnSelect: |-
+                =Refresh(Contactos);
+                Refresh(Areas);
+                Refresh(VPs);
+                Refresh(Referentes);
+                Set(varEditContacto, 1);
+                Set(varMailContacto, "");
+                ResetForm(frm_nuevoContacto_1);
+                ResetForm(frm_Areas_1);
+                ResetForm(frm_hitoricoContactos_1);
+                NewForm(frm_nuevoContacto_1);
+                NewForm(frm_Areas_1);
+                NewForm(frm_hitoricoContactos_1);
+                Navigate(scr_NuevoContacto);
+                Set(setEventoDetalle, false);
+                Set(varEditReferente, 1);
+                Set(varDatosContacto, " -  - "&Last(Split(Text(Today(), DateTimeFormat.LongDate),",")).Value);
+                Set(varValidacion, false)
+            PressedBorderColor: =
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =15
+            Text: =""
+            Width: =83
+            Y: =225
+            ZIndex: =37
+
+    gp_Eventos As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =44
+
+        th_fondoEvento2 As htmlViewer:
+            Height: =687
+            HtmlText: |-
+                ="<div style=""margin: 0px; width: "&Self.Width&"px; height: "&Self.Height-1&"px; background-color: rgba(0,120,212,0.4); backdrop-filter: blur(4px)""></div>"
+            OnSelect: =
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Visible: =setEventoDetalle
+            Width: =746
+            X: =620
+            Y: =81
+            ZIndex: =27
+
+        th_fondoEvento As htmlViewer:
+            Height: =465
+            HtmlText: |-
+                ="<div style=""margin: 0px; width: 490px; height: 455px; background-color: rgba(250,250,250,0.9); box-shadow: 3px 3px 5px 0 rgba(0,0,0,0.4); border-radius:8px""></div>"
+            OnSelect: =
+            PaddingTop: =0
+            Visible: =setEventoDetalle
+            Width: =528
+            X: =745
+            Y: =225
+            ZIndex: =28
+
+        gal_evento As gallery.variableTemplateHeightGallery:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            DelayItemLoading: =true
+            Height: =380
+            Items: =Split(Substitute(Substitute(Substitute(Substitute(Substitute(gal_Eventos.Selected.Evento, "[",""), "]",""), "{",""), "}",""), "'",""), ";")
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            TemplatePadding: =4
+            TemplateSize: =39
+            Visible: =setEventoDetalle
+            Width: =393
+            X: =796
+            Y: =292
+            ZIndex: =29
+
+            fm_separador As rectangle:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                Fill: =RGBA(13, 0, 255, 0.45)
+                Height: =1
+                OnSelect: =Select(Parent)
+                Width: =Parent.TemplateWidth
+                Y: =lbl_evento.Height+2
+                ZIndex: =1
+
+            lbl_evento As label:
+                Align: =Align.Center
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(0, 0, 0, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =39
+                OnSelect: =Select(Parent)
+                Size: =13
+                Text: =ThisItem.Value
+                Width: =370
+                ZIndex: =2
+
+        icn_cerrarEventos As icon.Cancel:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Height: =30
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.Cancel
+            OnSelect: =Set(setEventoDetalle, !setEventoDetalle)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Visible: =setEventoDetalle
+            Width: =30
+            X: =1189
+            Y: =234
+            ZIndex: =30
+
+        lbl_tipoEvento2 As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(0, 0, 0, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =35
+            Size: =16
+            Text: |-
+                =gal_Eventos.Selected.TipoEvento
+                //First(Split(Gallery_Eventos.Selected.Fecha; " ")).Value
+            Visible: =setEventoDetalle
+            Width: =436
+            X: =753
+            Y: =227
+            ZIndex: =31
+
+        lbl_fechaEvento2 As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(0, 0, 0, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =35
+            Size: =16
+            Text: |-
+                =//Last(Split(Text(Gallery_Eventos.Selected.Fecha; DateTimeFormat.LongDate);",")).Value
+                //Last(Split(Text(gal_Eventos.Selected.Fecha; DateTimeFormat.ShortDateTime24);",")).Value&" "&Last(FirstN(Split(Text(gal_Eventos.Selected.Fecha; DateTimeFormat.LongTime24); ":"); 1)).Value&":"&Last(FirstN(Split(Text(gal_Eventos.Selected.Fecha; DateTimeFormat.LongTime24); ":"); 2)).Value
+                First(Split(gal_Eventos.Selected.Fecha, ".")).Value
+            Visible: =setEventoDetalle
+            Width: =436
+            X: =753
+            Y: =257
+            ZIndex: =32
+
+    gp_Contactos As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =44
+
+        "gal_contactos As gallery.'BrowseLayout_Vertical_TwoTextVariant_ver4.0'":
+            BorderColor: =RGBA(9, 33, 98, 1)
+            DelayItemLoading: =true
+            Items: |-
+                =Search(Filter(Contactos, 
+                    (cbox_pais.Selected.Value = Pais ||cbox_pais.Selected.Value = Blank()) &&
+                    (cbox_cluster.Selected.Value = Cluster ||cbox_cluster.Selected.Value = Blank()) &&
+                    (cbox_tier.Selected.Value = Tier ||cbox_tier.Selected.Value = Blank()) &&
+                    (cbox_estado.Selected.Value = Estado ||cbox_estado.Selected.Value = Blank())
+                    ), 
+                    txt_nombreEmpresa.Text, "field_1", "field_2", "field_19", "field_3"
+                )
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            OnSelect: =
+            ShowScrollbar: =false
+            TemplatePadding: =0
+            TemplateSize: =69
+            Transition: =Transition.Pop
+            Width: =521
+            X: =92
+            Y: =173
+            ZIndex: =10
+
+            HtmlText1 As htmlViewer:
+                Fill: =RGBA(207, 207, 207, 0)
+                Height: =69
+                HtmlText: |-
+                    ="<div style=""margin: 0px; width: "&(Self.Width-5)&"px; height: "&(Self.Height-5)&"px; background-color: "&If(ThisItem.IsSelected,"rgba(225,225,225,0.6)","rgba(255,255,255,0.8)")&"; box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2); border-radius:5px""></div>"
+                OnSelect: |-
+                    =Select(Parent);
+                    Set(setEventoDetalle, false)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Width: =505
+                X: =11
+                ZIndex: =1
+
+            NextArrow2 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                BorderColor: =RGBA(166, 166, 166, 1)
+                Color: =RGBA(0, 120, 212, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(220, 220, 220, 1)
+                DisabledFill: =RGBA(0, 0, 0, 0)
+                FocusedBorderThickness: =4
+                Height: =40
+                HoverBorderColor: =RGBA(0, 0, 0, 0)
+                HoverColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+                HoverFill: =RGBA(0, 0, 0, 0)
+                Icon: =Icon.ChevronRight
+                OnSelect: |-
+                    =Select(Parent);
+                    Set(setEventoDetalle, false)
+                PressedBorderColor: =RGBA(0, 0, 0, 0)
+                PressedColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+                PressedFill: =RGBA(0, 0, 0, 0)
+                TabIndex: =0
+                Tooltip: ="Ver los detalles del elemento"
+                Width: =30
+                X: =475
+                Y: =14
+                ZIndex: =2
+
+            HtmlText3 As htmlViewer:
+                Height: =37
+                HtmlText: ="<b>"&ThisItem.'Nombre (field_1)'&" "&ThisItem.Apellido&"</b> | "&ThisItem.Empresa
+                OnSelect: |-
+                    =Select(Parent);
+                    Set(setEventoDetalle, false)
+                Size: =13
+                Width: =452
+                X: =24
+                Y: =4
+                ZIndex: =7
+
+            Label4 As label:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                Height: =23
+                OnSelect: |-
+                    =Select(Parent);
+                    Set(setEventoDetalle, false)
+                Size: =12
+                Text: =ThisItem.Localidad&If(!IsBlank(ThisItem.Localidad),", ")&ThisItem.Provincia&If(!IsBlank(ThisItem.Provincia),", ")&ThisItem.Pais
+                Width: =451
+                X: =24
+                Y: =36
+                ZIndex: =8
+
+        lbl_sinResultadosGalContactos As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =93
+            Size: =24
+            Text: ="SIN RESULTADOS"
+            Visible: =CountRows(gal_contactos.AllItems) = 0
+            Width: =406
+            X: =145
+            Y: =385
+            ZIndex: =20
+
+    gp_Historial As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =45
+
+        th_fondoHistorial2 As htmlViewer:
+            Height: =687
+            HtmlText: |-
+                ="<div style=""margin: 0px; width: "&Self.Width&"px; height: "&Self.Height-1&"px; background-color: rgba(0,120,212,0.4); backdrop-filter: blur(4px)""></div>"
+            OnSelect: =
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Visible: =varHistorial
+            Width: =746
+            X: =620
+            Y: =81
+            ZIndex: =33
+
+        th_fondoHistorial As htmlViewer:
+            Height: =458
+            HtmlText: |-
+                ="<div style=""margin: 0px; width: "&Self.Width-10&"px; height: "&Self.Height-10&"px; background-color: rgba(250,250,250,0.9); box-shadow: 3px 3px 5px 0 rgba(0,0,0,0.4); border-radius:8px""></div>"
+            OnSelect: =
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Visible: =varHistorial
+            Width: =710
+            X: =641
+            Y: =202
+            ZIndex: =34
+
+        cnt_historial As groupContainer.verticalAutoLayoutContainer:
+            DropShadow: =DropShadow.Light
+            Height: =394
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutMode: =LayoutMode.Auto
+            LayoutOverflowX: =LayoutOverflow.Scroll
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Visible: =varHistorial
+            Width: =663
+            X: =658
+            Y: =245
+            ZIndex: =35
+
+            cnt_historial2 As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                DropShadow: =DropShadow.Light
+                FillPortions: =0
+                Height: =35
+                LayoutMinHeight: =100
+                LayoutMinWidth: =3270
+                LayoutMode: =LayoutMode.Auto
+                RadiusBottomLeft: =4
+                RadiusBottomRight: =4
+                RadiusTopLeft: =4
+                RadiusTopRight: =4
+                Width: =3275
+                ZIndex: =1
+
+                lbl_nombreContactoHistorial As label:
+                    Align: =Align.Center
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =32
+                    Size: =9
+                    Text: ="Nombre"
+                    X: =441
+                    Y: =120
+                    ZIndex: =1
+
+                lbl_fechaNContactoHistorial As label:
+                    Align: =Align.Center
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =32
+                    Size: =9
+                    Text: ="Fecha de Nacimiento"
+                    Width: =180
+                    X: =104
+                    Y: =120
+                    ZIndex: =2
+
+                lbl_hijosContactoHistorial As label:
+                    Align: =Align.Center
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =32
+                    Size: =9
+                    Text: ="Hijos/as"
+                    Width: =75
+                    X: =104
+                    Y: =120
+                    ZIndex: =3
+
+                lbl_generoContactoHistorial As label:
+                    Align: =Align.Center
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =32
+                    Size: =9
+                    Text: ="Genero"
+                    Width: =110
+                    X: =104
+                    Y: =120
+                    ZIndex: =4
+
+                lbl_telefonoContactoHistorial As label:
+                    Align: =Align.Center
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =32
+                    Size: =9
+                    Text: ="Teléfono"
+                    Width: =110
+                    X: =208
+                    Y: =4
+                    ZIndex: =5
+
+                lbl_telefonoContactoHistorial2 As label:
+                    Align: =Align.Center
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =32
+                    Size: =9
+                    Text: ="Otro Teléfono"
+                    Width: =110
+                    X: =312
+                    Y: =4
+                    ZIndex: =6
+
+                lbl_vpContactoHistorial As label:
+                    Align: =Align.Center
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =32
+                    Size: =9
+                    Text: ="VP"
+                    Width: =170
+                    X: =104
+                    Y: =4
+                    ZIndex: =7
+
+                lbl_empresaContactoHistorial As label:
+                    Align: =Align.Center
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =32
+                    Size: =9
+                    Text: ="Empresa"
+                    X: =337
+                    Y: =116
+                    ZIndex: =8
+
+                lbl_cargoContactoHistorial As label:
+                    Align: =Align.Center
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =32
+                    Size: =9
+                    Text: ="Cargo"
+                    Width: =120
+                    X: =104
+                    Y: =116
+                    ZIndex: =9
+
+                lbl_clusterContactoHistorial As label:
+                    Align: =Align.Center
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =32
+                    Size: =9
+                    Text: ="Cluster"
+                    Width: =75
+                    X: =104
+                    Y: =116
+                    ZIndex: =10
+
+                lbl_tierContactoHistorial As label:
+                    Align: =Align.Center
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =32
+                    Size: =9
+                    Text: ="Tier"
+                    Width: =75
+                    X: =104
+                    Y: =116
+                    ZIndex: =11
+
+                lbl_paisContactoHistorial As label:
+                    Align: =Align.Center
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =32
+                    Size: =9
+                    Text: ="Pais"
+                    Width: =110
+                    X: =104
+                    Y: =4
+                    ZIndex: =12
+
+                lbl_provContactoHistorial As label:
+                    Align: =Align.Center
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =32
+                    Size: =9
+                    Text: ="Provincia"
+                    Width: =200
+                    X: =208
+                    Y: =4
+                    ZIndex: =13
+
+                lbl_locContactoHistorial As label:
+                    Align: =Align.Center
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =32
+                    Size: =9
+                    Text: ="Localidad"
+                    Width: =130
+                    X: =104
+                    Y: =4
+                    ZIndex: =14
+
+                lbl_cpContactoHistorial As label:
+                    Align: =Align.Center
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =32
+                    Size: =9
+                    Text: ="Código Postal"
+                    Width: =75
+                    X: =104
+                    Y: =112
+                    ZIndex: =15
+
+                lbl_calleContactoHistorial As label:
+                    Align: =Align.Center
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =32
+                    Size: =9
+                    Text: ="Calle"
+                    X: =208
+                    Y: =4
+                    ZIndex: =16
+
+                lbl_eCalleContactoHistorial As label:
+                    Align: =Align.Center
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =32
+                    Size: =9
+                    Text: ="Entre Calles"
+                    X: =233
+                    Y: =112
+                    ZIndex: =17
+
+                lbl_pisoContactoHistorial As label:
+                    Align: =Align.Center
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =32
+                    Size: =9
+                    Text: ="Piso"
+                    Width: =75
+                    X: =104
+                    Y: =112
+                    ZIndex: =18
+
+                lbl_deptoContactoHistorial As label:
+                    Align: =Align.Center
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =32
+                    Size: =9
+                    Text: ="Departamento"
+                    Width: =100
+                    X: =104
+                    Y: =112
+                    ZIndex: =19
+
+                lbl_obsContactoHistorial As label:
+                    Align: =Align.Center
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =32
+                    Size: =9
+                    Text: ="Observaciones"
+                    Width: =300
+                    X: =104
+                    Y: =112
+                    ZIndex: =20
+
+                lbl_fechaMContactoHistorial As label:
+                    Align: =Align.Center
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =32
+                    Size: =9
+                    Text: ="Fecha de Modificacion"
+                    Width: =125
+                    X: =233
+                    Y: =112
+                    ZIndex: =21
+
+                lbl_modificadoContactoHistorial As label:
+                    Align: =Align.Center
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =32
+                    Size: =9
+                    Text: ="Modificado Por"
+                    Width: =200
+                    X: =233
+                    Y: =112
+                    ZIndex: =22
+
+                lbl_creadoContactoHistorial As label:
+                    Align: =Align.Center
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =32
+                    Size: =9
+                    Text: ="Creado Por"
+                    Width: =200
+                    X: =233
+                    Y: =112
+                    ZIndex: =23
+
+                lbl_fechaAContactoHistorial As label:
+                    Align: =Align.Center
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =32
+                    Size: =9
+                    Text: ="Fecha de Alta"
+                    Width: =125
+                    X: =233
+                    Y: =112
+                    ZIndex: =24
+
+            "gal_historial As gallery.'BrowseLayout_Vertical_ThreeTextVariant_ver5.0'":
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =RGBA(166, 166, 166, 1)
+                DelayItemLoading: =true
+                Height: =374
+                Items: =Filter(Historico,Email= gal_contactos.Selected.Email)
+                Layout: =Layout.Vertical
+                LayoutMinHeight: =25
+                LayoutMinWidth: =3270
+                LoadingSpinner: =LoadingSpinner.Data
+                TemplatePadding: =0
+                TemplateSize: =45
+                Width: =3275
+                X: =2
+                Y: =45
+                ZIndex: =2
+
+                lbl_fondoGalHistorial As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    Fill: =If(ThisItem.IsSelected, RGBA(230, 230, 230, 0.7), RGBA(0, 0, 0, 0))
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =45
+                    OnSelect: =Select(Parent)
+                    Size: =13
+                    Text: =""
+                    Width: =3275
+                    ZIndex: =1
+
+                fm_sepGalHistorial As rectangle:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    Fill: =RGBA(255, 255, 255, 1)
+                    Height: =5
+                    OnSelect: =Select(Parent)
+                    Width: =3275
+                    Y: =40
+                    ZIndex: =2
+
+                cnt_galHistorial As groupContainer.horizontalAutoLayoutContainer:
+                    DropShadow: =DropShadow.Light
+                    Height: =45
+                    LayoutMode: =LayoutMode.Auto
+                    LayoutWrap: =true
+                    RadiusBottomLeft: =4
+                    RadiusBottomRight: =4
+                    RadiusTopLeft: =4
+                    RadiusTopRight: =4
+                    Width: =3275
+                    ZIndex: =3
+
+                    icn_borrarGalHistorial As icon.Add:
+                        BorderColor: =RGBA(166, 166, 166, 1)
+                        Color: =RGBA(184, 0, 0, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(220, 220, 220, 1)
+                        DisabledFill: =RGBA(0, 0, 0, 0)
+                        FocusedBorderThickness: =4
+                        Height: =20
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+                        HoverFill: =RGBA(0, 0, 0, 0)
+                        Icon: =Icon.Trash
+                        OnSelect: |-
+                            =Remove(Historico,ThisItem);
+                            Refresh(Historico)
+                        PressedBorderColor: =RGBA(0, 0, 0, 0)
+                        PressedColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+                        PressedFill: =RGBA(0, 0, 0, 0)
+                        Visible: =false
+                        Width: =20
+                        X: =291
+                        Y: =40
+                        ZIndex: =1
+
+                    lbl_nombreGalHistorial As label:
+                        Align: =Align.Center
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                        Height: =25
+                        OnSelect: =
+                        PaddingBottom: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =11
+                        Text: =ThisItem.'Nombre (field_1)'&" "&ThisItem.Apellido
+                        ZIndex: =2
+
+                    lbl_fechaNGalHistorial As label:
+                        Align: =Align.Center
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =25
+                        OnSelect: =
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =11
+                        Text: =Last(Split(Text(ThisItem.FechaDeNacimiento, DateTimeFormat.LongDate),",")).Value
+                        Width: =180
+                        X: =150
+                        ZIndex: =3
+
+                    lbl_hijosGalHistorial As label:
+                        Align: =Align.Center
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =25
+                        OnSelect: =
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =11
+                        Text: =ThisItem.Hijos
+                        Width: =75
+                        X: =150
+                        ZIndex: =4
+
+                    lbl_generoGalHistorial As label:
+                        Align: =Align.Center
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =25
+                        OnSelect: =
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =11
+                        Text: =ThisItem.Genero
+                        Width: =110
+                        X: =150
+                        ZIndex: =5
+
+                    lbl_telefonoGalHistorial As label:
+                        Align: =Align.Center
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =25
+                        OnSelect: =
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =11
+                        Text: =ThisItem.Telefono
+                        Width: =110
+                        X: =150
+                        ZIndex: =6
+
+                    lbl_telefonoGalHistorial2 As label:
+                        Align: =Align.Center
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =25
+                        OnSelect: =
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =11
+                        Text: =ThisItem.Telefono2
+                        Width: =110
+                        X: =150
+                        ZIndex: =7
+
+                    lbl_vpGalHistorial As label:
+                        Align: =Align.Center
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =25
+                        OnSelect: =
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =11
+                        Text: =ThisItem.VP
+                        Width: =170
+                        X: =150
+                        ZIndex: =8
+
+                    lbl_empresaGalHistorial As label:
+                        Align: =Align.Center
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =25
+                        OnSelect: =
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =11
+                        Text: |
+                            =ThisItem.Empresa
+                        X: =150
+                        ZIndex: =9
+
+                    lbl_cargoGalHistorial As label:
+                        Align: =Align.Center
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =30
+                        OnSelect: =
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =11
+                        Text: =ThisItem.Cargo 
+                        Width: =120
+                        X: =150
+                        ZIndex: =10
+
+                    lbl_clusterGalHistorial As label:
+                        Align: =Align.Center
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =25
+                        OnSelect: =
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =11
+                        Text: =ThisItem.Cluster
+                        Width: =75
+                        X: =150
+                        ZIndex: =11
+
+                    lbl_tierGalHistorial As label:
+                        Align: =Align.Center
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =25
+                        OnSelect: =
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =11
+                        Text: =ThisItem.Tier
+                        Width: =75
+                        X: =150
+                        ZIndex: =12
+
+                    lbl_paisGalHistorial As label:
+                        Align: =Align.Center
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =25
+                        OnSelect: =
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =11
+                        Text: =ThisItem.Pais
+                        Width: =110
+                        X: =150
+                        ZIndex: =13
+
+                    lbl_provGalHistorial As label:
+                        Align: =Align.Center
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =25
+                        OnSelect: =
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =11
+                        Text: =ThisItem.Provincia
+                        Width: =200
+                        X: =150
+                        ZIndex: =14
+
+                    lbl_locGalHistorial As label:
+                        Align: =Align.Center
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =25
+                        OnSelect: =
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =11
+                        Text: =ThisItem.Localidad
+                        Width: =130
+                        X: =150
+                        ZIndex: =15
+
+                    lbl_cpGalHistorial As label:
+                        Align: =Align.Center
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =25
+                        OnSelect: =
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =11
+                        Text: =ThisItem.CodigoPostal
+                        Width: =75
+                        X: =150
+                        ZIndex: =16
+
+                    lbl_calleGalHistorial As label:
+                        Align: =Align.Center
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =25
+                        OnSelect: =
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =11
+                        Text: =ThisItem.Calle
+                        X: =150
+                        ZIndex: =17
+
+                    lbl_eCalleGalHistorial As label:
+                        Align: =Align.Center
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =25
+                        OnSelect: =
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =11
+                        Text: =ThisItem.EntreCalles
+                        X: =150
+                        ZIndex: =18
+
+                    lbl_pisoGalHistorial As label:
+                        Align: =Align.Center
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =25
+                        OnSelect: =
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =11
+                        Text: =ThisItem.Piso
+                        Width: =75
+                        X: =150
+                        ZIndex: =19
+
+                    lbl_deptoGalHistorial As label:
+                        Align: =Align.Center
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =25
+                        OnSelect: =
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =11
+                        Text: =ThisItem.Departamento
+                        Width: =100
+                        X: =150
+                        ZIndex: =20
+
+                    lbl_obsGalHistorial As label:
+                        Align: =Align.Center
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =Font.'Segoe UI'
+                        OnSelect: =
+                        Overflow: =Overflow.Scroll
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =11
+                        Text: =ThisItem.Observaciones
+                        Width: =300
+                        X: =150
+                        ZIndex: =21
+
+                    lbl_fechaMGalHistorial As label:
+                        Align: =Align.Center
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =25
+                        OnSelect: =
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =11
+                        Text: =ThisItem.FechaDeModificacion
+                        Width: =125
+                        X: =150
+                        ZIndex: =22
+
+                    lbl_mnodificadoGalHistorial As label:
+                        Align: =Align.Center
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =25
+                        OnSelect: =
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =11
+                        Text: =ThisItem.ModificadoPor
+                        Width: =200
+                        X: =150
+                        ZIndex: =23
+
+                    lbl_creadoGalHistorial As label:
+                        Align: =Align.Center
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =25
+                        OnSelect: =
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =11
+                        Text: =gal_contactos.Selected.CreadoPor
+                        Width: =200
+                        X: =150
+                        ZIndex: =24
+
+                    lbl_fechaAGalHistorial As label:
+                        Align: =Align.Center
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =25
+                        OnSelect: =
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =11
+                        Text: =ThisItem.FechaAlta
+                        Width: =125
+                        X: =150
+                        ZIndex: =25
+
+        icn_cerrarHistorial As icon.Cancel:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Height: =30
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.Cancel
+            OnSelect: =Set(varHistorial, !varHistorial)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Visible: =varHistorial
+            Width: =30
+            X: =1299
+            Y: =211
+            ZIndex: =36
+
+        lbl_creadorContacto As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            Height: =41
+            Size: =10
+            Text: |-
+                =gal_contactos.Selected.Email&"
+                (Fecha de creación: "&Text(gal_contactos.Selected.FechaDeCreacion, "dd/mm/yyyy hh:mm")&")"
+            Visible: =varHistorial
+            Width: =358
+            X: =941
+            Y: =205
+            ZIndex: =38
+
+        lbl_tituloHistorial As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Size: =13
+            Text: ="HISTORIAL DE MODIFICACIONES - "
+            Visible: =varHistorial
+            Width: =305
+            X: =647
+            Y: =203
+            ZIndex: =39
+
+    gp_BarraEdicion As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =45
+
+        icn_editarContacto As icon.Edit:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Height: =30
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.Edit
+            OnSelect: |-
+                =Refresh(Contactos);
+                Refresh(Areas);
+                Refresh(VPs);
+                Refresh(Referentes);
+                Set(varMailContacto, gal_contactos.Selected.Email);
+                Set(VarContactoSeleccionado, gal_contactos.Selected);
+                Set(varEditContacto, 0);
+                Set(varEditReferente, 1);
+                Set(vartMailContacto, gal_contactos.Selected.Email);
+                NewForm(frm_hitoricoContactos_1);
+                Set(varDatosContacto, gal_contactos.Selected.Apellido&gal_contactos.Selected.'Nombre (field_1)'&gal_contactos.Selected.Email&gal_contactos.Selected.FechaDeNacimiento&gal_contactos.Selected.Hijos&gal_contactos.Selected.Genero&gal_contactos.Selected.Telefono&gal_contactos.Selected.Telefono2&gal_contactos.Selected.Empresa&gal_contactos.Selected.Cargo&lbl_datoCluster.Text&lbl_datoTier.Text&gal_contactos.Selected.Pais&gal_contactos.Selected.Provincia&gal_contactos.Selected.Localidad&gal_contactos.Selected.Calle&gal_contactos.Selected.EntreCalles&gal_contactos.Selected.Piso&gal_contactos.Selected.Departamento&gal_contactos.Selected.Observaciones&gal_contactos.Selected.VP&gal_contactos.Selected.CodigoPostal&lbl_datoFechaA.Text);
+                Navigate(scr_NuevoContacto);
+                Set(varValidacion, false)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Visible: =CountRows(gal_contactos.AllItems)<>0
+            Width: =30
+            X: =1282
+            Y: =90
+            ZIndex: =6
+
+        lbl_estadoContacto As label:
+            Align: =Align.Right
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Text: =If(sw_EstadoContacto.Value, "Contacto Activo", "Contacto Inactivo")
+            Visible: =CountRows(gal_contactos.AllItems)<>0
+            Width: =167
+            X: =1047
+            Y: =85
+            ZIndex: =7
+
+        icn_historial As icon.Edit:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Height: =30
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.History
+            OnSelect: |-
+                =Refresh(Historico);
+                Set(varHistorial, true)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Visible: =CountRows(gal_contactos.AllItems)<>0
+            Width: =30
+            X: =1321
+            Y: =90
+            ZIndex: =24
+
+        sw_EstadoContacto As toggleSwitch:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            Color: =RGBA(51, 51, 51, 1)
+            Default: =If(gal_contactos.Selected.Estado="Activo", true, false)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            FalseFill: =RGBA(102, 102, 102, 1)
+            FalseHoverFill: =RGBA(33, 33, 33, 1)
+            FalseText: |-
+                ="Inactivo
+                "
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Lighter
+            HandleFill: =RGBA(255, 255, 255, 1)
+            Height: =29
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            OnChange: =
+            OnCheck: |-
+                =Patch(Contactos,gal_contactos.Selected, {Estado: "Activo"});
+                Refresh(Contactos)
+            OnUncheck: |-
+                =Patch(Contactos,gal_contactos.Selected, {Estado: "Inactivo"});
+                Refresh(Contactos)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            ShowLabel: =false
+            Size: =13
+            TextPosition: =TextPosition.Left
+            TrueFill: =RGBA(0, 120, 212, 1)
+            TrueHoverFill: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            TrueText: ="Activo"
+            Visible: =CountRows(gal_contactos.AllItems)<>0
+            Width: =61
+            X: =1215
+            Y: =91
+            ZIndex: =26
+
+    gp_Filtros As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =45
+
+        txt_nombreEmpresa As text:
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            Default: =""
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            Height: =30
+            HintText: ="Nombre / Empresa"
+            HoverBorderColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            HoverColor: =RGBA(51, 51, 51, 1)
+            HoverFill: =RGBA(255, 255, 255, 1)
+            PaddingLeft: =30
+            PaddingTop: =3
+            PressedBorderColor: =RGBA(0, 120, 212, 1)
+            PressedColor: =RGBA(51, 51, 51, 1)
+            PressedFill: =RGBA(255, 255, 255, 1)
+            Size: =12
+            Width: =236
+            X: =124
+            Y: =95
+            ZIndex: =11
+
+        icn_buscar As icon.Search:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Height: =20
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.Search
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Width: =20
+            X: =128
+            Y: =100
+            ZIndex: =13
+
+        cbox_pais As combobox:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            ChevronBackground: =RGBA(255, 255, 255, 1)
+            ChevronDisabledBackground: =RGBA(244, 244, 244, 1)
+            ChevronDisabledFill: =RGBA(166, 166, 166, 1)
+            ChevronFill: =RGBA(0, 0, 0, 1)
+            ChevronHoverBackground: =RGBA(0, 0, 0, 0)
+            ChevronHoverFill: =RGBA(33, 33, 33, 1)
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            DisplayFields: =["Value"]
+            Font: =Font.'Segoe UI'
+            Height: =25
+            HoverBorderColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            HoverColor: =RGBA(51, 51, 51, 1)
+            HoverFill: =RGBA(212, 212, 212, 1)
+            InputTextPlaceholder: ="Pais"
+            IsSearchable: =false
+            Items: =Filter(Distinct(Contactos,Pais),Len(ThisRecord.Value) > 0)
+            PressedBorderColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(0, 120, 212, 1)
+            SearchFields: =["Value"]
+            SearchItems: =[]
+            SelectionFill: =RGBA(0, 120, 212, 1)
+            SelectMultiple: =false
+            Width: =160
+            X: =372
+            Y: =97
+            ZIndex: =14
+
+        cbox_cluster As combobox:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            ChevronBackground: =RGBA(255, 255, 255, 1)
+            ChevronDisabledBackground: =RGBA(244, 244, 244, 1)
+            ChevronDisabledFill: =RGBA(166, 166, 166, 1)
+            ChevronFill: =RGBA(0, 0, 0, 1)
+            ChevronHoverBackground: =RGBA(0, 0, 0, 0)
+            ChevronHoverFill: =RGBA(33, 33, 33, 1)
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            DisplayFields: =["Value"]
+            Font: =Font.'Segoe UI'
+            Height: =25
+            HoverBorderColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            HoverColor: =RGBA(51, 51, 51, 1)
+            HoverFill: =RGBA(212, 212, 212, 1)
+            InputTextPlaceholder: ="Cluster"
+            IsSearchable: =false
+            Items: =Distinct(Filter(ProgramaRelacionamiento, Len(Cluster) > 0),Cluster)
+            PressedBorderColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(0, 120, 212, 1)
+            SearchFields: =["Value"]
+            SearchItems: =[]
+            SelectionFill: =RGBA(0, 120, 212, 1)
+            SelectMultiple: =false
+            Width: =86
+            X: =188
+            Y: =134
+            ZIndex: =15
+
+        icn_refresh As icon.Reload:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Height: =35
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.Reload
+            OnSelect: |-
+                =Refresh(Contactos);
+                Refresh(Areas);
+                Refresh(VPs);
+                Refresh(Referentes);
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Width: =35
+            X: =551
+            Y: =88
+            ZIndex: =16
+
+        cbox_estado As combobox:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            ChevronBackground: =RGBA(255, 255, 255, 1)
+            ChevronDisabledBackground: =RGBA(244, 244, 244, 1)
+            ChevronDisabledFill: =RGBA(166, 166, 166, 1)
+            ChevronFill: =RGBA(0, 0, 0, 1)
+            ChevronHoverBackground: =RGBA(0, 0, 0, 0)
+            ChevronHoverFill: =RGBA(33, 33, 33, 1)
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            DisplayFields: =["Value"]
+            Font: =Font.'Segoe UI'
+            Height: =25
+            HoverBorderColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            HoverColor: =RGBA(51, 51, 51, 1)
+            HoverFill: =RGBA(212, 212, 212, 1)
+            InputTextPlaceholder: ="Estado"
+            Items: =["Activo", "Inactivo"]
+            PressedBorderColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(0, 120, 212, 1)
+            SearchFields: =["Value"]
+            SearchItems: =Search(["Activo", "Inactivo"],cbox_estado.SearchText,"Value")
+            SelectionFill: =RGBA(0, 120, 212, 1)
+            SelectMultiple: =false
+            Width: =86
+            X: =372
+            Y: =134
+            ZIndex: =18
+
+        icon_blanquearFiltro As icon.Reload:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Height: =35
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.Erase
+            OnSelect: =Reset(txt_nombreEmpresa);Reset(cbox_pais);Reset(cbox_cluster);Reset(cbox_tier);Reset(cbox_estado)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Width: =35
+            X: =551
+            Y: =128
+            ZIndex: =21
+
+        cbox_tier As combobox:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            ChevronBackground: =RGBA(255, 255, 255, 1)
+            ChevronDisabledBackground: =RGBA(244, 244, 244, 1)
+            ChevronDisabledFill: =RGBA(166, 166, 166, 1)
+            ChevronFill: =RGBA(0, 0, 0, 1)
+            ChevronHoverBackground: =RGBA(0, 0, 0, 0)
+            ChevronHoverFill: =RGBA(33, 33, 33, 1)
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            DisplayFields: =["Value"]
+            Font: =Font.'Segoe UI'
+            Height: =25
+            HoverBorderColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            HoverColor: =RGBA(51, 51, 51, 1)
+            HoverFill: =RGBA(212, 212, 212, 1)
+            InputTextPlaceholder: ="Tier"
+            IsSearchable: =false
+            Items: =Distinct(Filter(ProgramaRelacionamiento, Tier <> 0),Text(Tier))
+            PressedBorderColor: =ColorFade(RGBA(0, 120, 212, 1), -30%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(0, 120, 212, 1)
+            SearchFields: =["Value"]
+            SearchItems: =[]
+            SelectionFill: =RGBA(0, 120, 212, 1)
+            SelectMultiple: =false
+            Width: =74
+            X: =286
+            Y: =134
+            ZIndex: =22
+

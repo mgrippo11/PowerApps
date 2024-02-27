@@ -1,0 +1,24 @@
+App As appinfo:
+    BackEnabled: =false
+    OnStart: |-
+        =Set(varVersion, "V 1.1.1");
+        Set(setContacto, true);
+        Set(setDomicilio, false);
+        Set(setReferente, false);
+        Set(varHistorial, false);
+        Set(setClusterTier, false);
+        Set(setVP, false);
+        Set(varEdit, false);
+        Set(setEventoDetalle, false);
+        Set(varDatosContacto, "");
+        Set(varMailContacto, "");
+        Set(varReferentes,"")
+    Theme: =PowerAppsTheme
+
+    Host As hostControl.DefaultHostControlVariant:
+        OnCancel: =false
+        OnEdit: =false
+        OnNew: =false
+        OnSave: =false
+        OnView: =false
+
